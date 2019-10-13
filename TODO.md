@@ -1,0 +1,24 @@
+## TODO
+
+- [ ] AI duet - figure out machineKeyDown timing (use Tone.Transport.scheduleRepeat?)
+- [ ] note length as addBody -> sphereRestitution or initContactMaterial restitutionValue param?
+- [ ] new drum machine wheel / metronome paradigm - use rotating clock hand to hit drums: https://codepen.io/danlong/pen/LJQYYN
+- [ ] instrument animations mapped to note sequences, ex: flamePhysics.create triggered on FD - FD -- A3F - A3F added to note sequence (use humanKeyAdds array? or buildNoteSequence function)
+- [ ] Fix audio quality in recordings
+- [ ] Keep camera in line with ballX position
+- [ ]
+- [ ] UI for editable 'instrument - shape - note - keyboard' mapping object
+- [ ] Other shapes besides spheres - each shape has different sound / wave type
+- [ ] Contact surfaces light up based on note color
+- [ ] Clean up instrumentMapping template and getters
+- [ ] Different contact surfaces with different restitution
+- [x] Web MIDI API support to connect to keyboard
+- [x] Dynamically set zPos based on note position in staff (position.z in instrumentMapping getter)
+- [x] Fix Fire class and shader import
+- [x] Arrow key controls
+- [x] support PolySynth in getInstrumentMappingTemplate to allow chords
+- [x] variation added for striped balls
+- [x] configurable static row positioning of ball array using globalShowStaticRows
+- [x] dynamic associatation of keyName with keyMapped options for dropped balls
+- [x] set fill styles from instrumentMapping obj instead of THREEx.createPoolBall
+- [x] How to drop balls without stacking?

@@ -1,0 +1,41 @@
+{
+  "name": "ai-duet-3d",
+  "version": "0.0.1",
+  "description": "https://www.youtube.com/channel/UCo_IXLTK8dtF2qOUCt4l47Q",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "build": "./node_modules/.bin/webpack --mode development",
+    "build-prod": "./node_modules/.bin/webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "NODE_ENV=development webpack-dev-server --open --hot --display-error-details"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjcobb/ai-duet-3d.git"
+  },
+  "keywords": [
+    "music animation",
+    "data visualization"
+  ],
+  "author": "sjcobb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sjcobb/ai-duet-3d/issues"
+  },
+  "homepage": "https://github.com/sjcobb/ai-duet-3d#readme",
+  "dependencies": {
+    "@tonaljs/midi": "^3.3.1",
+    "gulp": "^4.0.2",
+    "lodash": "^4.17.15",
+    "three": "^0.105.2",
+    "tonal": "^2.2.2",
+    "tone": "^13.4.9",
+    "webmidi": "^2.5.1",
+    "webpack": "^4.34.0",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.4"
+  }
+}
