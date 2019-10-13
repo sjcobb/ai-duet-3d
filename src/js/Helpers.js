@@ -147,35 +147,41 @@ export default class Helpers {
             radiusH += 30;
             // console.log('ball white circle: ', radiusW, ' x ', radiusH);
 
-            // xtx.fillEllipse(-radiusW / 2, -radiusH / 2, radiusW, radiusH);
-            this.fillEllipse(-radiusW / 2, -radiusH / 2, radiusW, radiusH, ctx);
+            // // xtx.fillEllipse(-radiusW / 2, -radiusH / 2, radiusW, radiusH);
+            // this.fillEllipse(-radiusW / 2, -radiusH / 2, radiusW, radiusH, ctx); //PREV
             ctx.restore();
 
             // draw text data
             ctx.save();
             ctx.translate(w / 4, h / 2);
-            var textH = w / 4;
-
+            let textH = w / 4;
+            console.log({textH}); //128
+            textH = 160
             // https://www.w3schools.com/cssref/css_websafe_fonts.asp
             // https://www.w3.org/TR/css-fonts-3/#generic-font-families
+            // // ctx.font = "bold " + textH + "px Helvetica"; //128px
+            // // ctx.font = "bold " + (textH - 2) + "px Tahoma";
+            
             // ctx.font = "bolder " + textH + "px Arial"; // ORIG
-            // ctx.font = "bold " + textH + "px Helvetica"; //128px
-            // ctx.font = "bold " + (textH - 2) + "px Tahoma";
-            ctx.font = "bold " + (textH - 6) + "px Geneva";
-            ctx.fillStyle = "#000000"; //text color
+            // ctx.font = "bold " + (textH - 6) + "px Geneva"; //PREV
+            ctx.font = "normal " + (textH) + "px Geneva"; //PREV
+            ctx.fillStyle = "#000000"; //PREV (text color)
+            // ctx.fillStyle = "#ffffff"; // text color
             var textW = ctx.measureText(textData).width;
             
             //TODO: adjust textOffset position here, make spheres bigger?
             let textOffsetX = 0.0;
             // let textOffsetY = 0.8; //ORIG
-            let textOffsetY = 0.6;
-            if (textW > 100) {
-                // console.log(textData); //TODO: make fillEllipse wider or font (textH) smaller when multiple characters
-                // ctx.font = "bolder " + 80 + "px Arial"; //96 too big
-                ctx.font = "bolder " + 96 + "px Arial";
-                textOffsetX = 30; 
-                textOffsetY = 0.4;
-            }
+            // let textOffsetY = 0.6; //PREV
+            let textOffsetY = 0.4;
+
+            // if (textW > 100) {
+            //     // console.log(textData); //TODO: make fillEllipse wider or font (textH) smaller when multiple characters
+            //     // ctx.font = "bolder " + 80 + "px Arial"; //96 too big
+            //     ctx.font = "bolder " + 96 + "px Arial";
+            //     textOffsetX = 30; 
+            //     textOffsetY = 0.4;
+            // }
             ctx.fillText(textData, -textW / 2 + textOffsetX, textOffsetY * textH / 2);
             ctx.restore();
         }

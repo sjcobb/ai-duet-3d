@@ -133,8 +133,9 @@ export default class Physics {
 
         body.linearDamping = globals.damping;
 
-        // body.angularVelocity.z = 12; //prev, too much rotation - hard to read note letter
-        body.angularVelocity.z = 6;
+        // body.angularVelocity.z = 12; //too much rotation - hard to read note letter
+        // body.angularVelocity.z = 6; //prev
+        body.angularVelocity.z = 0;
 
         if (options.type === 'animation') {
             // console.log('addBody -> animation: ', options);
@@ -331,7 +332,9 @@ export default class Physics {
                     }
                     const poolTexture = helpers.ballTexture(options.ballDesc, stripedVariation, fillStyleMapping, 512);
 
-                    const poolBallMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 });
+                    // const poolBallMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 }); //PREV
+                    // const poolBallMaterial = new THREE.MeshLambertMaterial({ color: 0xf3f3f3 });
+                    const poolBallMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
                     poolBallMaterial.map = poolTexture;
                     const sphereGeo = new THREE.SphereGeometry(shape.radius, 8, 8);
                     sphereGeo.name = 'sphereGeo'; //*** important for rotation when globals.cameraPositionBehind true

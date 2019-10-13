@@ -110,7 +110,7 @@ button#bounce {
     text-align: left;
 }
 
-#legend-container {
+/* #legend-container {
     display: inline-block;
     width: 90px;
     margin: 0 auto;
@@ -119,6 +119,14 @@ button#bounce {
     bottom: 0;
     left: 0;
     background: rgba(204, 204, 204, 0.6);
+} */
+#legend-container {
+    display: inline-block;
+    /* width: 115px; */
+    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    right: 0;
 }
 #legend-container.pos-top-left {
     margin: 0;
@@ -129,27 +137,31 @@ button#bounce {
     display: inline-block;
     position: relative;
     margin: 0;
-    padding: 10px 0px 8px 20px;
+    padding: 15px 20px 10px 20px;
     box-sizing: border-box;
+    background: rgba(204, 204, 204, 0.3);
 }
 .legend ul {
+    display: block;
     margin: 0;
     padding: 0;
     list-style: none
 }
 .legend ul li {
     height: 14px;
-    margin: 0 0 6px;
+    margin: 0 0 10px;
+    padding: 0 0 0 24px;
 }
 .legend span.symbol {
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     margin: 5px 0 0 0;
     padding: 0;
     position: absolute;
-    left: 0;
+    left: 20px;
     background: #0018F9;
+    border: 0.5px solid rgba(0, 0, 0, 0.8);
     border-radius: 50%;
     
 }
@@ -159,8 +171,8 @@ button#bounce {
     /* font-family: 'Didact Gothic', sans-serif; */
     /* font-family: 'Sawarabi Gothic', sans-serif; */
     font-family: Verdana, sans-serif;
-    line-height: 20px;
-    font-size: 14px;
+    line-height: 24px;
+    font-size: 16px;
     color: #fff;
     letter-spacing: 1.25px;
 }
@@ -169,7 +181,7 @@ button#bounce {
     opacity: 0;
     animation: fade-in 2.0s 1;
     animation-fill-mode: forwards;
-    /*animation-delay: 25s;*/ /* close */
+    /* animation-delay: 6s; */
     animation-delay: 6s;
 } 
 

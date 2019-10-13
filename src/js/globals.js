@@ -10,7 +10,10 @@ export default {
     // activeInstrColor: '#567d46', //grass green (md)
     // activeInstrColor: '#edc9af', //desert sand
     // activeInstrColor: '#e9be9f', // sand (md)
-    activeInstrColor: '#e5b38f', // sand (md2)
+    // activeInstrColor: '#e5b38f', //PREV - sand (md2)
+    // activeInstrColor: '#d8d8d8',
+    // activeInstrColor: '#00A29C', // teal: https://www.color-hex.com/color-palette/4666
+    activeInstrColor: '#66b2b2', // lt teal
     autoScroll: true,
     autoStart: false,
     autoStartTime: 9000,

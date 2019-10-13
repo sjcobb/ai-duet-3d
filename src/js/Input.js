@@ -238,6 +238,8 @@ function humanKeyDown(note, velocity = 0.7) {
     updateChord({ add: note });
 
     const instrMapped = getInstrByInputNote(tonalNote);
+    instrMapped.color = '#64b5f6'; // med blue
+    
     // console.log('humanKeyDown -> instrMapped: ', instrMapped);
     physics.addBody(true, globals.dropPosX, instrMapped);
 
@@ -273,7 +275,8 @@ function machineKeyDown(midiNote = 60, time = 0) {
         instrMapped = getInstrByInputNote(note);
         // instrMapped = getInstrByInputNote('C3'); // TODO: rework defaults, Trigger, addBody params (C4 vs C3 vs defaultInstr.hiHatClosed)
     }
-    instrMapped.color = '#e91e63'; // red (nerual melody autocompletion)
+    // instrMapped.color = '#e91e63'; // red (nerual melody autocompletion)
+    instrMapped.color = '#ED4A82'; // pink
     // instrMapped.color = '#f9bb2d'; // orange (ai duet original)
     console.log('machineKeyDown -> POST instrMapped: ', instrMapped);
 
