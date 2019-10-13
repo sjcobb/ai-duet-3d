@@ -367,7 +367,9 @@ export default class Physics {
 
                     const ground = new THREE.Mesh(geometry, material);
                     // ground.scale.set(100, 100, 100); // ORIG ground aka floor size
-                    ground.scale.set(100, 6, 100);
+                    // ground.scale.set(100, 6, 100); //PREV
+
+                    ground.scale.set(500, 6, 100); //PREV
                     ground.name = 'groundMesh';
 
                     //TODO: use correctly - https://threejs.org/docs/#manual/en/introduction/How-to-update-things

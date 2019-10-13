@@ -70,6 +70,8 @@ const MAX_MIDI_BPM = 240;
 const TEMPO_MIDI_CONTROLLER = 20; // Control changes for tempo for this controller id
 
 const SEED_DEFAULT = [{ note: 60, time: Tone.now() }];
+let currentSeed = [];
+let stopCurrentSequenceGenerator;
 
 let enabledWebMidi = false;
 WebMidi.enable(err => {
@@ -89,6 +91,13 @@ WebMidi.enable(err => {
             input.addListener('pitchbend', "all", function (e) {
                 console.log("Pitch value: " + e.value); // Pitch value: -0.2528076171875
             });
+
+            // https://www.smashingmagazine.com/2018/03/web-midi-api/
+            // input.addListener('pitchbend', 3,
+            //     function (e) {
+            //         console.log("Received 'pitchbend' message.", e);
+            //     }
+            // );
 
             onActiveInputChange(input.id);
         }
@@ -111,9 +120,9 @@ if (enabledWebMidi) {
     // var input = WebMidi.getInputByName("MPK mini play");
     // console.log({input});
 
-    // input.addListener('pitchbend', "all", function (e) {
-    //     console.log("Pitch value: " + e.value);
-    // });
+    input.addListener('pitchbend', "all", function (e) {
+        console.log("Pitch value: " + e.value);
+    });
 }
 
 /* teropa nerual-arpeggiator
@@ -184,11 +193,34 @@ function getInstrByInputNote(note = 'C4') {
     return instrument.getInstrByNote(note);
 }
 
+function updateChord({ add = null, remove = null }) {
+    if (add) {
+        console.log('updateChord -> add: ', add);
+        currentSeed.push({ note: add, time: Tone.now() });
+        console.log('updateChord -> currentSeed: ', currentSeed);
+    }
+    console.log('updateChord -> currentSeed: ', currentSeed);
+    if (remove && _.some(currentSeed, { note: remove })) {
+        _.remove(currentSeed, { note: remove });
+    }
+
+    if (stopCurrentSequenceGenerator) {
+        stopCurrentSequenceGenerator();
+        stopCurrentSequenceGenerator = null;
+    }
+
+    if (currentSeed.length && !stopCurrentSequenceGenerator) {
+        // resetState = true;
+        stopCurrentSequenceGenerator = startSequenceGenerator(
+        _.cloneDeep(currentSeed)
+        );
+    }
+}
+
 let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
-    // console.group('Group - ', note);
-    // console.log('humanKeyDown -> note: ', note);
+    console.log('humanKeyDown -> note: ', note);
 
     // console.log(Tonal);
     // console.log(Tonal.Note);
@@ -198,6 +230,8 @@ function humanKeyDown(note, velocity = 0.7) {
     // let tonalNote = Tonal.Note.midiToFreq(note);
     let tonalNote = Tonal.Note.fromMidi(note);
     let tonalFreq = Tonal.Note.midiToFreq(note);
+
+    updateChord({ add: note });
 
     const instrMapped = getInstrByInputNote(tonalNote);
     // console.log('humanKeyDown -> instrMapped: ', instrMapped);
@@ -294,6 +328,20 @@ function buildNoteSequence(seed = SEED_DEFAULT) {
     );
 }
 
+function getSeedIntervals(seed) {
+    console.log('getSeedIntervals - seed: ', seed); // [{note: 67, time: 26.292108843537417}, {note: 69, time: 27.27315192743764}]
+    let intervals = [];
+    for (let i = 0; i < seed.length - 1; i++) {
+        let rawInterval = seed[i + 1].time - seed[i].time;
+        let measure = _.minBy(['8n', '4n'], subdiv =>
+        Math.abs(rawInterval - Tone.Time(subdiv).toSeconds())
+        );
+        intervals.push(Tone.Time(measure).toSeconds());
+    }
+    console.log('getSeedIntervals - intervals: ', intervals); // [0.5]
+    return intervals;
+}
+
 function getSequencePlayIntervalTime(seed = SEED_DEFAULT) {
     if (seed.length <= 1) {
         return Tone.Time('8n').toSeconds();
@@ -302,18 +350,22 @@ function getSequencePlayIntervalTime(seed = SEED_DEFAULT) {
     return _.first(intervals);
 }
 
-function startSequenceGenerator(seedSeq = [], seedInput = SEED_DEFAULT) {
-    console.log('startSequenceGenerator -> seedSeq: ', seedSeq);
-    console.log('seedSeq -> notes: ', seedSeq.notes);
+function startSequenceGenerator(seed = []) {
+    console.log('startSequenceGenerator -> seed: ', seed);
+    console.log('seed -> notes: ', seed.notes);
     
     let launchWaitTime = 1; // 1
     // let playIntervalTime = getSequencePlayIntervalTime(seedInput); // 0.25
     let playIntervalTime = 0.25
     
     // let generatedSequence =
-    //     Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : [];
+    //     Math.random() < 0.7 ? _.clone(seed.notes.map(n => n.pitch)) : [];
+
+    let seedSeq = buildNoteSequence(seed);
+    console.log('startSequenceGenerator -> seedSeq: ', seedSeq);
 
     let generatedSequence = seedSeq.notes.map(n => n.pitch);
+    // let generatedSequence = seed.notes.map(n => n.pitch); //PREV
     console.log({generatedSequence});
 
     console.log({playIntervalTime}); // 0.15 (seconds)
@@ -362,6 +414,13 @@ function startSequenceGenerator(seedSeq = [], seedInput = SEED_DEFAULT) {
     //     running = false;
     //     Tone.Transport.clear(consumerId);
     // };
+
+    Tone.Transport.start();
+    return () => {
+        // running = false;
+        console.log('startSequenceGenerator - RETURNED (consumerId): ', consumerId);
+        Tone.Transport.clear(consumerId);
+    };
 }
 
 function generateDummySequence(seed = SEED_DEFAULT) {
@@ -382,22 +441,11 @@ function generateDummySequence(seed = SEED_DEFAULT) {
 rnn.initialize();
 function resolveAfterDelay() {
     return new Promise(resolve => {
-        setTimeout(() => {
-            // // resolve('resolved');
-            // const dummySequence = generateDummySequence();
-            // console.log('dummySequence: ', dummySequence);
+        // setTimeout(() => {
             resolve(generateDummySequence());
-            // // notes:
-            // [
-            //     {pitch: 57, quantizedStartStep: 1, quantizedEndStep: 3}
-            //     {pitch: 55, quantizedStartStep: 3, quantizedEndStep: 5}
-            //     {pitch: 55, quantizedStartStep: 5, quantizedEndStep: 7}
-            //     {pitch: 55, quantizedStartStep: 7, quantizedEndStep: 15}
-            //     {pitch: 55, quantizedStartStep: 15, quantizedEndStep: 17}
-            //     {pitch: 55, quantizedStartStep: 17, quantizedEndStep: 19}
-            //     {pitch: 60, quantizedStartStep: 19, quantizedEndStep: 20}
-            // ]
-        }, 2000);
+        // }, 2000);
+
+        // //Tone.Transport.start();
     });
 }
 function initRNN() {
@@ -424,7 +472,7 @@ document.addEventListener('keydown', (event) => {
 
     if (event) {
         let keyMapped = instrument.getKeyboardMapping(keyName);
-        console.log({ keyMapped });
+        // console.log({ keyMapped });
 
         switch (keyName) {
             case ('9'):
@@ -437,7 +485,6 @@ document.addEventListener('keydown', (event) => {
                 let generatedPattern = [];
                 async function asyncGeneratePattern() {
                     console.log('asyncGeneratePattern() run......');
-                    // var result = await resolveAfterDelay();
                     generatedPattern = await resolveAfterDelay();
                     if (generatedPattern) {
                         startSequenceGenerator(generatedPattern);

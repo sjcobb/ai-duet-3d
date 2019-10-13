@@ -171,39 +171,16 @@ let lambert = new THREE.MeshPhongMaterial({
 
 //-----FUNCTIONALITY------//
 //make the objects and add them to the scene
-let obj, currentShape, currentMesh;
-
+let currentShape, currentMesh;
 currentShape = box;
 currentMesh = phong;
-
-obj = new THREE.Mesh(currentShape, currentMesh);
-obj.position.set(-1.5, 0, 0);
-
 const objCenter = new THREE.Mesh(currentShape, currentMesh);
 objCenter.position.set(0, 0, globals.posBehindZ);
-
-// globals.scene.add(obj);
 // globals.scene.add(objCenter); //for absolute center reference
 
-globals.scene.add(skyboxCubeMesh); //add nightsky skybox
-
-//-----FLOOR------//
-// var floorTexture = globals.loader.load('assets/textures/grass.png');
-// floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-// floorTexture.repeat.set(3, 3);
-// var floorMaterial = new THREE.MeshBasicMaterial({ map: floorTexture, side: THREE.DoubleSide });
-// var floorGeometry = new THREE.PlaneGeometry(60, 100, 6, 6); //width, height, widthSegments, heightSegments
-// var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-// floor.position.y = -6; //lower = floor lowers
-// floor.rotation.x = Math.PI / 2; // 1.57
-// globals.scene.add(floor);
+// globals.scene.add(skyboxCubeMesh); //add nightsky skybox
 
 //-----MUSIC STAFF------//
-// var staffPlaneGeometry = new THREE.PlaneGeometry(10, 0.5, 0.5);
-// var staffPlaneMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-// var staffPlaneMesh = new THREE.Mesh( staffPlaneGeometry, staffPlaneMaterial );
-// globals.scene.add(staffPlaneMesh);
-
 function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ, innerLinePadding, dashedLines = false, middleC = false) {
     // https://threejs.org/docs/#api/en/materials/LineBasicMaterial
     // BUG for linewidth greater than 1 - see: https://mattdesl.svbtle.com/drawing-lines-is-hard
@@ -254,13 +231,14 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
     }
 }
 
+const staffLineLengthEnd = 2000;
 if (globals.keysOnly !== true) {
-    addStaffLines(0x000000, globals.staffLineInitZ, -1000, 1000, 0.08, 0, 2);
+    addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 } else if (globals.keysOnly === true) {
-    addStaffLines(0x000000, globals.staffLineSecondZ, -1000, 1000, 0.08, 0, 2);
+    addStaffLines(0x000000, globals.staffLineSecondZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 
     // two dashed lines above treble clef
-    addStaffLines(0x0000ff, globals.staffLineSecondZ - 10, -1000, 1000, 0.08, 0, 2, true, true);
+    addStaffLines(0x0000ff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, 0.08, 0, 2, true, true);
 } else {}
 
 
