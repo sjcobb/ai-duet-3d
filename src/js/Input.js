@@ -199,10 +199,14 @@ function updateChord({ add = null, remove = null }) {
         currentSeed.push({ note: add, time: Tone.now() });
         console.log('updateChord -> currentSeed: ', currentSeed);
     }
-    console.log('updateChord -> currentSeed: ', currentSeed);
+    console.log('updateChord -> PRE currentSeed: ', currentSeed);
+    // if (remove) {
     if (remove && _.some(currentSeed, { note: remove })) {
+        console.log('... ... ... REMOVED CALLED ... ... ...')
+        console.log('updateChord -> remove: ', remove);
         _.remove(currentSeed, { note: remove });
     }
+    console.log('updateChord -> POST currentSeed: ', currentSeed);
 
     if (stopCurrentSequenceGenerator) {
         stopCurrentSequenceGenerator();
@@ -243,9 +247,12 @@ function humanKeyDown(note, velocity = 0.7) {
     // console.log({humanKeyAdds});
 }
 function humanKeyUp(note) {
+    console.log('humanKeyUp -> note: ', note);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
     humanKeyRemovals.push({ note });
-    // console.log({humanKeyRemovals});
+    console.log({humanKeyRemovals});
+
+    updateChord({ remove: note });
 }
 
 function machineKeyDown(midiNote = 60, time = 0) {
