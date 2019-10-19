@@ -125,7 +125,8 @@ export default class Physics {
             // https://codepen.io/danlong/pen/LJQYYN
             zPos += 10; // see globals.staffLineInitZ and globals.staffLineSecondZ
         } else {
-            zPos -= 10;
+            // zPos -= 10; //PREV
+            zPos -= 3; //PREV
         }
         // zPos = options.originalPosition.z;
 

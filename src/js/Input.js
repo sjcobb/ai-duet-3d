@@ -18,7 +18,8 @@ import Physics from './Physics.js';
 
 // Tone.Transport.clear()
 
-const MIN_NOTE = 48;
+// const MIN_NOTE = 36; //Error: `NoteSequence` has a pitch outside of the valid range: 47
+const MIN_NOTE = 48; 
 const MAX_NOTE = 84;
 let pulsePattern = true;
 
@@ -254,13 +255,19 @@ function machineKeyDown(note = 60, time = 0) {
     let tonalNote = Tonal.Note.fromMidi(note);
     let instrMapped = getInstrByInputNote(tonalNote);
 
-    // if (instrMapped === undefined && note) {
-    //     console.log('(machineKeyDown) UNDEF -> note: ', note);
-    //     const undefNoteArr = note.split(''); // ERR: note.split is not a function
-    //     note = undefNoteArr[0] + undefNoteArr[2];
-    //     instrMapped = getInstrByInputNote(note);
-    // }
-    
+    if (instrMapped === undefined && tonalNote.length === 2) {
+        // console.log('(machineKeyDown) UNDEF -> note: ', note);
+        console.log('(machineKeyDown) UNDEF -> tonalNote: ', tonalNote);
+        const undefNoteArr = tonalNote.split(''); // ERR: note.split is not a function - Eb4
+        note = undefNoteArr[0] + undefNoteArr[2];
+        instrMapped = getInstrByInputNote(note);
+    }
+
+    if (instrMapped === undefined) {
+        instrMapped = getInstrByInputNote('C4');
+    }
+
+    // console.log('(machineKeyDown) -> instrMapped: ', instrMapped);
     instrMapped.color = '#ED4A82'; // pink
     physics.addBody(true, globals.dropPosX, instrMapped);
 }
@@ -392,7 +399,7 @@ function startSequenceGenerator(seed) {
     }
     
     function consumeNext(time) {
-        console.log('consumeNext -> time: ', time);
+        // console.log('consumeNext -> time: ', time);
         if (generatedSequence.length) {
             console.log('consumeNext -> generatedSequence: ', generatedSequence);
             let note = generatedSequence.shift();
