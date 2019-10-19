@@ -117,7 +117,7 @@ export default class Trigger {
         let triggerObj = instrument.getInstrByNote(triggerNote);
 
         let combinedNote = triggerObj.note + triggerObj.octave;
-        console.log('Trigger -> combinedNote: ', combinedNote);
+        // console.log('Trigger -> combinedNote: ', combinedNote);
         // console.log('triggerObj: ', triggerObj);
 
         let drumIndex = 0;

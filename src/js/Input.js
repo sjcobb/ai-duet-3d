@@ -20,10 +20,11 @@ import Physics from './Physics.js';
 
 const MIN_NOTE = 48;
 const MAX_NOTE = 84;
+let pulsePattern = true;
 
-// // const MIN_NOTE = 28;
-// const MIN_NOTE = 45;
-// const MAX_NOTE = 84;
+// new: https://github.com/tensorflow/magenta/tree/master/magenta/models/improv_rnn#chord-pitches-improv
+// old: http://download.magenta.tensorflow.org/models/chord_pitches_improv.mag
+// prev: https://storage.googleapis.com/download.magenta.tensorflow.org/tfjs_checkpoints/music_rnn/chord_pitches_improv
 
 let rnn = new mm.MusicRNN(
     'https://storage.googleapis.com/download.magenta.tensorflow.org/tfjs_checkpoints/music_rnn/chord_pitches_improv'
@@ -50,7 +51,7 @@ let sampler = new Tone.Sampler(
     }
 ).connect(reverb);
 // sampler.release.value = 2;
-console.log({ rnn });
+
 // rnn: t
 //     biasShapes: []
 //     checkpointURL: "https://storage.googleapis.com/download.magenta.tensorflow.org/tfjs_checkpoints/music_rnn/chord_pitches_improv"
@@ -58,7 +59,6 @@ console.log({ rnn });
 //     lstmCells: []
 //     rawVars: {}
 //     spec: undefined
-// console.log({sampler});
 
 /*
  *** INPUT - MIDI KEYS MAPPING ***
@@ -81,15 +81,15 @@ let stopCurrentSequenceGenerator;
 let enabledWebMidi = false;
 WebMidi.enable(err => {
     if (err) {
-        console.log("WebMidi could not be enabled.", err);
+        console.info("WebMidi could not be enabled.", err);
         return;
     } else {
-        console.log("WebMidi enabled...");
+        console.info("WebMidi enabled...");
         enabledWebMidi = true;
 
         // var input = WebMidi.getInputByName("Axiom Pro 25 USB A In");
         var input = WebMidi.getInputByName("MPK mini play");
-        console.log({ input });
+        // console.log({ input });
 
         if (input !== false) {
             globals.inputMidi = true;
@@ -120,15 +120,15 @@ WebMidi.enable(err => {
 
 });
 
-if (enabledWebMidi) {
-    // // var input = WebMidi.getInputByName("Axiom Pro 25 USB A In");
-    // var input = WebMidi.getInputByName("MPK mini play");
-    // console.log({input});
+// if (enabledWebMidi) {
+//     // // var input = WebMidi.getInputByName("Axiom Pro 25 USB A In");
+//     // var input = WebMidi.getInputByName("MPK mini play");
+//     // console.log({input});
 
-    input.addListener('pitchbend', "all", function (e) {
-        console.log("Pitch value: " + e.value);
-    });
-}
+//     input.addListener('pitchbend', "all", function (e) {
+//         console.log("Pitch value: " + e.value);
+//     });
+// }
 
 /* teropa nerual-arpeggiator
 https://codepen.io/teropa/pen/ddqEwj
@@ -157,7 +157,6 @@ function onActiveInputChange(id) {
         //     option.selected = option.value === id;
         // }
         activeInput = input;
-        console.log({ activeInput });
     }
 }
 
@@ -194,23 +193,17 @@ function onActiveOutputChange(id) {
 }
 
 function getInstrByInputNote(note = 'C4') {
-    console.log('getInstrByInputNote -> note:   ', note); // => "Db4");
     return instrument.getInstrByNote(note);
 }
 
 function updateChord({ add = null, remove = null }) {
     if (add) {
-        console.log('updateChord -> add: ', add);
         currentSeed.push({ note: add, time: Tone.now() });
-        console.log('updateChord -> currentSeed: ', currentSeed);
     }
-    console.log('updateChord -> PRE currentSeed: ', currentSeed);
     // https://lodash.com/docs/2.4.2#some -> returns as soon as it finds a passing value
     if (remove && _.some(currentSeed, { note: remove })) {
-        console.log('updateChord -> remove: ', remove);
         _.remove(currentSeed, { note: remove });
     }
-    console.log('updateChord -> POST currentSeed: ', currentSeed);
 
     if (stopCurrentSequenceGenerator) {
         stopCurrentSequenceGenerator();
@@ -218,9 +211,10 @@ function updateChord({ add = null, remove = null }) {
     }
 
     if (currentSeed.length && !stopCurrentSequenceGenerator) {
-        // resetState = true;
+        resetState = true;
+        console.log('(updateChord) !stopCurrentSequenceGenerator -> currentSeed: ', currentSeed);
         stopCurrentSequenceGenerator = startSequenceGenerator(
-        _.cloneDeep(currentSeed)
+            _.cloneDeep(currentSeed)
         );
     }
 }
@@ -229,14 +223,7 @@ let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
     // if (note < MIN_NOTE || note > MAX_NOTE) return;
-    console.log('humanKeyDown -> note: ', note);
 
-    // console.log(Tonal);
-    // console.log(Tonal.Note);
-
-    // let tonalNote = Tonal.midi.midiToNoteName(note);
-    // let tonalNote = Tonal.note("a4").freq;
-    // let tonalNote = Tonal.Note.midiToFreq(note);
     let tonalNote = Tonal.Note.fromMidi(note);
     let tonalFreq = Tonal.Note.midiToFreq(note);
 
@@ -245,71 +232,42 @@ function humanKeyDown(note, velocity = 0.7) {
     const instrMapped = getInstrByInputNote(tonalNote);
     instrMapped.color = '#64b5f6'; // med blue
     
-    // console.log('humanKeyDown -> instrMapped: ', instrMapped);
     physics.addBody(true, globals.dropPosX, instrMapped);
 
-    // console.log('humanKeyDown -> velocity: ', velocity);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
     humanKeyAdds.push({ note, velocity });
-    // console.log({humanKeyAdds});
 }
+
 function humanKeyUp(note) {
-    console.log('humanKeyUp -> note: ', note);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
     humanKeyRemovals.push({ note });
-    console.log({humanKeyRemovals});
-
     updateChord({ remove: note });
 }
 
 function machineKeyDown(note = 60, time = 0) {
-    console.log('machineKeyDown -> note: ', note);
-    console.log('machineKeyDown -> time: ', time);
+    // console.log('machineKeyDown -> note: ', note);
+    // console.log('machineKeyDown -> time: ', time);
     // if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);
-    console.log('machineKeyDown -> note: ', note);
-
     let instrMapped = getInstrByInputNote(tonalNote);
-    // console.log('machineKeyDown -> PRE instrMapped: ', instrMapped);
     if (instrMapped === undefined) {
-        // console.log('machineKeyDown -> UNDEF note: ', note); //Eb4
         const undefNoteArr = note.split('');
-        // debugger;
         note = undefNoteArr[0] + undefNoteArr[2];
-        console.log('new note: ', note);
         instrMapped = getInstrByInputNote(note);
-        // instrMapped = getInstrByInputNote('C3'); // TODO: rework defaults, Trigger, addBody params (C4 vs C3 vs defaultInstr.hiHatClosed)
     }
     // instrMapped.color = '#e91e63'; // red (nerual melody autocompletion)
     instrMapped.color = '#ED4A82'; // pink
     // instrMapped.color = '#f9bb2d'; // orange (ai duet original)
-    console.log('machineKeyDown -> POST instrMapped: ', instrMapped);
-
-    // let synth = new Tone.Synth(synthConfig).connect(synthFilter);
-    // let freq = Tone.Frequency(note, 'midi');
-    // synth.triggerAttack(freq, Tone.now(), velocity);
 
     physics.addBody(true, globals.dropPosX, instrMapped);
 
     // if (note < MIN_NOTE || note > MAX_NOTE) return;
-    // sampler.triggerAttack(Tone.Frequency(note, 'midi'));
-    // animatePlay(onScreenKeyboard[note - MIN_NOTE], note, false);
-    // animateMachine(machinePlayer[note - MIN_NOTE]);
 }
 
-function buildNoteSequence(seed = SEED_DEFAULT) {
+function buildNoteSequence(seed) {
     console.log('buildNoteSequence -> seed: ', seed);
-    // // seed:
-    // [{note: 60, time: 0.546984126984127}]
-
-    // // seqOpts:
-    // notes: [{pitch: 60, startTime: 0, endTime: 0.5}]
-    // quantizationInfo: {stepsPerQuarter: 1}
-    // tempos: [{time: 0, qpm: 120}]
-    // ticksPerQuarter: 220
-    // timeSignatures: [{time: 0, numerator: 4, denominator: 4}]
-    // totalTime: 0.5
+    // seed = SEED_DEFAULT
 
     const seqOpts = {
         ticksPerQuarter: 220,
@@ -336,8 +294,6 @@ function buildNoteSequence(seed = SEED_DEFAULT) {
             endTime: (idx + 1) * 0.5
         }))
     };
-    console.log({ seqOpts });
-
     return mm.sequences.quantizeNoteSequence(
         seqOpts,
         1
@@ -345,7 +301,6 @@ function buildNoteSequence(seed = SEED_DEFAULT) {
 }
 
 function getSeedIntervals(seed) {
-    console.log('getSeedIntervals - seed: ', seed); // [{note: 67, time: 26.292108843537417}, {note: 69, time: 27.27315192743764}]
     let intervals = [];
     for (let i = 0; i < seed.length - 1; i++) {
         let rawInterval = seed[i + 1].time - seed[i].time;
@@ -354,7 +309,6 @@ function getSeedIntervals(seed) {
         );
         intervals.push(Tone.Time(measure).toSeconds());
     }
-    console.log('getSeedIntervals - intervals: ', intervals); // [0.5]
     return intervals;
 }
 
@@ -366,9 +320,25 @@ function getSequencePlayIntervalTime(seed = SEED_DEFAULT) {
     return _.first(intervals);
 }
 
-function detectChord(notes) {
-    notes = notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
-    console.log('detectChord -> notes: ', notes);
+function seqToTickArray(seq) {
+    // console.log('seqToTickArray -> seq: ', seq);
+    // e.notes[{pitch: 59, quantizedStartStep: 1, quantizedEndStep: 3},{pitch: 62, quantizedStartStep: 3, quantizedEndStep: 5}]
+    // https://lodash.com/docs/4.17.15#times // invokes the iteratee n times, returning an array of the results of each invocation
+    // https://lodash.com/docs/4.17.15#flatMap // creates a flattened array of values by running each element in collection thru iteratee and flattening the mapped results
+    return _.flatMap(seq.notes, n =>
+        [n.pitch].concat(
+            _.times(n.quantizedEndStep - n.quantizedStartStep - 1, () => null) 
+
+            // pulsePattern
+            // ? []
+            // : _.times(n.quantizedEndStep - n.quantizedStartStep - 1, () => null)
+        )
+    );
+}
+
+function detectChord(seed) {
+    // console.log('detectChord -> seed: ', seed);
+    const notes = seed.notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
     return Tonal.PcSet.modes(notes)
         .map((mode, i) => {
         const tonic = Tonal.Note.name(notes[i]);
@@ -378,90 +348,56 @@ function detectChord(notes) {
         .filter(x => x);
 }
 
+// let running = false;
+let running;
+let consumerId;
 function startSequenceGenerator(seed = []) {
-    console.log('startSequenceGenerator -> seed: ', seed);
-    console.log('seed -> notes: ', seed.notes);
-    let running = true;
-    // let lastGenerationTask = Promise.resolve();
+    // console.log('startSequenceGenerator -> seed: ', seed);
+
+    running = true;
+    // let lastGenerationTask = Promise.resolve(); // TODO: fix Promise vs async/await
     let lastGenerationTask;
     
     let launchWaitTime = 1; // 1
     let playIntervalTime = getSequencePlayIntervalTime(seed); // 0.25
-    console.log('startSequenceGenerator -> playIntervalTime: ', playIntervalTime);
-    // let playIntervalTime = 0.25
     
     // let generatedSequence =
     //     Math.random() < 0.7 ? _.clone(seed.notes.map(n => n.pitch)) : [];
 
-    let chords = detectChord(seed);
-    console.log({chords});
-    let chord = _.first(chords) || 'CM';
-
-    let seedSeq = buildNoteSequence(seed);
-    console.log('startSequenceGenerator -> seedSeq: ', seedSeq);
-
-    
-    // let generatedSequence = Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : []; // why random???
-    let generatedSequence = seedSeq.notes.map(n => n.pitch); //PREV
-    
-    if (generatedSequence.length > 6) {
-        generatedSequence = generatedSequence.slice(0, 6);
+    let chord = 'CM';
+    if (seed.notes) {
+        let chords = detectChord(seed);
+        chord = _.first(chords) || 'CM';
     }
-    // generatedSequence.forEach((seqDatum, seqIndex) => {
-    //     if (seqIndex > 5) {
-    //         console.log({seqIndex});
-    //         generatedSequence.pop();
-    //     }
-    // });
-    console.log({generatedSequence});
+    
+    let seedSeq = buildNoteSequence(seed);
 
-    console.log({playIntervalTime}); // 0.15 (seconds)
+    let generatedSequence = Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : []; // why random???
+    // let generatedSequence = seedSeq.notes.map(n => n.pitch); //PREV
+    
     let generationIntervalTime = playIntervalTime / 2; // needed?
     generationIntervalTime = 0;
-    console.log({generationIntervalTime});
-
-    // generatedSequence.forEach((seqDatum, seqIndex) => {});
-    // console.log(_.isNumber(62));
-    // https://tonejs.github.io/docs/13.8.25/Transport
-    // scheduleRepeat is used to call consumeNext, which THEN calls machineKeyDown which calls addBody() individually
-    // Tone.Transport.scheduleRepeat(function(time){
-    // }, "8n");
-    // // }, "16:0:0");
 
     function generateNext() {
-        console.log('generateNext called... ... ...'); // TODO: why never called???
-        // if (!running) return;
+        if (!running) return;
 
-        // // const noteLengthRand = (Math.random() * 10);
-        // // console.log({noteLengthRand});
+        if (generatedSequence.length >= 0) {
+            rnn.continueSequence(seedSeq, 20, temperature, [chord]).then(genSeq => {
+                // generatedSequence = generatedSequence.concat(seqToTickArray(genSeq));
+                // generatedSequence = Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : [];
 
-        // // if (generatedSequence.length < 3) {
-        // if (generatedSequence.length < 10) {
-        //     lastGenerationTask = rnn.continueSequence(seedSeq, 20, temperature, [chord]);
-        //     console.log({lastGenerationTask});
+                generatedSequence = _.clone(seedSeq.notes.map(n => n.pitch));
 
-        //     // TODO: either use Promise .then or async / await, not parts of each!!!
-        //     // return new Promise(resolve => {
-        //     //     // setTimeout(() => {
-        //     //         resolve(generateDummySequence());
-
-        //     // .then(genSeq => {
-        //         let genSeq = lastGenerationTask;
-        //         console.log({genSeq});
-        //         const mappedPitches = genSeq.notes.map(n => n.pitch);
-        //         console.log('lastGenerationTask -> mappedPitches: ', mappedPitches);
-        //         generatedSequence = generatedSequence.concat(mappedPitches);
-        //         console.log('lastGenerationTask -> generatedSequence: ', generatedSequence);
-        //         setTimeout(generateNext, generationIntervalTime * 1000);
-        //     // });
-        // } else {
-        //     setTimeout(generateNext, generationIntervalTime * 1000);
-        // }
+                // console.log('generateNext -> generatedSequence: ', generatedSequence);
+                setTimeout(generateNext, generationIntervalTime * 1000);
+            });
+        }
     }
 
     function consumeNext(time) {
+        // console.log('consumeNext -> time: ', time);
+        // console.log('consumeNext -> generatedSequence: ', generatedSequence);
         if (generatedSequence.length) {
-            console.log('consumeNext -> generatedSequence: ', generatedSequence);
             let note = generatedSequence.shift();
             if (note > 0) {
                 machineKeyDown(note, time);
@@ -469,44 +405,50 @@ function startSequenceGenerator(seed = []) {
         }
     }
     
-    console.log(Tone.Transport);
-
     // setTimeout(generateNext, launchWaitTime * 1000);
-    generateNext();
-    let consumerId = Tone.Transport.scheduleRepeat(
+    // generateNext();
+    // let consumerId = Tone.Transport.scheduleRepeat(
+    consumerId = Tone.Transport.scheduleRepeat(
         consumeNext,
         playIntervalTime,
         Tone.Transport.seconds + launchWaitTime
     );
-    console.log({consumerId});
-    // console.log(Tone.Transport);
 
-    Tone.Transport.start();
+    setInterval(() => {
+        console.log('... ... ... ... CLEARED ... ... ... ...')
+        // generatedSequence = [];
+        // currentSeed = []; // TODO: fix duplicate currentSeed never clearing so same notes always start generatedSequence
+
+        humanKeyRemovals = [];
+    }, 12000);
+
     return () => {
-        running = false;
-        console.log('startSequenceGenerator - RETURNED (consumerId): ', consumerId);
+        clearTransport();
+    }
+}
+
+function clearTransport() {
+    running = false;
+    if (consumerId) {
         Tone.Transport.clear(consumerId); 
-        // https://tonejs.github.io/docs/13.8.25/Transport#clear
-    };
+    }
 }
 
 function generateDummySequence(seed = SEED_DEFAULT) {
-    console.log('generateDummySequence called......');
-    // IF rnn.initialize() NOT RUN THEN - ERR: magentamusic.js:45080 Uncaught (in promise) Error: Unexpected chord progression provided.
-
     const sequence = rnn.continueSequence(
-        buildNoteSequence(seed),
+        buildNoteSequence(seed), // TODO: fix err - seed.map is not a function
         20,
         temperature,
         ['Cm']
     );
-    console.log('generateDummySequence -> sequence: ', sequence);
     return sequence;
 }
 
 /* AYSNC - AWAIT VERSION */
-rnn.initialize();
-function resolveAfterDelay() {
+// rnn.initialize();
+initRNN(); // TODO: move to async function
+
+function resolveDummyPattern() {
     return new Promise(resolve => {
         // setTimeout(() => {
             resolve(generateDummySequence());
@@ -518,22 +460,15 @@ function resolveAfterDelay() {
 function initRNN() {
     return new Promise(resolve => {
         rnn.initialize();
+        console.log('initRNN -> rnn: ', rnn);
         resolve('resolved');
+        if (Tone.Transport.state !== 'started') {
+            Tone.Transport.start();
+        }
+        // console.log('initRNN -> Tone.Transport.state: ', Tone.Transport.state); //'started' or 'stopped'
     });
 }
-// async function asyncGeneratePattern() {
-//     console.log('asyncGeneratePattern() run......');
-//     var result = await resolveAfterDelay();
-//     // // var result = await initRNN(); // TODO: fix so it resolves after RNN is initialized (takes about 1 second after page load)
-//     console.log(result);
-// }
-// asyncGeneratePattern();
 
-// // rnn.initialize();
-// window.setTimeout(generateDummySequence(), 5000);
-// // generateDummySequence();
-
-// window.onload = () => {
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
 
@@ -546,17 +481,27 @@ document.addEventListener('keydown', (event) => {
                 console.log('9 pressed - patternInfinite = false');
                 globals.patternInfinite = false;
                 break;
+            case ('8'):
+                console.log('8 pressed... ...');
+                Tone.Transport.start();
+                break;
+            case ('7'):
+                        console.log('7 pressed... ... STOP ... ...');
+                        Tone.Transport.stop();
+                        break;
             case ('0'):
                 console.log('0 pressed -> generateDummySequence...')
                 
-                let generatedPattern = [];
+                // let generatedPattern = [];
                 async function asyncGeneratePattern() {
                     console.log('asyncGeneratePattern() run......');
-                    generatedPattern = await resolveAfterDelay();
+                    let generatedPattern = await resolveDummyPattern();
+                    console.log({generatedPattern});
+                    
                     if (generatedPattern) {
                         startSequenceGenerator(generatedPattern);
                         console.log('Tone.Transport - STARTED');
-                        Tone.Transport.start()
+                        Tone.Transport.start();
                     }
                 }
 
@@ -572,7 +517,6 @@ document.addEventListener('keydown', (event) => {
         }
     }
 }, false);
-// };
 
 /* PROMISE VERSION */
 // let bufferLoadPromise = new Promise(res => Tone.Buffer.on('load', res));
