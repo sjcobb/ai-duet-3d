@@ -177,12 +177,25 @@ button#bounce {
     letter-spacing: 1.25px;
 }
 
-#legend-container.animate-in {
+#logo-container {
+    position: fixed;
+    top: 15px;
+    right: 10vw;
+}
+#logo-container .logo {
+    display: inline-block;
+}
+#logo-container .logo img {
+    display: block;
+    max-width: 90px;
+}
+
+.animate-in {
     opacity: 0;
     animation: fade-in 2.0s 1;
     animation-fill-mode: forwards;
-    /* animation-delay: 6s; */
-    animation-delay: 12s;
+    /* animation-delay: 12s; */
+    animation-delay: 1s;
 } 
 
 @keyframes fade-in {
