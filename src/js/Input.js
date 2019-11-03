@@ -146,7 +146,7 @@ function onActiveInputChange(id) {
     if (input) {
         input.addListener('noteon', 1, e => {
             humanKeyDown(e.note.number, e.velocity);
-            // hideUI();
+            // uiHidden();
         });
         input.addListener('controlchange', 1, e => {
             if (e.controller.number === TEMPO_MIDI_CONTROLLER) {

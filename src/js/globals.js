@@ -30,7 +30,6 @@ export default {
     fixedTimeStep: 1.0 / 60.0,
     flameArr: [],
     flameCounter: 0,
-    hideUI: true,
     inputMidi: false,
     instr: {},
     instrumentCounter: 0,
@@ -55,6 +54,7 @@ export default {
     ticks: 0,
     triggerAnimationTime: '4:0:0',
     // Transport: Tone.Transport, //TODO: add Transport here for logging ticks and position
+    uiHidden: false,
     world: new CANNON.World(),
 };
 

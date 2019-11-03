@@ -1,4 +1,5 @@
 // https://github.com/johndatserakis/modern-webpack-starter/blob/master/webpack.config.js
+// https://github.com/edwinwebb/three-seed/blob/master/webpack.config.js 
 // https://github.com/webpack/webpack-dev-server/blob/master/examples/api/simple/server.js#L16
 // https://medium.com/code-oil/burning-questions-with-answers-to-why-webpack-dev-server-live-reload-does-not-work-6d6390277920
 // USE:

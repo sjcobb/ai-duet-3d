@@ -28,59 +28,59 @@ button.addEventListener("click", function() {
     // //bounceSynth.dispose();
 });
 
-let bounce = document.getElementById('bounce');
-// bounce.innerHTML = 'BOUNCE!';
-bounce.onclick = () => {
-    Tone.Transport.start();
-    // Tone.Transport.start("+0.1", 0);
+// let bounce = document.getElementById('bounce');
+// // bounce.innerHTML = 'BOUNCE!';
+// bounce.onclick = () => {
+//     Tone.Transport.start();
+//     // Tone.Transport.start("+0.1", 0);
 
-    // if (bounceControl === false) {
-    //     bounceControl = true;
-    //     bounce.innerHTML = 'STOP';
-    // }
-    // else {
-    //     bounceControl = false;
-    //     bounce.innerHTML = 'BOUNCE!';
-    // }
-};
+//     // if (bounceControl === false) {
+//     //     bounceControl = true;
+//     //     bounce.innerHTML = 'STOP';
+//     // }
+//     // else {
+//     //     bounceControl = false;
+//     //     bounce.innerHTML = 'BOUNCE!';
+//     // }
+// };
 
-document.getElementById('shape-form').onchange = (evt) => {
-    switch (evt.target.value) {
-        case 'box':
-            currentShape = box;
-            break;
-        case 'sphere':
-            currentShape = sphere;
-            break;
-        case 'torus':
-            currentShape = torus;
-            break;
-        default:
-            currentShape = box;
-            break;
-    }
-    obj.geometry = currentShape;
-    obj.geometry.buffersNeedUpdate = true;
-};
+// document.getElementById('shape-form').onchange = (evt) => {
+//     switch (evt.target.value) {
+//         case 'box':
+//             currentShape = box;
+//             break;
+//         case 'sphere':
+//             currentShape = sphere;
+//             break;
+//         case 'torus':
+//             currentShape = torus;
+//             break;
+//         default:
+//             currentShape = box;
+//             break;
+//     }
+//     obj.geometry = currentShape;
+//     obj.geometry.buffersNeedUpdate = true;
+// };
 
-document.getElementById('mesh-form').onchange = (evt) => {
-    switch (evt.target.value) {
-        case 'phong':
-            currentMesh = phong;
-            break;
-        case 'basic':
-            currentMesh = basic;
-            break;
-        case 'lambert':
-            currentMesh = lambert;
-            break;
-        default:
-            currentMesh = box;
-            break;
-    }
-    obj.material = currentMesh;
-    obj.material.needsUpdate = true;
-};
+// document.getElementById('mesh-form').onchange = (evt) => {
+//     switch (evt.target.value) {
+//         case 'phong':
+//             currentMesh = phong;
+//             break;
+//         case 'basic':
+//             currentMesh = basic;
+//             break;
+//         case 'lambert':
+//             currentMesh = lambert;
+//             break;
+//         default:
+//             currentMesh = box;
+//             break;
+//     }
+//     obj.material = currentMesh;
+//     obj.material.needsUpdate = true;
+// };
 
 let controlsId = document.getElementById('controls-container');
 let settingsId = document.getElementById('settings-container');
@@ -88,17 +88,17 @@ let toggleId = document.getElementById('settings-toggle-btn');
 
 
 toggleId.onclick = (el) => {
-    // console.log('RUN toggleId');
+    console.log('toggleId clicked -> el: ', el);
     toggleId.classList.toggle('hidden-active');
     settingsId.classList.toggle('hidden');
 };
 
-let addShapeId = document.getElementById('call-add-shape');
-addShapeId.onclick = (el) => {
-    addBody();
-};
+// let addShapeId = document.getElementById('call-add-shape');
+// addShapeId.onclick = (el) => {
+//     addBody();
+// };
 
-if (globals.autoStart === true || globals.hideUI === true) {
+if (globals.autoStart === true || globals.uiHidden === true) {
     controlsId.classList.toggle('hidden');
 }
 

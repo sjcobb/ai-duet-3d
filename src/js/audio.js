@@ -9,12 +9,13 @@ let flameAudio = new Flame();
  *** AUDIO ***
  */
 
-/*
+
 const physics = new Physics();
 
 //-----INSTRUMENT PARTS------//
 var allDrumsPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    // physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, globals.dropPosX, instr);
 }, [
     ["0:0:0", globals.instr.kickPrimary],
     ["0:6:0", globals.instr.kickPrimary],
@@ -29,7 +30,7 @@ var allDrumsPart = new Tone.Part(function(time, instr) {
 allDrumsPart.loop = true;
 // allDrumsPart.start("0:0:0");
 allDrumsPart.start("2:0:0");
-
+/*
 var secondVerseDrumsPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, time * globals.multiplierPosX, instr);
 }, [
@@ -168,5 +169,4 @@ export default class Audio {
 
     }
 }
-
 */

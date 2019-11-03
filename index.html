@@ -7,12 +7,9 @@
 
     <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Sawarabi+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!-- <link rel="stylesheet" href="vendor/font-awesome.min.css" /> -->
 
     <link rel="stylesheet" type="text/css" href="css/bounce.css">
     
-    <!-- alternate MIDI api - TODO: import correctly -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/webmidi@2.0.0/webmidi.min.js" type="text/javascript"></script> -->
 
     <!-- TODO: import THREE as module -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
@@ -20,10 +17,6 @@
     <script src="vendor/Cannon/cannon.min.js"></script>
     <script src="vendor/Cannon/CannonDebugRenderer.js"></script>
 
-    <!-- <script src="vendor/FlyControls.js"></script> -->
-    <!-- <script src="vendor/OrbitControls.js"></script> -->
-    
-    <!-- <script src="vendor/ObjectLoader.js"></script> -->
 
     <!-- https://github.com/mrdoob/three.js/blob/master/examples/webgl_lines_fat.html -->
     <!-- <script src="vendor/hilbert3D.js"></script>
@@ -49,59 +42,20 @@
             <button id="settings-toggle-btn" class="btn hidden-active"><i class="fa fa-cog" aria-hidden="true"></i></button>
         </div>
 
-        <section id="settings-container" class="">
+        <section id="settings-container" class="hidden">
+            <button type="button" class="btn btn-light" id="bounce"><span class="fa fa-headphones" aria-hidden="true"></span>Drum Loop</button>
+
             <div class="play-wrapper">
-                <a class="play"><span class="fa fa-headphones" aria-hidden="true"></span>Stop</a>
+                <a class="play"></span>Stop</a>
             </div>
-
-            <div class="form-check form-check-inline">
-                <form id="shape-form">
-                    <input class="form-check-input" type="radio" id="shape-choice" name="shape" value="box" checked>
-                    <label class="form-check-label" for="shape1">Box</label>
-                    <input class="form-check-input" type="radio" id="shape-choice" name="shape" value="sphere">
-                    <label class="form-check-label" for="shape2">Sphere</label>
-                    <input class="form-check-input" type="radio" id="shape-choice" name="shape" value="torus">
-                    <label class="form-check-label" for="shape3">Torus</label>
-                </form>
-            </div>
-            <br/>
-            <div class="form-check form-check-inline">
-                <form id="mesh-form">
-                    <input class="form-check-input" type="radio" id="material-choice" name="material" value="phong" checked>
-                    <label class="form-check-label" for="material1">Phong</label>
-                    <input class="form-check-input" type="radio" id="material-choice" name="material" value="basic">
-                    <label class="form-check-label" for="material2">Basic</label>
-                    <input class="form-check-input" type="radio" id="material-choice" name="material" value="lambert">
-                    <label class="form-check-label" for="shape3">Lambert</label>
-                </form>
-            </div>
-            <br/>
-            <br/>
-            <button type="button" class="btn btn-light" id="bounce">Drum Loop</button>
-
-            <button type="button" class="btn btn-light" id="call-add-shape">Add Shape</button>
-
-            <button type="button" class="btn btn-light" id="drumMachine">Drum Machine</button>
-
-            <button type="button" class="btn btn-light" id="startSong">Start Song</button>
         </section>
     </div>
 
-
-    <!-- <div id="legend-container" class="pos-top-left animate-in"> -->
     <div id="legend-container" class="animate-in">
         <div class="legend">
             <ul>
                 <li><span id="symbol_2" class="symbol" style="background-color: #64b5f6"></span><p>HUMAN</p></li>
                 <li><span id="symbol_3" class="symbol" style="background-color: #ED4A82"></span><p>AI</p></li>
-                <!-- <li><span id="symbol_3" class="symbol" style="background-color: #e91e63"></span><p>AI</p></li> -->
-                <!-- <li><span id="symbol_1" class="symbol" style="background-color: #0018F9"></span><p>I</p></li>
-                <li><span id="symbol_2" class="symbol" style="background-color: #680896"></span><p>II</p></li>
-                <li><span id="symbol_3" class="symbol" style="background-color: #FF001F"></span><p>III</p></li>
-                <li><span id="symbol_4" class="symbol" style="background-color: #006CFA"></span><p>IV</p></li>
-                <li><span id="symbol_5" class="symbol" style="background-color: #4B0AA1"></span><p>V</p></li>
-                <li><span id="symbol_6" class="symbol" style="background-color: #C6018B"></span><p>VI</p></li>
-                <li><span id="symbol_7" class="symbol" style="background-color: #FF872B"></span><p>VII</p></li> -->
             </ul>
         </div>
     </div>
@@ -112,7 +66,6 @@
         </div>
     </div>
 
-    <!-- https://github.com/edwinwebb/three-seed/blob/master/webpack.config.js -->
     <script src="dist/bundle.js"></script>
 
 </body>

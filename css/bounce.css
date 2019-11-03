@@ -23,20 +23,21 @@ canvas {
 #controls-container {
     /* display: none; */
     position: absolute;
-    top: 30px;
-    right: 0;
-    left: 5px;
+    top: 0;
+    left: 0;
     width: 200px;
     margin: 0;
-    padding: 8px;
-    background-color: rgba(160, 160, 160, 0.55);
+    padding: 0;
     color: #fff;
     text-align: center;
-    z-index: 1;
+    z-index: 10;
 }
 
 #settings-container {
     display: block;
+    padding: 10px 5px 0;
+    /* background: rgba(204, 204, 204, 0.3); */
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #settings-container.hidden {
@@ -45,10 +46,23 @@ canvas {
     /* display: block; */
 }
 
+.toggle-wrapper {
+    margin: 0 0 0;
+}
 button#settings-toggle-btn {
-    margin: 0 0 20px;
+    margin: 0 0 0;
     padding: 5px 10px;
     font-size: 16px;
+    color: #fff;
+    /* background-color: rgba(0, 0, 0, 0.30); */
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+button#settings-toggle-btn:hover {
+    /* background-color: rgba(0, 0, 0, 0.90); */
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 button#settings-toggle-btn.hidden-active {
@@ -67,27 +81,31 @@ button {
 button#bounce,
 .play {
     display: inline-block;
-    margin: auto 3px 30px auto;
+    margin: auto 3px 10px auto;
     padding: 6px 8px;
     background: none;
     font: 14px/1 Verdana, Geneva, sans-serif;
     letter-spacing: 1.2px;
-    color: #003366;
-    border: 1px solid #003366;
+    color: #fff;
+    border: 1px solid #fff;
+    /* color: #003366; */
+    /* border: 1px solid #003366; */
     text-transform: uppercase;
     cursor: pointer;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
 
-.play span.fa {
+span.fa-headphones {
     padding: 0 5px 0 3px;
 }
 
 button#bounce:hover,
 .play:hover {
-    background: #003366;
-    color: #fff;
+    /* background: #003366; */
+    /* color: #fff; */
+    background: #fff;
+    color: #003366;
 }
 
 button#bounce {
@@ -127,6 +145,7 @@ button#bounce {
     position: absolute;
     left: 0;
     right: 0;
+    z-index: 9;
 }
 #legend-container.pos-top-left {
     margin: 0;
