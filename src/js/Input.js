@@ -225,6 +225,7 @@ function updateChord({ add = null, remove = null }) {
 let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
+    console.log('(humanKeyDown) -> note: ', note);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);

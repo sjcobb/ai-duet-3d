@@ -278,29 +278,33 @@ export default class Physics {
         // https://codepen.io/danlong/pen/LJQYYN?editors=1010
 
         // CANNON (PHYSICS)
-        // var boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5));
-        // this.spinnerBody = new CANNON.Body({
-        //     mass: 1000,
-        //     angularVelocity: new CANNON.Vec3(0,5,0),
-        //     fixedRotation: true,
-        // });
-        // this.spinnerBody.addShape(boxShape);
-        // this.spinnerBody.position.set(0,0.25,0);
-        // this.spinnerBody.name = 'spinner';		
+        let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5));
+        let spinnerBody = new CANNON.Body({
+            mass: 1000,
+            angularVelocity: new CANNON.Vec3(0,5,0),
+            fixedRotation: true,
+        });
+        spinnerBody.addShape(boxShape);
+        spinnerBody.position.set(0,0.25,0);
+        spinnerBody.name = 'spinner';		
         
-        // // THREE JS (VISUAL)
-        // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
-        // geometry.rotateX(THREE.Math.degToRad(90));
-        // var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
-        // let spinner = new THREE.Mesh( geometry, material );
-        // spinner.position.y = 0;
+        // THREE JS (VISUAL)
+        var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
+        geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
+        var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+        let spinner = new THREE.Mesh( geometry, material );
+        spinner.position.y = 0;
 
-        // // push to meshes & bodies
+        // push to meshes & bodies
         // this.meshes.push(spinner);
+        // this.bodies.push(this.spinnerBody);
         // this.scene.add(spinner);
-        
         // this.world.addBody(this.spinnerBody);
         // this.bodies.push(this.spinnerBody);
+
+        globals.world.bodies.push(spinnerBody);
+        globals.scene.add(spinner);
+        globals.world.addBody(spinnerBody);
     }
 
     shape2Mesh(body, castShadow, receiveShadow, options) {

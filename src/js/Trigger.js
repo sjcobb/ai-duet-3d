@@ -165,6 +165,8 @@ export default class Trigger {
             }
         }
 
+        // humanKeyDown(52); // TODO: add humanKeyDown as shared method
+
         // switch (obj.userData.opts.ballDesc) {
         //     case ('A'):
         //         bounceSynth.triggerAttackRelease("A3", "8n");

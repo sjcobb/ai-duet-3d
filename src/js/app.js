@@ -180,6 +180,8 @@ objCenter.position.set(0, 0, globals.posBehindZ);
 
 // globals.scene.add(skyboxCubeMesh); //add nightsky skybox
 
+physics.addSpinner();
+
 //-----MUSIC STAFF------//
 function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ, innerLinePadding, dashedLines = false, middleC = false) {
     // https://threejs.org/docs/#api/en/materials/LineBasicMaterial
