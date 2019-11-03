@@ -35,8 +35,8 @@ export default class Physics {
         const groundShape = new CANNON.Plane();
         const groundMaterial = new CANNON.Material(); //http://schteppe.github.io/cannon.js/docs/classes/Material.html
         const groundBody = new CANNON.Body({ mass: 0, material: groundMaterial });
-        // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2); //PREV - causes balls to crazily spin off canvas
-        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI);
+        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+        // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI); // weird 0 zPos drop bug
         groundBody.addShape(groundShape);
         globals.world.add(groundBody);
 
@@ -51,6 +51,8 @@ export default class Physics {
 
         // this.animate();
         this.initContactMaterial(0.3);
+
+        this.addSpinner();
     }
 
     initContactMaterial(restitutionValue = 0.3) {
@@ -224,6 +226,7 @@ export default class Physics {
             // body.quaternion.z = 0.5;
             // console.log(body); //TODO: rotate adjust HERE!!!
         }
+
     }
 
     addVisual(body, name, castShadow = true, receiveShadow = true, options = 'Z') {
@@ -279,6 +282,7 @@ export default class Physics {
     addSpinner() {
         // DRUM MACHINE WHEEL: 
         // https://codepen.io/danlong/pen/LJQYYN?editors=1010
+        // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
 
         // CANNON (PHYSICS)
         let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5));
@@ -288,15 +292,16 @@ export default class Physics {
             fixedRotation: true,
         });
         spinnerBody.addShape(boxShape);
-        spinnerBody.position.set(0,0.25,0);
-        spinnerBody.name = 'spinner';		
+        spinnerBody.position.set(0, 0.25, 0);
+        // spinnerBody.position.set(0, -25, 0);
+        spinnerBody.name = 'spinner';
         
         // THREE JS (VISUAL)
         var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
         geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
         var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
         let spinner = new THREE.Mesh( geometry, material );
-        spinner.position.y = 0;
+        spinner.position.y = 6;
 
         // push to meshes & bodies
         // this.meshes.push(spinner);
@@ -305,7 +310,8 @@ export default class Physics {
         // this.world.addBody(this.spinnerBody);
         // this.bodies.push(this.spinnerBody);
 
-        globals.world.bodies.push(spinnerBody);
+        globals.meshes.push(spinner);
+        globals.bodies.push(spinnerBody);
         globals.scene.add(spinner);
         globals.world.addBody(spinnerBody);
     }
@@ -544,45 +550,14 @@ export default class Physics {
         }
     }
 
+    // updateMeshPositions() {
+    //     for (var i = 0; i !== this.meshes.length; i++) {
+    //         globals.meshes[i].position.copy(this.bodies[i].position);
+    //         globals.meshes[i].quaternion.copy(this.bodies[i].quaternion);
+    //     }
+    // },
+
     updateBodies(world) {
-        // globals.lastColor = globals.activeInstrColor; //remove?
-
-        if (globals.configColorAnimate === true) {
-            //TODO: fix activeInstrColor by simpifying nested forEach calls
-            // console.log('globals.scene.children -> ', globals.scene.children);
-            // globals.scene.children.forEach((child) => {
-            //     if (child.name && child.name === 'physicsParent') {
-            //         child.children.forEach((child) => {
-            //             if (child.name && child.name === 'groundPlane') {
-            //                 child.children.forEach((child) => {
-            //                     child.children.forEach((child) => {
-            //                         if (child.name && child.name === 'groundMesh') {
-            //                             if (globals.groundMeshIncrementer % 10 === 0) {
-            //                                 const tempColor = globals.activeInstrColor.substr(0, 1) === '#' ? globals.activeInstrColor.slice(1, globals.activeInstrColor.length) : 0x191CAC;
-            //                                 const intColor = parseInt('0x' + tempColor, 16);
-
-            //                                 if (globals.lastColor !== globals.activeInstrColor) {
-            //                                     child.material.color = new THREE.Color(intColor);
-
-            //                                     // console.log({child}); //{r: 1, g: 0.5294117647058824, b: 0.16862745098039217}
-            //                                     // console.log({tempColor}); 
-            //                                     // console.log({intColor}); 
-            //                                     // console.log(globals.lastColor);
-            //                                 }
-
-            //                                 globals.lastColor = globals.activeInstrColor;
-                        
-            //                             }
-            //                             globals.groundMeshIncrementer++;
-            //                         }
-            //                     });
-            //                 });
-            //             }
-            //         });
-            //     }
-            // });
-        }
-
         // IMPORTANT: cannon.js boilerplate
         // world.bodies.forEach(function(body) {
         globals.world.bodies.forEach(function(body) {
@@ -591,6 +566,12 @@ export default class Physics {
                 body.threemesh.quaternion.copy(body.quaternion);
             }
         });
+
+        // TODO: standard way to update bodies? globals.bodies and globals.meshes shouldn't only be for spinner
+        for (var i = 0; i !== globals.meshes.length; i++) {
+            globals.meshes[i].position.copy(globals.bodies[i].position);
+            globals.meshes[i].quaternion.copy(globals.bodies[i].quaternion);
+        }
     }
 
 }

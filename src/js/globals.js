@@ -37,6 +37,8 @@ export default {
     keysOnly: true,
     lastColor: '#000000',
     loader: new THREE.TextureLoader(),
+    meshes: [],
+    bodies: [],
     multiplierPosX: -2.5,
     musicActive: false,
     patternInfinite: false,

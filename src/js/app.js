@@ -37,8 +37,6 @@ globals.instr = instrument.getInstrumentMappingTemplate();
 const globalBallTextureWidth = 512;
 const globalCollisionThreshold = 4; //prev: 3.4
 
-// let globalDropPosX = 5.5;
-
 // TODO: remove all globalLetterNumArr calls
 const globalLetterNumArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG']; //TODO: remove globalLetterNumArr array, only instrumentMapping obj needed
 
