@@ -14,7 +14,7 @@ export default {
     // activeInstrColor: '#d8d8d8',
     // activeInstrColor: '#00A29C', // teal: https://www.color-hex.com/color-palette/4666
     activeInstrColor: '#66b2b2', // lt teal
-    autoScroll: true,
+    autoScroll: false,
     autoStart: false,
     autoStartTime: 9000,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
@@ -25,7 +25,8 @@ export default {
     controls: '',
     // controls: new FlyControls(camera),
     damping: 0.01,
-    dropPosX: 5.5,
+    // dropPosX: 5.5, //prev
+    dropPosX: 0,
     fixedTimeStep: 1.0 / 60.0,
     flameArr: [],
     flameCounter: 0,

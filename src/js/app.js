@@ -37,7 +37,7 @@ globals.instr = instrument.getInstrumentMappingTemplate();
 const globalBallTextureWidth = 512;
 const globalCollisionThreshold = 4; //prev: 3.4
 
-let globalDropPosX = 5.5;
+// let globalDropPosX = 5.5;
 
 // TODO: remove all globalLetterNumArr calls
 const globalLetterNumArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG']; //TODO: remove globalLetterNumArr array, only instrumentMapping obj needed
@@ -180,7 +180,7 @@ objCenter.position.set(0, 0, globals.posBehindZ);
 
 // globals.scene.add(skyboxCubeMesh); //add nightsky skybox
 
-physics.addSpinner();
+// physics.addSpinner();
 
 //-----MUSIC STAFF------//
 function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ, innerLinePadding, dashedLines = false, middleC = false) {
@@ -395,7 +395,6 @@ let animate = () => {
             globals.camera.position.x = globals.posBehindX + (globals.ticks);
             // console.log(globals.camera);
         } else {
-            // globals.camera.position.x = (globals.ticks) - 12; // prev, works the (delta * 5)
             globals.camera.position.x = (globals.ticks) - 30;
         }
     }
@@ -415,11 +414,11 @@ let animate = () => {
     }
 
     // TODO: readd after webpack setup
-    var flameRate = globals.clock.getElapsedTime() * 2.0;
-    // volumetricFire.update(flameRate);
-    if (globals.flameArr.length > 0) {
-        globals.flameArr[0].update(flameRate);
-    }
+    // var flameRate = globals.clock.getElapsedTime() * 2.0;
+    // // volumetricFire.update(flameRate);
+    // if (globals.flameArr.length > 0) {
+    //     globals.flameArr[0].update(flameRate);
+    // }
     
     physics.updateBodies(globals.world);
     globals.world.step(globals.fixedTimeStep);
@@ -450,8 +449,8 @@ window.onload = () => {
 
             switch (keyName) {
                 case ('z'):
-                    // physics.addBody(true, globalDropPosX, keyMapped);
-                    // globalDropPosX -= 1.3;
+                    // physics.addBody(true, globals.dropPosX, keyMapped);
+                    // globals.dropPosX -= 1.3;
                     break;
                 default:
                     // console.log('keydown -> DEFAULT...', event);
@@ -466,8 +465,8 @@ window.onload = () => {
                 
                 if (keyName === keyMapped.keyInput) { //*** IMPORTANT ***
                     // console.log({keyMapped});
-                    physics.addBody(true, globalDropPosX, keyMapped);
-                    globalDropPosX -= 1.3; //TODO: how to manipulate Y drop position?
+                    physics.addBody(true, globals.dropPosX, keyMapped);
+                    // globals.dropPosX -= 1.3; //TODO: how to manipulate Y drop position?
                     console.log('keydown -> keyMapped, event: ', keyMapped, event);
                 } else {
                     console.log('keyMapped UNDEF -> else: ', event);

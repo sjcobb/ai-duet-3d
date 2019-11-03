@@ -22,4 +22,4 @@ https://www.youtube.com/watch?v=8QR59RP-Z_8
   - Neural Drum Machine: https://codepen.io/teropa/pen/JLjXGK
   - Neural Melody Autocompletion: https://codepen.io/teropa/pen/gvwwZL
 - Performance RNN: https://magenta.tensorflow.org/performance-rnn
-- Magenta demo: https://magenta.tensorflow.org/demos
+- Magenta demos: https://magenta.tensorflow.org/demos

@@ -35,7 +35,8 @@ export default class Physics {
         const groundShape = new CANNON.Plane();
         const groundMaterial = new CANNON.Material(); //http://schteppe.github.io/cannon.js/docs/classes/Material.html
         const groundBody = new CANNON.Body({ mass: 0, material: groundMaterial });
-        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+        // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2); //PREV - causes balls to crazily spin off canvas
+        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI);
         groundBody.addShape(groundShape);
         globals.world.add(groundBody);
 
@@ -125,11 +126,13 @@ export default class Physics {
             // https://codepen.io/danlong/pen/LJQYYN
             zPos += 10; // see globals.staffLineInitZ and globals.staffLineSecondZ
         } else {
-            // zPos -= 10; //PREV
             zPos -= 3; //PREV
+            // zPos = 0;
         }
         // zPos = options.originalPosition.z;
 
+        console.log({zPos});
+        // console.log({xPos});
         body.position.set((sphere) ? -xPos : xPos, yPos, zPos);
 
         body.linearDamping = globals.damping;
@@ -374,9 +377,6 @@ export default class Physics {
                     material.color = defaultColor;
 
                     const ground = new THREE.Mesh(geometry, material);
-                    // ground.scale.set(100, 100, 100); // ORIG ground aka floor size
-                    // ground.scale.set(100, 6, 100); //PREV
-
                     ground.scale.set(500, 6, 100); //PREV
                     ground.name = 'groundMesh';
 
@@ -548,41 +548,39 @@ export default class Physics {
         // globals.lastColor = globals.activeInstrColor; //remove?
 
         if (globals.configColorAnimate === true) {
-
             //TODO: fix activeInstrColor by simpifying nested forEach calls
             // console.log('globals.scene.children -> ', globals.scene.children);
+            // globals.scene.children.forEach((child) => {
+            //     if (child.name && child.name === 'physicsParent') {
+            //         child.children.forEach((child) => {
+            //             if (child.name && child.name === 'groundPlane') {
+            //                 child.children.forEach((child) => {
+            //                     child.children.forEach((child) => {
+            //                         if (child.name && child.name === 'groundMesh') {
+            //                             if (globals.groundMeshIncrementer % 10 === 0) {
+            //                                 const tempColor = globals.activeInstrColor.substr(0, 1) === '#' ? globals.activeInstrColor.slice(1, globals.activeInstrColor.length) : 0x191CAC;
+            //                                 const intColor = parseInt('0x' + tempColor, 16);
 
-            globals.scene.children.forEach((child) => {
-                if (child.name && child.name === 'physicsParent') {
-                    child.children.forEach((child) => {
-                        if (child.name && child.name === 'groundPlane') {
-                            child.children.forEach((child) => {
-                                child.children.forEach((child) => {
-                                    if (child.name && child.name === 'groundMesh') {
-                                        if (globals.groundMeshIncrementer % 10 === 0) {
-                                            const tempColor = globals.activeInstrColor.substr(0, 1) === '#' ? globals.activeInstrColor.slice(1, globals.activeInstrColor.length) : 0x191CAC;
-                                            const intColor = parseInt('0x' + tempColor, 16);
+            //                                 if (globals.lastColor !== globals.activeInstrColor) {
+            //                                     child.material.color = new THREE.Color(intColor);
 
-                                            if (globals.lastColor !== globals.activeInstrColor) {
-                                                child.material.color = new THREE.Color(intColor);
+            //                                     // console.log({child}); //{r: 1, g: 0.5294117647058824, b: 0.16862745098039217}
+            //                                     // console.log({tempColor}); 
+            //                                     // console.log({intColor}); 
+            //                                     // console.log(globals.lastColor);
+            //                                 }
 
-                                                // console.log({child}); //{r: 1, g: 0.5294117647058824, b: 0.16862745098039217}
-                                                // console.log({tempColor}); 
-                                                // console.log({intColor}); 
-                                                // console.log(globals.lastColor);
-                                            }
-
-                                            globals.lastColor = globals.activeInstrColor;
+            //                                 globals.lastColor = globals.activeInstrColor;
                         
-                                        }
-                                        globals.groundMeshIncrementer++;
-                                    }
-                                });
-                            });
-                        }
-                    });
-                }
-            });
+            //                             }
+            //                             globals.groundMeshIncrementer++;
+            //                         }
+            //                     });
+            //                 });
+            //             }
+            //         });
+            //     }
+            // });
         }
 
         // IMPORTANT: cannon.js boilerplate

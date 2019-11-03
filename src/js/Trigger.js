@@ -118,7 +118,7 @@ export default class Trigger {
 
         let combinedNote = triggerObj.note + triggerObj.octave;
         // console.log('Trigger -> combinedNote: ', combinedNote);
-        // console.log('triggerObj: ', triggerObj);
+        console.log('triggerObj: ', triggerObj);
 
         let drumIndex = 0;
         // TODO: is if else performance causing sound bug?
