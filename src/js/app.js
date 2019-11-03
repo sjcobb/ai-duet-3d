@@ -133,7 +133,7 @@ globals.loader = new THREE.TextureLoader();
 // globals.loader.load('assets/textures/grass.png', onTextureLoaded);
 
 function onTextureLoaded(texture) {
-    // console.log('onTextureLoaded() run......');
+    console.log('onTextureLoaded() run......');
     // loadSkyBox();
     // setupStage(); // high end VR devices stage parameters into account
 }
@@ -179,6 +179,8 @@ objCenter.position.set(0, 0, globals.posBehindZ);
 // globals.scene.add(objCenter); //for absolute center reference
 
 // globals.scene.add(skyboxCubeMesh); //add nightsky skybox
+
+physics.addSpinner();
 
 //-----MUSIC STAFF------//
 function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ, innerLinePadding, dashedLines = false, middleC = false) {
@@ -299,7 +301,6 @@ function addThickStaffLines() {
 }
 // addThickStaffLines();
 
-
 //-----Static Fire Example------//
 globals.loader.crossOrigin = '';
 
@@ -308,7 +309,23 @@ let flameActive = false;
 // let flameFirst = new Flame();
 // // flameFirst.create();
 
+
+//-----Lil A.I. Logo Image------//
+// var spriteTexture = globals.loader.load("assets/ai_robot_1.jpeg"); // http://localhost:8082/assets/ai_robot_1.jpeg
+// // var spriteTexture = globals.loader.load('/assets/ai_robot_1.jpg', onTextureLoaded);
+// var spriteMaterial = new THREE.SpriteMaterial({
+//     map: spriteTexture,
+//     color: 0xffffff
+// });
+// var robotSprite = new THREE.Sprite(spriteMaterial);
+// robotSprite.position.set(-10, 8, 0);
+// // robotSprite.scale.set(5, 10, 5);
+// robotSprite.scale.set(2, 2, 2);
+// globals.scene.add(robotSprite);
+
+//-----PREV (Static Animation Methods)------//
 function getObjectState(object, objPositionUp, threshold) {
+    // TODO: remove
     if (object.position.y > threshold) {
         objPositionUp = false;
     } else if (object.position.y < -threshold) {
@@ -316,8 +333,8 @@ function getObjectState(object, objPositionUp, threshold) {
     }
     return objPositionUp;
 }
-
 function moveObject(object, motionActive, positionUp, threshold) {
+    // TODO: remove
     if (motionActive) {
         // object.rotation.x = 0;
         // object.rotation.y = 0;
