@@ -133,8 +133,6 @@ export default class Physics {
         }
         // zPos = options.originalPosition.z;
 
-        console.log({zPos});
-        // console.log({xPos});
         body.position.set((sphere) ? -xPos : xPos, yPos, zPos);
 
         body.linearDamping = globals.damping;
@@ -172,12 +170,29 @@ export default class Physics {
         };
         this.addVisual(body, (sphere) ? 'sphere' : 'box', true, false, options);
 
+        let notePlayed = false;
         let bodyCollideCount = 0;
+        let spinnerCollideCount = 0;
         body.addEventListener('collide', function(ev) {
+            // console.log('body collide ev: ', ev);
             // console.log('body collide event: ', ev.body);
             // console.log('body collide INERTIA: ', ev.body.inertia);
             // console.log('contact between two bodies: ', ev.contact);
             // console.log(bodyCollideCount);
+            if (ev.contact) {
+                console.log('ev.contact.ni', ev.contact.ni);
+                // console.log('ev.contact.rj', ev.contact.rj);
+                // if (ev.contact.ri.y === -0.5) {
+                // if (ev.contact.rj.x < 0) {
+                // if (ev.contact.rj.x < -10) {
+                // if (ev.contact.ri.x === 0) {
+                // if (ev.contact.rj.z === 0) {
+                if (ev.contact.ni.x > 0.9) {
+                    console.log('... ...');
+                    spinnerCollideCount++;
+                }
+                bodyCollideCount++;
+            }
 
             if (options.type === 'drum') {
                 // if (bodyCollideCount <= 1) { //play note two times on collide
@@ -191,9 +206,14 @@ export default class Physics {
                     // }
                 }
             } else { //regular spheres
-                if (bodyCollideCount <= 0) { //play note one time on collide
+                // if (bodyCollideCount <= 0) { //play note one time on collide
+                console.log({spinnerCollideCount});
+                // 
+                // if (spinnerCollideCount > 0) { 
+                if (spinnerCollideCount === 1 && notePlayed !== true) { 
                     // console.log('REGULAR ev: ', ev);
                     trigger.triggerNote(body);
+                    notePlayed = true;
                 }
             }
 
@@ -206,7 +226,20 @@ export default class Physics {
             //     }
             // }, 2000); //does not work
 
-            bodyCollideCount++;
+            // if (ev.contact) {
+            //     console.log('ev.contact.ni', ev.contact.ni);
+            //     // console.log('ev.contact.rj', ev.contact.rj);
+            //     // if (ev.contact.ri.y === -0.5) {
+            //     // if (ev.contact.rj.x < 0) {
+            //     // if (ev.contact.rj.x < -10) {
+            //     // if (ev.contact.ri.x === 0) {
+            //     // if (ev.contact.rj.z === 0) {
+            //     if (ev.contact.ni.x > 0.9) {
+            //         console.log('... ...');
+            //         spinnerCollideCount++;
+            //     }
+            //     bodyCollideCount++;
+            // }
         });
 
         const defaultRestitution = 0.3; //bounciness 
@@ -286,21 +319,27 @@ export default class Physics {
 
         // CANNON (PHYSICS)
         let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5));
-        let spinnerBody = new CANNON.Body({
+        globals.spinnerBody = new CANNON.Body({
             mass: 1000,
-            angularVelocity: new CANNON.Vec3(0,5,0),
+            // angularVelocity: new CANNON.Vec3(0, 5 ,0),
+            angularVelocity: new CANNON.Vec3(0, 8, 0),
             fixedRotation: true,
         });
-        spinnerBody.addShape(boxShape);
-        spinnerBody.position.set(0, 0.25, 0);
+        // console.log(globals.spinnerBody);
+        globals.spinnerBody.addShape(boxShape);
+        globals.spinnerBody.position.set(0, 0.25, 0);
         // spinnerBody.position.set(0, -25, 0);
-        spinnerBody.name = 'spinner';
+        globals.spinnerBody.name = 'spinner';
         
         // THREE JS (VISUAL)
-        var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
+        // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
+        var geometry = new THREE.BoxBufferGeometry( 16, 0.5, 0.5 );
         geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
-        var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+
+        // var material = new THREE.MeshBasicMaterial( {color: 0xff0000} ); red
+        var material = new THREE.MeshBasicMaterial( {color: 0x003366} ); //midnight blue
         let spinner = new THREE.Mesh( geometry, material );
+        console.log({spinner});
         spinner.position.y = 6;
 
         // push to meshes & bodies
@@ -311,9 +350,9 @@ export default class Physics {
         // this.bodies.push(this.spinnerBody);
 
         globals.meshes.push(spinner);
-        globals.bodies.push(spinnerBody);
+        globals.bodies.push(globals.spinnerBody);
         globals.scene.add(spinner);
-        globals.world.addBody(spinnerBody);
+        globals.world.addBody(globals.spinnerBody);
     }
 
     shape2Mesh(body, castShadow, receiveShadow, options) {
@@ -558,6 +597,10 @@ export default class Physics {
     // },
 
     updateBodies(world) {
+
+        // globals.spinnerBody.position.set(0, 0.25, 0);
+        globals.spinnerBody.position.set(0, 0.25 ,0);
+
         // IMPORTANT: cannon.js boilerplate
         // world.bodies.forEach(function(body) {
         globals.world.bodies.forEach(function(body) {

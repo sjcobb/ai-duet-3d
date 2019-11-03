@@ -150,7 +150,10 @@ export default class Trigger {
             // console.log('triggerObj -> chord: ', triggerObj.chord);
             // polySynth.triggerAttackRelease(triggerObj.chord, '4n');
             // polySynth.triggerAttackRelease(combinedNote, '4n');
+            console.log(polySynth);
             polySynth.triggerAttackRelease(combinedNote, '8n');
+            // polySynth.unsync();
+            // polySynth.dispose();
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);

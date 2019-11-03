@@ -48,6 +48,7 @@ export default {
     groundMeshIncrementer: 0,
     renderer: new THREE.WebGLRenderer(),
     scene: new THREE.Scene(),
+    spinnerBody: {},
     staffLineInitZ: 8,
     staffLineSecondZ: -8,
     // showStaticRows: false, // old static animation
