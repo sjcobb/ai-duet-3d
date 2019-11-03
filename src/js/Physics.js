@@ -126,7 +126,9 @@ export default class Physics {
         if (options.type === 'drum') {
             // TODO: new drum machine paradigm - use rotating clock hand to hit drums
             // https://codepen.io/danlong/pen/LJQYYN
-            zPos += 10; // see globals.staffLineInitZ and globals.staffLineSecondZ
+            // zPos += 10; // PREV: see globals.staffLineInitZ and globals.staffLineSecondZ
+
+            zPos -= 8;
         } else {
             zPos -= 3; //PREV
             // zPos = 0;
@@ -180,7 +182,7 @@ export default class Physics {
             // console.log('contact between two bodies: ', ev.contact);
             // console.log(bodyCollideCount);
             if (ev.contact) {
-                console.log('ev.contact.ni', ev.contact.ni);
+                console.log('ev.contact.ni', ev.contact.ni); // DEBUG USE
                 // console.log('ev.contact.rj', ev.contact.rj);
                 // if (ev.contact.ri.y === -0.5) {
                 // if (ev.contact.rj.x < 0) {
@@ -188,34 +190,25 @@ export default class Physics {
                 // if (ev.contact.ri.x === 0) {
                 // if (ev.contact.rj.z === 0) {
                 if (ev.contact.ni.x > 0.9) {
-                    console.log('... ...');
+                    // console.log('... ...');
                     spinnerCollideCount++;
                 }
                 bodyCollideCount++;
             }
 
-            if (options.type === 'drum') {
-                // if (bodyCollideCount <= 1) { //play note two times on collide
-                if (bodyCollideCount <= 0) {
-                    // console.log('DRUM ev: ', ev);
-                    // if (isNaN(ev.body.inertia.x)) { //hack works
-
-                    // if (ev.body.initPosition.x === 0) { 
-                    // since ground is stationary at 0, must be hidden contact body above origin drop point
-                    trigger.triggerNote(body);
-                    // }
-                }
-            } else { //regular spheres
-                // if (bodyCollideCount <= 0) { //play note one time on collide
-                console.log({spinnerCollideCount});
-                // 
-                // if (spinnerCollideCount > 0) { 
+            /* IMPORTANT - TODO: uncomment for previous collision functionality (diff for drum vs reg sphere) */
+            // if (options.type === 'drum') {
+            //     if (bodyCollideCount <= 0) {
+            //         trigger.triggerNote(body);
+            //     }
+            // } else {
+                // if (bodyCollideCount <= 0) { // PREV: play note one time on collide
                 if (spinnerCollideCount === 1 && notePlayed !== true) { 
-                    // console.log('REGULAR ev: ', ev);
+                    console.log('spinnerCollideCount ev: ', ev);
                     trigger.triggerNote(body);
                     notePlayed = true;
                 }
-            }
+            // }
 
             // console.log(bodyCollideCount);
             // setTimeout(() => {
@@ -333,7 +326,7 @@ export default class Physics {
         
         // THREE JS (VISUAL)
         // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
-        var geometry = new THREE.BoxBufferGeometry( 16, 0.5, 0.5 );
+        var geometry = new THREE.BoxBufferGeometry( 18, 0.5, 0.5 );
         geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
 
         // var material = new THREE.MeshBasicMaterial( {color: 0xff0000} ); red

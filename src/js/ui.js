@@ -22,10 +22,10 @@ document.documentElement.addEventListener(
 /* stop all sounds */
 var button = document.querySelector(".play");
 button.addEventListener("click", function() {
-    console.log('Tone.Transport STOPPED... bounceSynth disconnected...');
+    console.log('... ... ... Tone.Transport STOPPED ... ... ...');
     Tone.Transport.stop();
     // bounceSynth.disconnect();
-    // //bounceSynth.dispose();
+    // bounceSynth.dispose();
 });
 
 // let bounce = document.getElementById('bounce');
