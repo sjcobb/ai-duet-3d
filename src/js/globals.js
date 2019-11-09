@@ -20,6 +20,7 @@ export default {
     // bpm: 120,
     bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
+    cameraCircularAnimation: true,
     cameraPositionBehind: false,
     cameraLookUp: false,
     clock: new THREE.Clock(),
@@ -29,6 +30,8 @@ export default {
     damping: 0.01,
     // dropPosX: 5.5, //prev
     dropPosX: 0,
+    dropPosY: 0,
+    //  dropPosZ: 0, // should z be swapped with y?
     drumsOnly: true,
     fixedTimeStep: 1.0 / 60.0,
     flameArr: [],

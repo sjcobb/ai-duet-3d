@@ -72,8 +72,8 @@ if (globals.keysOnly === true) {
 }
 
 if (globals.drumsOnly === true) {
-    globals.camera.position.z -= 10;
-    // globals.camera.position.z += 2;
+    // globals.camera.position.z -= 10; // only see top half of spinner
+    globals.camera.position.z += 8;
     globals.posBehindX -= 10;
 }
 
@@ -360,6 +360,22 @@ function moveObject(object, motionActive, positionUp, threshold) {
 // }, 1);
 // var clock = new THREE.Clock();
 
+let dropAngle = 0;
+function rotateCalc(a) {
+    // https://stackoverflow.com/a/35672783
+    const x = 0;  // center
+    const y = 5;   // center
+    const r = 11.25;   // radius
+    // const a = 0;   // angle (from 0 to Math.PI * 2)
+
+    var px = x + r * Math.cos(a); // <-- that's the maths you need
+    var py = y + r * Math.sin(a);
+    return {
+        'px': px,
+        'py': py
+    }
+}
+
 //-----ANIMATION------//
 let animate = () => {
     requestAnimationFrame(animate);
@@ -399,27 +415,25 @@ let animate = () => {
         }
     }
 
-    // if (triggerAnimationTime === Tone.Transport.position & flameActive === false) {
-    // if (Tone.Transport.position === "5:8:0" & flameActive === false) {
-    // if (Tone.Transport.position === "6:5:0" & flameActive === false) {
-    // if (Tone.Transport.seconds > 23 & flameActive === false) {
-    if (flameActive === false) {
-        // console.log('addFire active -> position: ', Tone.Transport.position);
-        // flameFirst.addFire(globals.ticks);
-        // flameActive = true;
-    }
+    if (globals.cameraCircularAnimation === true) {
+        // 3D z axis rotation: https://jsfiddle.net/prisoner849/opau47vk/
+        // camera Three.js ex: https://stackoverflow.com/a/10342429
+        // USE - simple trig ex: https://stackoverflow.com/a/35672783
+        // globals.dropPosX = 5;
+        // console.log('sin: ', Math.sin(globals.dropPosX ));
+        // globals.dropPosX 
 
-    if (Tone.Transport.seconds > 41 && Tone.Transport.seconds < 42) {
-        flameActive = false;
+        dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+        // console.log({dropAngle});
+        const dropCoord = rotateCalc(dropAngle);
+        console.log('dropCoord: ', dropCoord);
+        globals.dropPosX = dropCoord.px;
+        globals.dropPosY = dropCoord.py;
     }
+    // to reinit flame animation, see: https://github.com/sjcobb/music360js/blob/v4-fire/src/js/app.js
+    // if (flameActive === false) {}
 
-    // TODO: readd after webpack setup
-    // var flameRate = globals.clock.getElapsedTime() * 2.0;
-    // // volumetricFire.update(flameRate);
-    // if (globals.flameArr.length > 0) {
-    //     globals.flameArr[0].update(flameRate);
-    // }
-    
+
     physics.updateBodies(globals.world);
     globals.world.step(globals.fixedTimeStep);
 
