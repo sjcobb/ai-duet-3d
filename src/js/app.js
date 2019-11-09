@@ -364,7 +364,8 @@ let dropAngle = 0;
 function rotateCalc(a) {
     // https://stackoverflow.com/a/35672783
     const x = 0;  // center
-    const y = 5;   // center
+    // const y = 5;   // center
+    const y = 9;   // center
     const r = 11.25;   // radius
     // const a = 0;   // angle (from 0 to Math.PI * 2)
 
@@ -426,7 +427,7 @@ let animate = () => {
         dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
         // console.log({dropAngle});
         const dropCoord = rotateCalc(dropAngle);
-        console.log('dropCoord: ', dropCoord);
+        // console.log('dropCoord: ', dropCoord);
         globals.dropPosX = dropCoord.px;
         globals.dropPosY = dropCoord.py;
     }

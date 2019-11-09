@@ -89,7 +89,8 @@ toggleId.onclick = (el) => {
 //     addBody();
 // };
 
-if (globals.autoStart === true || globals.uiHidden === true) {
+// if (globals.autoStart === true || globals.uiHidden === true) {
+if (globals.uiHidden === true) {
     controlsId.classList.toggle('hidden');
 }
 

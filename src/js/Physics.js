@@ -184,16 +184,42 @@ export default class Physics {
             // console.log('contact between two bodies: ', ev.contact);
             // console.log(bodyCollideCount);
             if (ev.contact) {
-                console.log('ev.contact.ni', ev.contact.ni); // DEBUG USE
+                // console.log('ev.contact.ni', ev.contact.ni); // DEBUG USE
                 // console.log('ev.contact.rj', ev.contact.rj);
                 // if (ev.contact.ri.y === -0.5) {
                 // if (ev.contact.rj.x < 0) {
                 // if (ev.contact.rj.x < -10) {
                 // if (ev.contact.ri.x === 0) {
                 // if (ev.contact.rj.z === 0) {
-                if (ev.contact.ni.x > 0.9) {
-                    // console.log('... ...');
+
+                // if (ev.contact.z < -2 && ev.contact.ni.y === -1) {
+                // if (ev.contact.ni.x > 0.9) {
+                // if (ev.contact.ni.x !== -0 || ev.contact.ni.z > -2) {
+                // if (ev.contact.ni.x !== -0 || ev.contact.ni.z.toFixed(2) !== -2.22) {
+
+                // const roundedHitMetric = (ev.contact.ni.z * 1000);
+                // const roundedHitMetric = Math.ceil(ev.contact.ni.z * 100) / 100;
+                // const num = (ev.contact.ni.z * 100).toFixed(4);
+                //  Math.round(ev.contact.ni.z * 100);
+                // const num = Math.abs(ev.contact.ni.z);
+                // const num = (ev.contact.ni.z).toPrecision(2);
+                // const num = (ev.contact.ni.z).toLocaleString()
+                // const num = Number(ev.contact.ni.z).parseInt().toPrecision()
+                // const roundedHitMetric = Math.round(num  * 1000) / 1000;
+                // const roundedHitMetric = num.toFixed(2);
+                // console.log({roundedHitMetric});
+                // const roundedHitMetric = Math.sign(num) * Math.round(Math.sign(num) * num);
+                // const roundedHitMetric = Math.sign() * Math.round(ev.contact.ni.z/1000)*1000
+                // const roundedHitMetric = (ev.contact.ni.z * 100);
+
+                //TODO: determine best way to convert from negative scientific notation without rounding to -0, ex: -2.220446049250313e-16
+                const roundedHitMetric = parseInt(ev.contact.ni.z);
+                if (ev.contact.ni.x !== -0 || roundedHitMetric !== -2) {
+                    // console.log('HIT ev.contact.ni', ev.contact.ni);
                     spinnerCollideCount++;
+                } else {
+                    // console.log('MISS ev.contact.ni', ev.contact.ni);
+                    // console.log('MISS roundedHitMetric', roundedHitMetric);
                 }
                 bodyCollideCount++;
             }
