@@ -452,7 +452,7 @@ function initRNN() {
         rnn.initialize();
         console.log('initRNN -> rnn: ', rnn);
         resolve('resolved');
-        if (Tone.Transport.state !== 'started') {
+        if (globals.autoStart === true && Tone.Transport.state !== 'started') {
             Tone.Transport.start();
         }
         // console.log('initRNN -> Tone.Transport.state: ', Tone.Transport.state); //'started' or 'stopped'

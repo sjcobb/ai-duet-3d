@@ -78,7 +78,7 @@ button {
     cursor: pointer;
 }
 
-button#bounce,
+button#btn-drums-1,
 .play {
     display: inline-block;
     margin: auto 3px 10px auto;
@@ -100,7 +100,7 @@ span.fa-headphones {
     padding: 0 5px 0 3px;
 }
 
-button#bounce:hover,
+button#btn-drums-1:hover,
 .play:hover {
     /* background: #003366; */
     /* color: #fff; */
@@ -108,7 +108,7 @@ button#bounce:hover,
     color: #003366;
 }
 
-button#bounce {
+button#btn-drums-1 {
     margin: auto 3px 10px auto;
 }
 

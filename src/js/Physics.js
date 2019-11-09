@@ -204,7 +204,7 @@ export default class Physics {
             // } else {
                 // if (bodyCollideCount <= 0) { // PREV: play note one time on collide
                 if (spinnerCollideCount === 1 && notePlayed !== true) { 
-                    console.log('spinnerCollideCount ev: ', ev);
+                    // console.log('spinnerCollideCount ev: ', ev);
                     trigger.triggerNote(body);
                     notePlayed = true;
                 }
@@ -310,12 +310,20 @@ export default class Physics {
         // https://codepen.io/danlong/pen/LJQYYN?editors=1010
         // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
 
+        // const rotationSpeed = globals.bpm * 0.1;
+        const rotationSpeed = globals.bpm * 0.025;
+        console.log({rotationSpeed});
         // CANNON (PHYSICS)
         let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5));
+
+        // https://schteppe.github.io/cannon.js/docs/classes/Body.html
         globals.spinnerBody = new CANNON.Body({
+            // mass: 1000,
             mass: 1000,
             // angularVelocity: new CANNON.Vec3(0, 5 ,0),
-            angularVelocity: new CANNON.Vec3(0, 8, 0),
+            angularVelocity: new CANNON.Vec3(0, rotationSpeed, 0), // TODO: spinner speed (2nd param, y) map to Tone.Transport bpm
+            angularDamping: 0, // default=0.01
+            // linearDamping: 0.01,
             fixedRotation: true,
         });
         // console.log(globals.spinnerBody);
@@ -326,7 +334,7 @@ export default class Physics {
         
         // THREE JS (VISUAL)
         // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
-        var geometry = new THREE.BoxBufferGeometry( 18, 0.5, 0.5 );
+        var geometry = new THREE.BoxBufferGeometry( 28, 0.5, 0.5 );
         geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
 
         // var material = new THREE.MeshBasicMaterial( {color: 0xff0000} ); red
@@ -415,7 +423,7 @@ export default class Physics {
                     material.color = defaultColor;
 
                     const ground = new THREE.Mesh(geometry, material);
-                    ground.scale.set(500, 6, 100); //PREV
+                    ground.scale.set(500, 6, 100); // TODO: how to sync visible teal ground size with Cannon contact invisible ground
                     ground.name = 'groundMesh';
 
                     //TODO: use correctly - https://threejs.org/docs/#manual/en/introduction/How-to-update-things

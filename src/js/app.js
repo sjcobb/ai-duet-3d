@@ -67,11 +67,13 @@ if (globals.cameraLookUp === true) {
 }
 
 if (globals.keysOnly === true) {
-    globals.camera.position.z -= 6; // middle of first keyboard staff
-    // globals.camera.position.z -= 8; // middle of first keyboard staff
-    // globals.camera.position.z -= 14; // between each keyboard staff (dashed line C)
+    globals.camera.position.z -= 6; // PREV, middle of first keyboard staff
+    globals.posBehindX -= 10;
+}
 
-    // globals.camera.position.x -= 30; // remove, no difference
+if (globals.drumsOnly === true) {
+    globals.camera.position.z -= 10;
+    // globals.camera.position.z += 2;
     globals.posBehindX -= 10;
 }
 

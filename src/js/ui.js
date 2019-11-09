@@ -28,21 +28,12 @@ button.addEventListener("click", function() {
     // bounceSynth.dispose();
 });
 
-// let bounce = document.getElementById('bounce');
-// // bounce.innerHTML = 'BOUNCE!';
-// bounce.onclick = () => {
-//     Tone.Transport.start();
-//     // Tone.Transport.start("+0.1", 0);
-
-//     // if (bounceControl === false) {
-//     //     bounceControl = true;
-//     //     bounce.innerHTML = 'STOP';
-//     // }
-//     // else {
-//     //     bounceControl = false;
-//     //     bounce.innerHTML = 'BOUNCE!';
-//     // }
-// };
+let drumId = document.getElementById('btn-drums-1');
+drumId.onclick = () => {
+    console.log('#btn-drums-1 clicked... Tone.Transport started...')
+    Tone.Transport.start();
+    // Tone.Transport.start("+0.1", 0);
+};
 
 // document.getElementById('shape-form').onchange = (evt) => {
 //     switch (evt.target.value) {

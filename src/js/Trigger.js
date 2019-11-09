@@ -10,7 +10,9 @@ import Physics from './Physics.js';
 import Flame from './Flame.js';
 
 //-----TONE------//
-Tone.Transport.bpm.value = 200;
+// Tone.Transport.bpm.value = 200; //PREV
+// Tone.Transport.bpm.value = 120;
+Tone.Transport.bpm.value = globals.bpm;
 // Tone.Transport.bpm.rampTo(120, 10);
 Tone.Transport.timeSignature = 12; // https://tonejs.github.io/docs/r13/Transport#timesignature
 // Tone.Transport.setLoopPoints(0, "13m"); //starts over at beginning
@@ -110,18 +112,21 @@ export default class Trigger {
         } else {
 
         }
-        // let triggerObj = instrument.getNoteMapping(obj); //ORIG
-
         // console.log('Trigger -> addBody - note: ', obj.userData.opts.note);
-        const triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
-        let triggerObj = instrument.getInstrByNote(triggerNote);
-
-        let combinedNote = triggerObj.note + triggerObj.octave;
+        
+        let triggerObj = {};
+        if (obj.userData.opts.type !== 'drum') {
+            triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
+            triggerObj = instrument.getInstrByNote(triggerNote);
+            let combinedNote = triggerObj.note + triggerObj.octave;
+        } else {
+            triggerObj = instrument.getNoteMapping(obj); //ORIG
+        }
+        
         // console.log('Trigger -> combinedNote: ', combinedNote);
-        console.log('triggerObj: ', triggerObj);
+        // console.log('triggerObj: ', triggerObj);
 
         let drumIndex = 0;
-        // TODO: is if else performance causing sound bug?
         if (triggerObj.type === 'drum') {
             if (triggerObj.variation === 'kick') {
                 // console.log('trigger -> playerKick: ', playerKick);

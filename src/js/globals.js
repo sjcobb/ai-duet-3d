@@ -16,7 +16,9 @@ export default {
     activeInstrColor: '#66b2b2', // lt teal
     autoScroll: false,
     autoStart: false,
-    autoStartTime: 9000,
+    autoStartTime: 2000,
+    // bpm: 120,
+    bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
     cameraPositionBehind: false,
     cameraLookUp: false,
@@ -27,6 +29,7 @@ export default {
     damping: 0.01,
     // dropPosX: 5.5, //prev
     dropPosX: 0,
+    drumsOnly: true,
     fixedTimeStep: 1.0 / 60.0,
     flameArr: [],
     flameCounter: 0,

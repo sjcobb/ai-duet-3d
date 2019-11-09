@@ -19,17 +19,17 @@ var allDrumsPart = new Tone.Part(function(time, instr) {
 }, [
     ["0:0:0", globals.instr.kickPrimary],
     ["0:6:0", globals.instr.kickPrimary],
-    ["0:7:0", globals.instr.kickPrimary],
 
-    ["0:10:0", globals.instr.snarePrimary],
+    ["0:3:0", globals.instr.snarePrimary],
+    ["0:9:0", globals.instr.snarePrimary],
 
     ["0:4:0", globals.instr.crashPrimary],
 
-    ["0:4:0", globals.instr.tomHigh],
+    // ["0:4:0", globals.instr.tomHigh],
 ]);
 allDrumsPart.loop = true;
-// allDrumsPart.start("0:0:0");
-allDrumsPart.start("2:0:0");
+allDrumsPart.start("0:0:0");
+// allDrumsPart.start("2:0:0");
 /*
 var secondVerseDrumsPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, time * globals.multiplierPosX, instr);

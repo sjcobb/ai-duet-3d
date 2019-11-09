@@ -23,7 +23,8 @@ export default class InstrumentMappings {
             },
             hiHatClosed: {
                 ballDesc: 'H',
-                color: '#ff0000', //red
+                // color: '#ff0000', //red
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '1',
                 movement: movement, //default: 'physics', or 'static'
                 type: 'drum',
@@ -32,7 +33,8 @@ export default class InstrumentMappings {
             },
             hiHatOpen: {
                 ballDesc: 'H+',
-                color: '#990000', //dkred
+                // color: '#990000', //dkred
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '2',
                 // movement: 'static',
                 type: 'drum',
@@ -41,7 +43,8 @@ export default class InstrumentMappings {
             },
             snarePrimary: {
                 ballDesc: 'S',
-                color: '#FFFF00', //yellow
+                // color: '#FFFF00', //yellow
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '3',
                 type: 'drum',
                 variation: 'snare',
@@ -51,16 +54,19 @@ export default class InstrumentMappings {
             kickPrimary: {
                 // ballDesc: 'K', // beat-v1
                 ballDesc: 'B',
-                color: '#003366', //midnight blue
+                // color: '#003366', //midnight blue
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '4',
                 type: 'drum',
                 variation: 'kick',
-                originalPosition: { x: 0, y: 0, z: 5 }
+                // originalPosition: { x: 0, y: 0, z: 5 } // drum staff
+                originalPosition: { x: 0, y: 0, z: 2 }
             },
             crashPrimary: {
                 ballDesc: 'Cr',
                 // color: '#FFA500', //orange
                 color: '#8B008B', //darkmagenta
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '5',
                 type: 'drum',
                 variation: 'crash', //aka clap
@@ -68,8 +74,8 @@ export default class InstrumentMappings {
             },
             ridePrimary: {
                 ballDesc: 'R',
-                color: '#FFD700', //gold
-                // color: '#800080', //purple
+                // color: '#FFD700', //gold
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '6',
                 type: 'drum',
                 variation: 'ride',
@@ -77,8 +83,8 @@ export default class InstrumentMappings {
             },
             tomHigh: {
                 ballDesc: 'T',
-                // color: '#800080', //purple
-                color: '#006400', //dkgreen
+                // color: '#006400', //dkgreen
+                color: '#64b5f6', // human (lt blue)
                 keyInput: '7',
                 type: 'drum',
                 variation: 'tom-high',
