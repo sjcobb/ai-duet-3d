@@ -28,6 +28,7 @@ export default {
     controls: '',
     // controls: new FlyControls(camera),
     damping: 0.01,
+    dropOffset: 0,
     // dropPosX: 5.5, //prev
     dropPosX: 0,
     dropPosY: 0,
@@ -57,6 +58,7 @@ export default {
     staffLineInitZ: 8,
     staffLineSecondZ: -8,
     // showStaticRows: false, // old static animation
+    tempPos: 0,
     ticks: 0,
     triggerAnimationTime: '4:0:0',
     // Transport: Tone.Transport, //TODO: add Transport here for logging ticks and position

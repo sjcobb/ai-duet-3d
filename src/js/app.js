@@ -363,11 +363,15 @@ function moveObject(object, motionActive, positionUp, threshold) {
 let dropAngle = 0;
 function rotateCalc(a) {
     // https://stackoverflow.com/a/35672783
-    const x = 0;  // center
-    // const y = 5;   // center
-    const y = 9;   // center
-    const r = 11.25;   // radius
-    // const a = 0;   // angle (from 0 to Math.PI * 2)
+    let x = 0
+    // let y = 6;  // lower = closer to center of spinner
+    let y = 8; 
+    // let r = 11.25;   // radius
+    let r = 10.25;   // radius
+    // let a = 0;   // angle (from 0 to Math.PI * 2)
+
+    // x += globals.dropOffset;
+    // y += globals.dropOffset;
 
     var px = x + r * Math.cos(a); // <-- that's the maths you need
     var py = y + r * Math.sin(a);
@@ -427,9 +431,11 @@ let animate = () => {
         dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
         // console.log({dropAngle});
         const dropCoord = rotateCalc(dropAngle);
-        // console.log('dropCoord: ', dropCoord);
+        // console.log('dropCoord: ', dropCoord)
         globals.dropPosX = dropCoord.px;
         globals.dropPosY = dropCoord.py;
+        // globals.dropPosX = dropCoord.px + globals.dropOffset;
+        // globals.dropPosY = dropCoord.py + globals.dropOffset;
     }
     // to reinit flame animation, see: https://github.com/sjcobb/music360js/blob/v4-fire/src/js/app.js
     // if (flameActive === false) {}

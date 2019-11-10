@@ -18,48 +18,43 @@ var allDrumsPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, globals.dropPosX, instr);
 }, [
     ["0:0:0", globals.instr.kickPrimary],
-    ["0:6:0", globals.instr.kickPrimary],
+    // ["0:0:0", globals.instr.snarePrimary],
 
-    ["0:3:0", globals.instr.snarePrimary],
-    ["0:9:0", globals.instr.snarePrimary],
+    // ["0:6:0", globals.instr.kickPrimary],
+    ["0:6:0", globals.instr.snarePrimary],
 
-    ["0:4:0", globals.instr.crashPrimary],
+    // ["0:10:0", globals.instr.kickPrimary],
+    // ["0:10:0", globals.instr.snarePrimary],
+
+    // ["0:10:0", globals.instr.snarePrimary],
+
+    // ["0:8:0", globals.instr.crashPrimary],
+    // ["0:8:0", globals.instr.snarePrimary],
 
     // ["0:4:0", globals.instr.tomHigh],
 ]);
 allDrumsPart.loop = true;
-allDrumsPart.start("0:0:0");
-// allDrumsPart.start("2:0:0");
-/*
-var secondVerseDrumsPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
-}, [
-    ["0:0:0", globals.instr.ridePrimary],
-    ["0:2:0", globals.instr.ridePrimary],
-    ["0:4:0", globals.instr.ridePrimary],
-    ["0:6:0", globals.instr.ridePrimary],
-]);
-secondVerseDrumsPart.loop = 4;
-secondVerseDrumsPart.start("7:0:0");
+// allDrumsPart.start("0:0:0");
+
+// // allDrumsPart.start("1:0:0");
+// // allDrumsPart.start("2:0:0");
 
 var introPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, globals.dropPosX, instr);
+    // physics.addBody(true, time * globals.multiplierPosX, instr); // sine wave
 }, [
     ["0:0:0", globals.instr.hiHatClosed],
     ["0:2:0", globals.instr.hiHatClosed],
-    ["0:2:3", globals.instr.hiHatClosed],
-    ["0:2:6", globals.instr.hiHatClosed],
-    ["0:2:9", globals.instr.hiHatClosed],
-
+    ["0:4:0", globals.instr.hiHatClosed],
     ["0:6:0", globals.instr.hiHatClosed],
-    ["0:6:3", globals.instr.hiHatClosed],
-    ["0:6:6", globals.instr.hiHatClosed],
-    ["0:6:9", globals.instr.hiHatClosed],
-    ["0:10:0", globals.instr.hiHatOpen],
+    ["0:8:0", globals.instr.hiHatClosed],
+    ["0:10:0", globals.instr.hiHatClosed],
 ]);
-introPart.loop = 6;
+// introPart.loop = 6;
+introPart.loop = true;
 introPart.start("0:0:0");
 
+/*
 var groovePart = new Tone.Part(function(time, instr) {
     physics.addBody(true, time * globals.multiplierPosX, instr);
 }, [

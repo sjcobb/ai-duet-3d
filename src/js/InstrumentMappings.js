@@ -29,7 +29,8 @@ export default class InstrumentMappings {
                 movement: movement, //default: 'physics', or 'static'
                 type: 'drum',
                 variation: 'hihat',
-                originalPosition: { x: 0, y: 0, z: -3 }
+                // originalPosition: { x: 0, y: 0, z: -3 }
+                originalPosition: { x: -3, y: 1.5, z: 1 }
             },
             hiHatOpen: {
                 ballDesc: 'H+',
@@ -60,7 +61,8 @@ export default class InstrumentMappings {
                 type: 'drum',
                 variation: 'kick',
                 // originalPosition: { x: 0, y: 0, z: 5 } // drum staff
-                originalPosition: { x: 0, y: 0, z: 2 }
+                // originalPosition: { x: 0, y: 0, z: 2 }
+                originalPosition: { x: 0, y: 0, z: 1 }
             },
             crashPrimary: {
                 ballDesc: 'Cr',
@@ -70,7 +72,8 @@ export default class InstrumentMappings {
                 keyInput: '5',
                 type: 'drum',
                 variation: 'crash', //aka clap
-                originalPosition: { x: 0, y: 0, z: -4 }
+                // originalPosition: { x: 0, y: 0, z: -4 }
+                originalPosition: { x: 0, y: 0, z: 2 }
             },
             ridePrimary: {
                 ballDesc: 'R',

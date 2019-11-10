@@ -104,7 +104,7 @@ export default class Physics {
 
         let xRand = Math.random() * (15 - 1) + 1; //rdm b/w 1 and 15
         let xPos = xPosition; //TODO: remove xPosition param if not used
-
+        
         if (globals.autoScroll === true) {
             if (options.type === 'drum') {
                 xPos = -(globals.ticks);
@@ -134,6 +134,15 @@ export default class Physics {
         } else {
             zPos -= 3; //PREV
             // zPos = 0;
+        }
+
+        if (globals.cameraCircularAnimation === true) {
+            globals.dropOffset = options.variation === 'snare' ? globals.dropOffset -= 0.8 : 0;
+            globals.dropOffset = options.variation === 'kick' ? globals.dropOffset -= 1.2 : 0;
+            globals.dropOffset = options.variation === 'hihat' ? globals.dropOffset -= 1.6 : 0;
+            // console.log('globals.dropOffset: ', globals.dropOffset); // DEBUG
+            xPos += globals.dropOffset;
+            zPos += globals.dropOffset;
         }
         // zPos = options.originalPosition.z;
 
@@ -331,57 +340,6 @@ export default class Physics {
             mesh.receiveShadow = receiveShadow;
             globals.scene.add(mesh);
         }
-    }
-
-    addSpinner() {
-        // DRUM MACHINE WHEEL: 
-        // https://codepen.io/danlong/pen/LJQYYN?editors=1010
-        // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
-
-        // const rotationSpeed = globals.bpm * 0.1;
-        const rotationSpeed = globals.bpm * 0.025;
-        console.log({rotationSpeed});
-        // CANNON (PHYSICS)
-        let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5));
-
-        // https://schteppe.github.io/cannon.js/docs/classes/Body.html
-        globals.spinnerBody = new CANNON.Body({
-            // mass: 1000,
-            mass: 1000,
-            // angularVelocity: new CANNON.Vec3(0, 5 ,0),
-            angularVelocity: new CANNON.Vec3(0, rotationSpeed, 0), // TODO: spinner speed (2nd param, y) map to Tone.Transport bpm
-            angularDamping: 0, // default=0.01
-            // linearDamping: 0.01,
-            fixedRotation: true,
-        });
-        // console.log(globals.spinnerBody);
-        globals.spinnerBody.addShape(boxShape);
-        globals.spinnerBody.position.set(0, 0.25, 0);
-        // spinnerBody.position.set(0, -25, 0);
-        globals.spinnerBody.name = 'spinner';
-        
-        // THREE JS (VISUAL)
-        // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
-        var geometry = new THREE.BoxBufferGeometry( 28, 0.5, 0.5 );
-        geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
-
-        // var material = new THREE.MeshBasicMaterial( {color: 0xff0000} ); red
-        var material = new THREE.MeshBasicMaterial( {color: 0x003366} ); //midnight blue
-        let spinner = new THREE.Mesh( geometry, material );
-        console.log({spinner});
-        spinner.position.y = 6;
-
-        // push to meshes & bodies
-        // this.meshes.push(spinner);
-        // this.bodies.push(this.spinnerBody);
-        // this.scene.add(spinner);
-        // this.world.addBody(this.spinnerBody);
-        // this.bodies.push(this.spinnerBody);
-
-        globals.meshes.push(spinner);
-        globals.bodies.push(globals.spinnerBody);
-        globals.scene.add(spinner);
-        globals.world.addBody(globals.spinnerBody);
     }
 
     shape2Mesh(body, castShadow, receiveShadow, options) {
@@ -611,6 +569,76 @@ export default class Physics {
         return new CANNON.ConvexPolyhedron(vertices, faces);
     }
 
+    addSpinner() {
+        // DRUM MACHINE WHEEL: 
+        // https://codepen.io/danlong/pen/LJQYYN?editors=1010
+        // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
+
+        // const rotationSpeed = globals.bpm * 0.025;
+        // const rotationSpeed = globals.bpm * 0.020;
+        const rotationSpeed = globals.bpm * 0.011;
+        // console.log({rotationSpeed});
+
+        const spinnerLength = 28;
+
+        // CANNON (PHYSICS)
+        let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5)); // no effect
+
+        // https://schteppe.github.io/cannon.js/docs/classes/Body.html
+        globals.spinnerBody = new CANNON.Body({
+            // mass: 1000,
+            mass: 1000,
+            // angularVelocity: new CANNON.Vec3(0, 5 ,0),
+            angularVelocity: new CANNON.Vec3(0, rotationSpeed, 0), // TODO: spinner speed (2nd param, y) map to Tone.Transport bpm
+            // angularVelocity: new CANNON.Vec3(12, rotationSpeed, 0), // wave shutter up & down
+            // angularVelocity: new CANNON.Vec3(0, rotationSpeed, 10), // vertical clock tower - USE
+            angularDamping: 0, // default=0.01
+            // linearDamping: 0.01,
+            fixedRotation: true, // IMPORTANT
+            // boundingRadius: 2
+            // interpolatedPosition: {x: 100, y: 100, z: 100}
+        });
+        // globals.spinnerBody.quaternion = new CANNON.Quaternion(-0.5, -0.5, 0.5, 0.5); // rotate standing up
+        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0.5, 0.5, 0.5, 0.5);
+        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.5, 0.5); // woah
+        globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.1, 0.5);
+
+        // globals.spinnerBody.shapeOffsets[0].x = 100;
+        // globals.spinnerBody.quaternion.y = 100;
+        // console.log(globals.spinnerBody);
+        globals.spinnerBody.addShape(boxShape);
+        // console.log('globals.spinnerBody: ', globals.spinnerBody);
+        console.log(globals.spinnerBody);
+        // globals.spinnerBody.position.set(0, 0.25, 0); // no effect
+
+        globals.spinnerBody.name = 'spinner';
+        
+        // THREE JS (VISUAL)
+        // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
+        var geometry = new THREE.BoxBufferGeometry(spinnerLength, 0.5, 0.5);
+        // geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
+        // geometry.rotateX(THREE.Math.degToRad(90)); // prev
+        // geometry.rotateY(THREE.Math.degToRad(45)); // no effect
+        console.log({geometry});
+
+        // var material = new THREE.MeshBasicMaterial({color: 0xff0000}); red
+        var material = new THREE.MeshBasicMaterial({color: 0x003366}); //midnight blue
+        let spinner = new THREE.Mesh(geometry, material);
+        console.log({spinner});
+
+        // push to meshes & bodies
+        // this.meshes.push(spinner);
+        // this.bodies.push(this.spinnerBody);
+        // this.scene.add(spinner);
+        // this.world.addBody(this.spinnerBody);
+        // this.bodies.push(this.spinnerBody);
+
+        globals.meshes.push(spinner);
+        globals.bodies.push(globals.spinnerBody);
+        globals.scene.add(spinner);
+        globals.world.addBody(globals.spinnerBody);
+    }
+
     updatePhysics() {
         // TODO: uncomment debugRenderer after fix scene undef err
         if (this.physics.debugRenderer !== undefined) {
@@ -627,8 +655,14 @@ export default class Physics {
 
     updateBodies(world) {
 
+        // globals.tempPos += 0.01;
+
         // globals.spinnerBody.position.set(0, 0.25, 0);
-        globals.spinnerBody.position.set(0, 0.25 ,0);
+        globals.spinnerBody.position.set(0, -1, 0);
+        // globals.spinnerBody.position.set(globals.tempPos, 0.25, 0);
+
+        // globals.spinnerBody.boundingRadius = 40;
+        // console.log(globals.spinnerBody);
 
         // IMPORTANT: cannon.js boilerplate
         // world.bodies.forEach(function(body) {
