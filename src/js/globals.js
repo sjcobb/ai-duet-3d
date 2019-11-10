@@ -13,7 +13,11 @@ export default {
     // activeInstrColor: '#e5b38f', //PREV - sand (md2)
     // activeInstrColor: '#d8d8d8',
     // activeInstrColor: '#00A29C', // teal: https://www.color-hex.com/color-palette/4666
-    activeInstrColor: '#66b2b2', // lt teal
+    // activeInstrColor: '#66b2b2', // lt teal
+    // activeInstrColor: '#003366', // spinner midnight blue
+    // activeInstrColor: '#001f3e',
+    // activeInstrColor: '#1f1f1f',
+    activeInstrColor: '#343434',
     autoScroll: false,
     autoStart: true,
     autoStartTime: 2000,
@@ -40,7 +44,7 @@ export default {
     inputMidi: false,
     instr: {},
     instrumentCounter: 0,
-    keysOnly: true,
+    keysOnly: false,
     lastColor: '#000000',
     loader: new THREE.TextureLoader(),
     meshes: [],

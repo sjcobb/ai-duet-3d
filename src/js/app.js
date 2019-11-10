@@ -235,7 +235,7 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
 
 const staffLineLengthEnd = 8000;
 if (globals.keysOnly !== true) {
-    addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+    // addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 } else if (globals.keysOnly === true) {
     addStaffLines(0x000000, globals.staffLineSecondZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 
@@ -373,7 +373,7 @@ function rotateCalc(a) {
     // x += globals.dropOffset;
     // y += globals.dropOffset;
 
-    var px = x + r * Math.cos(a); // <-- that's the maths you need
+    var px = x + r * Math.cos(a);
     var py = y + r * Math.sin(a);
     return {
         'px': px,
@@ -429,8 +429,9 @@ let animate = () => {
         // globals.dropPosX 
 
         dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+        // dropAngle += 10;
         // console.log({dropAngle});
-        const dropCoord = rotateCalc(dropAngle);
+        let dropCoord = rotateCalc(dropAngle);
         // console.log('dropCoord: ', dropCoord)
         globals.dropPosX = dropCoord.px;
         globals.dropPosY = dropCoord.py;

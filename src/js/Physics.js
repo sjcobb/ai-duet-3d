@@ -32,37 +32,32 @@ export default class Physics {
         globals.world.gravity.set(0, -10, 0);
         this.debugRenderer = new THREE.CannonDebugRenderer(globals.scene, globals.world);
 
-        const groundShape = new CANNON.Plane();
-        const groundMaterial = new CANNON.Material(); //http://schteppe.github.io/cannon.js/docs/classes/Material.html
-        const groundBody = new CANNON.Body({ mass: 0, material: groundMaterial });
-        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
-        // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI); // weird 0 zPos drop bug
-        groundBody.addShape(groundShape);
-        globals.world.add(groundBody);
-
-        // if (this.useVisuals) this.helper.this.addVisual(groundBody, 'ground', false, true);
-        this.addVisual(groundBody, 'ground', false, true);
-
         this.shapes = {};
         this.shapes.sphere = new CANNON.Sphere(0.5);
         this.shapes.box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
 
-        this.groundMaterial = groundMaterial;
-
         // this.animate();
-        this.initContactMaterial(0.3);
+        this.initGroundContactMaterial(0.3);
 
         this.addSpinner();
     }
 
-    initContactMaterial(restitutionValue = 0.3) {
+    initGroundContactMaterial(restitutionValue = 0.3) {
         //TODO: add colored ground on contact here
         //http://schteppe.github.io/cannon.js/docs/classes/ContactMaterial.html
-        const groundShape = new CANNON.Plane();
+        // const groundShape = new CANNON.Plane(); // invisible plane across entire screen
+
+        // const groundShape = new CANNON.Box(new CANNON.Vec3(10, 10, 0.1));
+        const groundShape = new CANNON.Box(new CANNON.Vec3(15, 15, 5));
         const tempMaterial = new CANNON.Material(); //http://schteppe.github.io/cannon.js/docs/classes/Material.html
+
         const groundBody = new CANNON.Body({ mass: 0, material: tempMaterial });
 
-        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2); //PREV
+        // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0.5, 0, 0), -Math.PI / 2); // invisible giant hill
+
+        groundBody.position.set(0, -6, 0);
+        console.log({groundBody});
 
         groundBody.addShape(groundShape);
         globals.world.add(groundBody);
@@ -70,13 +65,9 @@ export default class Physics {
         // if (this.useVisuals) this.helper.this.addVisual(groundBody, 'ground', false, true);
         this.addVisual(groundBody, 'ground', false, true);
 
-        this.shapes = {};
-        this.shapes.sphere = new CANNON.Sphere(0.5);
-        this.shapes.box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
-
-        const material = new CANNON.Material(); //why both tempMaterial and material needed?
-        const materialGround = new CANNON.ContactMaterial(tempMaterial, material, { friction: 0.0, restitution: restitutionValue });
-        globals.world.addContactMaterial(materialGround);
+        // const material = new CANNON.Material(); //why both tempMaterial and material needed?
+        // const restitutionGround = new CANNON.ContactMaterial(tempMaterial, material, { friction: 0.0, restitution: restitutionValue });
+        // globals.world.addContactMaterial(restitutionGround);
     }
 
     addBody(sphere = true, xPosition = 5.5, options = '', timeout = 0) {
@@ -223,11 +214,12 @@ export default class Physics {
 
                 //TODO: determine best way to convert from negative scientific notation without rounding to -0, ex: -2.220446049250313e-16
                 const roundedHitMetric = parseInt(ev.contact.ni.z);
-                if (ev.contact.ni.x !== -0 || roundedHitMetric !== -2) {
-                    // console.log('HIT ev.contact.ni', ev.contact.ni);
+                // if (ev.contact.ni.x !== -0 || roundedHitMetric !== -2) {
+                if (ev.contact.ni.x !== -0) {
+                    console.log('HIT ev.contact.ni', ev.contact.ni);
                     spinnerCollideCount++;
                 } else {
-                    // console.log('MISS ev.contact.ni', ev.contact.ni);
+                    console.log('MISS ev.contact.ni', ev.contact.ni);
                     // console.log('MISS roundedHitMetric', roundedHitMetric);
                 }
                 bodyCollideCount++;
@@ -390,7 +382,8 @@ export default class Physics {
 
                 case CANNON.Shape.types.PLANE:
                     // geometry = new THREE.PlaneGeometry(10, 10, 4, 4); // too short
-                    geometry = new THREE.PlaneGeometry(20, 10, 4, 4);
+                    // geometry = new THREE.PlaneGeometry(20, 10, 4, 4);
+                    geometry = new THREE.PlaneGeometry(0, 0, 0, 0);
                     mesh = new THREE.Object3D();
 
                     // TODO: try changing mesh.name to fix no color update
@@ -409,7 +402,8 @@ export default class Physics {
                     material.color = defaultColor;
 
                     const ground = new THREE.Mesh(geometry, material);
-                    ground.scale.set(500, 6, 100); // TODO: how to sync visible teal ground size with Cannon contact invisible ground
+                    // ground.scale.set(500, 6, 100); // PREV
+                    ground.scale.set(10, 10, 10); // no effect
                     ground.name = 'groundMesh';
 
                     //TODO: use correctly - https://threejs.org/docs/#manual/en/introduction/How-to-update-things
@@ -420,10 +414,19 @@ export default class Physics {
                     break;
 
                 case CANNON.Shape.types.BOX:
-                    const box_geometry = new THREE.BoxGeometry(shape.halfExtents.x * 2,
+                    // NEW Ground for drum spinner, PLANE no longer used since infinite invisible contact not needed
+                    const boxGeometry = new THREE.BoxGeometry(shape.halfExtents.x * 2,
                         shape.halfExtents.y * 2,
                         shape.halfExtents.z * 2);
-                    mesh = new THREE.Mesh(box_geometry, material);
+
+                    console.log({shape});
+
+                    // const boxGeometry = new THREE.BoxGeometry(25, 25, 0.5); // does not coincide with contact surface size
+
+                    material.color = new THREE.Color(globals.activeInstrColor);;
+
+                    // boxGeometry.scale.set(10, 10, 10); // not a function
+                    mesh = new THREE.Mesh(boxGeometry, material);
                     break;
 
                 case CANNON.Shape.types.CONVEXPOLYHEDRON:
@@ -574,8 +577,6 @@ export default class Physics {
         // https://codepen.io/danlong/pen/LJQYYN?editors=1010
         // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
 
-        // const rotationSpeed = globals.bpm * 0.025;
-        // const rotationSpeed = globals.bpm * 0.020;
         const rotationSpeed = globals.bpm * 0.011;
         // console.log({rotationSpeed});
 
@@ -599,16 +600,15 @@ export default class Physics {
             // interpolatedPosition: {x: 100, y: 100, z: 100}
         });
         // globals.spinnerBody.quaternion = new CANNON.Quaternion(-0.5, -0.5, 0.5, 0.5); // rotate standing up
-        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0.5, 0.5, 0.5, 0.5);
+        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0.5, 0.5, 0.5, 0.5); // rotate standing up
         // globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.5, 0.5); // woah
-        globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.1, 0.5);
+        
+        globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.05, 0.5); // decent - stage under - wobbly
 
-        // globals.spinnerBody.shapeOffsets[0].x = 100;
-        // globals.spinnerBody.quaternion.y = 100;
-        // console.log(globals.spinnerBody);
         globals.spinnerBody.addShape(boxShape);
         // console.log('globals.spinnerBody: ', globals.spinnerBody);
         console.log(globals.spinnerBody);
+
         // globals.spinnerBody.position.set(0, 0.25, 0); // no effect
 
         globals.spinnerBody.name = 'spinner';
@@ -617,21 +617,13 @@ export default class Physics {
         // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
         var geometry = new THREE.BoxBufferGeometry(spinnerLength, 0.5, 0.5);
         // geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
-        // geometry.rotateX(THREE.Math.degToRad(90)); // prev
         // geometry.rotateY(THREE.Math.degToRad(45)); // no effect
-        console.log({geometry});
+        // console.log({geometry});
 
         // var material = new THREE.MeshBasicMaterial({color: 0xff0000}); red
         var material = new THREE.MeshBasicMaterial({color: 0x003366}); //midnight blue
         let spinner = new THREE.Mesh(geometry, material);
-        console.log({spinner});
-
-        // push to meshes & bodies
-        // this.meshes.push(spinner);
-        // this.bodies.push(this.spinnerBody);
-        // this.scene.add(spinner);
-        // this.world.addBody(this.spinnerBody);
-        // this.bodies.push(this.spinnerBody);
+        // console.log({spinner});
 
         globals.meshes.push(spinner);
         globals.bodies.push(globals.spinnerBody);
@@ -658,7 +650,8 @@ export default class Physics {
         // globals.tempPos += 0.01;
 
         // globals.spinnerBody.position.set(0, 0.25, 0);
-        globals.spinnerBody.position.set(0, -1, 0);
+        // globals.spinnerBody.position.set(0, -1, 0);
+        globals.spinnerBody.position.set(0, -1.5, 0);
         // globals.spinnerBody.position.set(globals.tempPos, 0.25, 0);
 
         // globals.spinnerBody.boundingRadius = 40;
