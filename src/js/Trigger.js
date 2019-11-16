@@ -14,7 +14,11 @@ import Flame from './Flame.js';
 // Tone.Transport.bpm.value = 120;
 Tone.Transport.bpm.value = globals.bpm;
 // Tone.Transport.bpm.rampTo(120, 10);
-Tone.Transport.timeSignature = 12; // https://tonejs.github.io/docs/r13/Transport#timesignature
+
+// https://tonejs.github.io/docs/r13/Transport#timesignature
+// Tone.Transport.timeSignature = 12; // PREV
+Tone.Transport.timeSignature = 4;     // DEFAULT
+
 // Tone.Transport.setLoopPoints(0, "13m"); //starts over at beginning
 // Tone.Transport.loop = true; //TODO: *** clear all addBody objects if Transport loop true
 

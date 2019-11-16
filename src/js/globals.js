@@ -19,7 +19,7 @@ export default {
     // activeInstrColor: '#1f1f1f',
     activeInstrColor: '#343434',
     autoScroll: false,
-    autoStart: true,
+    autoStart: false,
     autoStartTime: 2000,
     // bpm: 120,
     bpm: 160,
@@ -32,6 +32,8 @@ export default {
     controls: '',
     // controls: new FlyControls(camera),
     damping: 0.01,
+    dropCoordCircle: [],
+    dropCoordCircleInterval: [],
     dropOffset: 0,
     // dropPosX: 5.5, //prev
     dropPosX: 0,

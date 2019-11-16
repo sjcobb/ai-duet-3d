@@ -366,8 +366,9 @@ function rotateCalc(a) {
     let x = 0
     // let y = 6;  // lower = closer to center of spinner
     let y = 8; 
-    // let r = 11.25;   // radius
+
     let r = 10.25;   // radius
+
     // let a = 0;   // angle (from 0 to Math.PI * 2)
 
     // x += globals.dropOffset;
@@ -380,6 +381,21 @@ function rotateCalc(a) {
         'py': py
     }
 }
+// for (var i=0; i<719; i++) {
+for (var i=0; i<720; i++) {
+    dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+    let dropCoord = rotateCalc(dropAngle);
+    globals.dropCoordCircle.push(dropCoord);
+}
+const dropInterval = globals.dropCoordCircle.length / 4;
+globals.dropCoordCircleInterval = [globals.dropCoordCircle[0], globals.dropCoordCircle[dropInterval], globals.dropCoordCircle[dropInterval * 2], globals.dropCoordCircle[dropInterval * 3]]
+
+console.log('globals.dropCoordCircleInterval: ', globals.dropCoordCircleInterval);
+
+// console.log({dropInterval});
+// console.log('INIT -> globals.dropCoordCircle: ', globals.dropCoordCircle);
+// console.log('globals.dropCoordCircle[0]: ', globals.dropCoordCircle[0]);
+// console.log('globals.dropCoordCircle.length ', globals.dropCoordCircle[globals.dropCoordCircle.length - 1]);
 
 //-----ANIMATION------//
 let animate = () => {
@@ -420,27 +436,18 @@ let animate = () => {
         }
     }
 
-    if (globals.cameraCircularAnimation === true) {
-        // 3D z axis rotation: https://jsfiddle.net/prisoner849/opau47vk/
-        // camera Three.js ex: https://stackoverflow.com/a/10342429
-        // USE - simple trig ex: https://stackoverflow.com/a/35672783
-        // globals.dropPosX = 5;
-        // console.log('sin: ', Math.sin(globals.dropPosX ));
-        // globals.dropPosX 
+    // if (globals.cameraCircularAnimation === true) {
+    //     // 3D z axis rotation: https://jsfiddle.net/prisoner849/opau47vk/
+    //     // camera Three.js ex: https://stackoverflow.com/a/10342429
+    //     // USE - simple trig ex: https://stackoverflow.com/a/35672783
+    //     dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+    //     let dropCoord = rotateCalc(dropAngle);
+    //     globals.dropPosX = dropCoord.px;
+    //     globals.dropPosY = dropCoord.py;
+    // }
 
-        dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
-        // dropAngle += 10;
-        // console.log({dropAngle});
-        let dropCoord = rotateCalc(dropAngle);
-        // console.log('dropCoord: ', dropCoord)
-        globals.dropPosX = dropCoord.px;
-        globals.dropPosY = dropCoord.py;
-        // globals.dropPosX = dropCoord.px + globals.dropOffset;
-        // globals.dropPosY = dropCoord.py + globals.dropOffset;
-    }
     // to reinit flame animation, see: https://github.com/sjcobb/music360js/blob/v4-fire/src/js/app.js
     // if (flameActive === false) {}
-
 
     physics.updateBodies(globals.world);
     globals.world.step(globals.fixedTimeStep);

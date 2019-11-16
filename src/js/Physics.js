@@ -70,7 +70,8 @@ export default class Physics {
         // globals.world.addContactMaterial(restitutionGround);
     }
 
-    addBody(sphere = true, xPosition = 5.5, options = '', timeout = 0) {
+    // addBody(sphere = true, xPosition = 5.5, options = '', timeout = 0) {
+    addBody(sphere = true, xPosition=5.5, options = '', index=0) { // TODO: take yPosition from globals.dropCoordCircleInterval[] loop, swap yPos to zPos
 
         if (options === '') {
             const instrument = new InstrumentMappings();
@@ -132,9 +133,13 @@ export default class Physics {
             globals.dropOffset = options.variation === 'kick' ? globals.dropOffset -= 1.2 : 0;
             globals.dropOffset = options.variation === 'hihat' ? globals.dropOffset -= 1.6 : 0;
             // console.log('globals.dropOffset: ', globals.dropOffset); // DEBUG
-            xPos += globals.dropOffset;
-            zPos += globals.dropOffset;
+            // xPos += globals.dropOffset;
+            // zPos += globals.dropOffset;
+
+            xPos = globals.dropCoordCircleInterval[index].px;
+            zPos = globals.dropCoordCircleInterval[index].py;
         }
+
         // zPos = options.originalPosition.z;
 
         body.position.set((sphere) ? -xPos : xPos, yPos, zPos);
@@ -216,10 +221,10 @@ export default class Physics {
                 const roundedHitMetric = parseInt(ev.contact.ni.z);
                 // if (ev.contact.ni.x !== -0 || roundedHitMetric !== -2) {
                 if (ev.contact.ni.x !== -0) {
-                    console.log('HIT ev.contact.ni', ev.contact.ni);
+                    // console.log('HIT ev.contact.ni', ev.contact.ni);
                     spinnerCollideCount++;
                 } else {
-                    console.log('MISS ev.contact.ni', ev.contact.ni);
+                    // console.log('MISS ev.contact.ni', ev.contact.ni);
                     // console.log('MISS roundedHitMetric', roundedHitMetric);
                 }
                 bodyCollideCount++;
