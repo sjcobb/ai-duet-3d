@@ -364,8 +364,8 @@ let dropAngle = 0;
 function rotateCalc(a) {
     // https://stackoverflow.com/a/35672783
     let x = 0
-    // let y = 6;  // lower = closer to center of spinner
-    let y = 8; 
+    let y = 0;  // lower = closer to center of spinner
+    // let y = 8; 
 
     let r = 10.25;   // radius
 

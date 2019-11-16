@@ -45,20 +45,6 @@ var introPart = new Tone.Part(function(time, instr) {
     // physics.addBody(true, time * globals.multiplierPosX, instr); // sine wave
 }, [
     ["0:0:0", globals.instr.hiHatClosed],
-    // ["0:2:0", globals.instr.kickPrimary],
-    // ["0:3:0", globals.instr.snarePrimary],
-
-    // ["0:1:0", globals.instr.hiHatClosed],
-    // ["0:2:0", globals.instr.hiHatClosed],
-    // ["0:3:0", globals.instr.hiHatClosed],
-
-    // ["0:4:0", globals.instr.hiHatClosed],
-    // ["0:5:0", globals.instr.hiHatClosed],
-    // ["0:6:0", globals.instr.hiHatClosed],
-    // ["0:7:0", globals.instr.hiHatClosed],
-    // ["0:8:0", globals.instr.hiHatClosed],
-    // ["0:9:0", globals.instr.hiHatClosed],
-    // ["0:10:0", globals.instr.hiHatClosed],
     // ["0:11:0", globals.instr.hiHatClosed],
 ]);
 // introPart.loop = 6;
