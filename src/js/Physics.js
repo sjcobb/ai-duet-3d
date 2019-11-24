@@ -583,8 +583,9 @@ export default class Physics {
         // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
 
         // const rotationSpeed = globals.bpm * 0.011;
-        // const rotationSpeed = globals.bpm * 0.019;
-        const rotationSpeed = globals.bpm * 0.027;
+        // const rotationSpeed = globals.bpm * 0.019; 
+        // const rotationSpeed = globals.bpm * 0.027; // prev
+        const rotationSpeed = globals.bpm * 0.025;
         // console.log({rotationSpeed});
 
         const spinnerLength = 28;

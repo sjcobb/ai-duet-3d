@@ -435,8 +435,9 @@ function generateDummySequence(seed = SEED_DEFAULT) {
 }
 
 /* AYSNC - AWAIT VERSION */
-// rnn.initialize();
-initRNN(); // TODO: move to async function
+if (globals.drumsOnly !== true) {
+    initRNN();
+}
 
 function resolveDummyPattern() {
     return new Promise(resolve => {
