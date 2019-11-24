@@ -1,17 +1,50 @@
-## TODO
+## Roadmap
 
-- [ ] AI duet - figure out machineKeyDown timing (use Tone.Transport.scheduleRepeat?)
-- [ ] note length as addBody -> sphereRestitution or initContactMaterial restitutionValue param?
-- [ ] new drum machine wheel / metronome paradigm - use rotating clock hand to hit drums: https://codepen.io/danlong/pen/LJQYYN
+### 0.4
+- [ ] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param
+- [ ] update instrumentMappings to use key of B major instead of C
+- [ ] display key signature in UI
+
+### 0.5
+- [ ] rename state variables to store, separate property for UI related variables
+- [ ] different iframes / canvas for each instrument type, separate routes with different globals can be used
+- [ ] balls drop and hit key of 3D piano
+
+### 0.6
 - [ ] instrument animations mapped to note sequences, ex: flamePhysics.create triggered on FD - FD -- A3F - A3F added to note sequence (use humanKeyAdds array? or buildNoteSequence function)
-- [ ] Fix audio quality in recordings
-- [ ] Keep camera in line with ballX position
-- [ ]
+
+### 0.7
+- [ ] robot drops balls from top of mountain, spinner knocks off balls that do not need to hit 3D piano
+
+### 0.8
+- [ ] different worlds: space, ice mountain, cartoon forest
+
+### 1.0
+- [ ] full UI implementation
+- [ ] support for computer keyboard in addition to MIDI controller
 - [ ] UI for editable 'instrument - shape - note - keyboard' mapping object
+- [ ] record and playback audio, import and convert MIDI notes to Tone.js friendly JSON using https://github.com/Tonejs/Midi
+
+## Backlog
+- [ ] Circular camera animation, movement between scenes (from drum stage back to piano stage)
+- [ ] frequency visualizer UI dashboard, see: https://threejs.org/examples/webaudio_visualizer.html
+- [ ]
+- [ ] look into using approach from webaudio_timing demo https://threejs.org/examples/#webaudio_timing https://threejs.org/docs/#api/en/loaders/AudioLoader https://github.com/mrdoob/three.js/blob/master/examples/webaudio_timing.html#L225
+- [ ] positional audio spheres (similar to lost-woods): https://threejs.org/docs/#api/en/audio/PositionalAudio
+- [ ]
+- [ ] pipe dream assets - https://threejs.org/docs/#api/en/geometries/TubeGeometry
+- [ ] create asset in Blender for Lil A.I.
+- [ ]
+- [ ] 3d pipe research: https://github.com/mrdoob/three.js/issues/905 https://blog.selfshadow.com/2011/10/17/perp-vectors/ http://pandaqi.com/Games/4-phaser-shapes-and-geometries
+- [ ] Fix audio quality in recordings, normalize instrument types (drums louder than keyboard), adjust high vs low frequencies
+- [ ] Keep camera in line with ballX position automatically
+- [ ]
 - [ ] Other shapes besides spheres - each shape has different sound / wave type
 - [ ] Contact surfaces light up based on note color
 - [ ] Clean up instrumentMapping template and getters
 - [ ] Different contact surfaces with different restitution
+- [x] new drum machine wheel / metronome paradigm - use rotating clock hand to hit drums: https://codepen.io/danlong/pen/LJQYYN
+- [x] AI duet - figure out machineKeyDown timing (use Tone.Transport.scheduleRepeat?)
 - [x] Web MIDI API support to connect to keyboard
 - [x] Dynamically set zPos based on note position in staff (position.z in instrumentMapping getter)
 - [x] Fix Fire class and shader import
