@@ -44,7 +44,8 @@ var introPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, globals.dropPosX, instr, 0);
     // physics.addBody(true, time * globals.multiplierPosX, instr); // sine wave
 }, [
-    ["0:0:0", globals.instr.hiHatClosed],
+    // ["0:0:0", globals.instr.hiHatClosed],
+    ["0:0:0", globals.instr.hiHatOpen],
     // ["0:11:0", globals.instr.hiHatClosed],
 ]);
 // introPart.loop = 6;

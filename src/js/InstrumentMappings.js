@@ -33,7 +33,8 @@ export default class InstrumentMappings {
                 originalPosition: { x: -3, y: 1.5, z: 1 }
             },
             hiHatOpen: {
-                ballDesc: 'H+',
+                ballDesc: 'H',
+                // ballDesc: 'H+',
                 // color: '#990000', //dkred
                 color: '#64b5f6', // human (lt blue)
                 keyInput: '2',
