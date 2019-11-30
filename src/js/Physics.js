@@ -637,6 +637,36 @@ export default class Physics {
         globals.bodies.push(globals.spinnerBody);
         globals.scene.add(spinner);
         globals.world.addBody(globals.spinnerBody);
+
+        this.addPipe();
+    }
+
+    addPipe() {
+        // https://threejs.org/docs/#api/en/geometries/TubeGeometry
+
+        // https://github.com/schteppe/cannon.js/blob/master/demos/trimesh.html
+        // var shape = CANNON.Trimesh.createTorus(4, 3.5, 16, 16);
+
+        function CustomSinCurve( scale ) {
+            THREE.Curve.call(this);
+            this.scale = (scale === undefined) ? 1 : scale;
+        }
+        
+        CustomSinCurve.prototype = Object.create(THREE.Curve.prototype);
+        CustomSinCurve.prototype.constructor = CustomSinCurve;
+        
+        CustomSinCurve.prototype.getPoint = function ( t ) {
+            var tx = t * 3 - 1.5;
+            var ty = Math.sin( 2 * Math.PI * t );
+            var tz = 0;
+            return new THREE.Vector3( tx, ty, tz ).multiplyScalar( this.scale );
+        };
+        
+        var path = new CustomSinCurve(10);
+        var geometry = new THREE.TubeGeometry(path, 20, 2, 8, false);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var mesh = new THREE.Mesh(geometry, material);
+        globals.scene.add(mesh);
     }
 
     updatePhysics() {
