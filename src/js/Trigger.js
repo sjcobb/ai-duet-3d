@@ -116,20 +116,20 @@ export default class Trigger {
         } else {
 
         }
-        // console.log('Trigger -> addBody - note: ', obj.userData.opts.note);
+        // console.log('Trigger -> addBody - opts: ', obj.userData.opts);
         
         let triggerObj = {};
+        let combinedNote = 'C1';
         if (obj.userData.opts.type !== 'drum') {
-            triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
+            const triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
+            // combinedNote = triggerObj.note + triggerObj.octave;
+            combinedNote = triggerNote;
             triggerObj = instrument.getInstrByNote(triggerNote);
-            let combinedNote = triggerObj.note + triggerObj.octave;
         } else {
             triggerObj = instrument.getNoteMapping(obj); //ORIG
         }
         
         // console.log('Trigger -> combinedNote: ', combinedNote);
-        // console.log('triggerObj: ', triggerObj);
-
         let drumIndex = 0;
         if (triggerObj.type === 'drum') {
             if (triggerObj.variation === 'kick') {
@@ -156,13 +156,7 @@ export default class Trigger {
             }
             drumIndex++;
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
-            // console.log('triggerObj -> chord: ', triggerObj.chord);
-            // polySynth.triggerAttackRelease(triggerObj.chord, '4n');
-            // polySynth.triggerAttackRelease(combinedNote, '4n');
-            console.log(polySynth);
             polySynth.triggerAttackRelease(combinedNote, '8n');
-            // polySynth.unsync();
-            // polySynth.dispose();
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);
@@ -176,23 +170,6 @@ export default class Trigger {
                 globals.activeInstrColor = triggerObj.color;
             }
         }
-
-        // humanKeyDown(52); // TODO: add humanKeyDown as shared method
-
-        // switch (obj.userData.opts.ballDesc) {
-        //     case ('A'):
-        //         bounceSynth.triggerAttackRelease("A3", "8n");
-        //         console.log('triggerNote -> poolBalls.ballA');
-        //         break;
-        //     default:
-        //         // debugger;
-        //         bounceSynth.toMaster();
-        //         bounceSynth.triggerAttackRelease("A2", "8n");
-        //         console.log('default case');
-        // }
-        // //bounceSynth.triggerRelease();
-        // //Tone.Transport.stop();
-
     }
 
 }

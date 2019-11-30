@@ -226,6 +226,7 @@ let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
     console.log('(humanKeyDown) -> note: ', note);
+    console.log('(humanKeyDown) -> velocity: ', velocity);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);
@@ -435,9 +436,9 @@ function generateDummySequence(seed = SEED_DEFAULT) {
 }
 
 /* AYSNC - AWAIT VERSION */
-if (globals.drumsOnly !== true) {
+// if (globals.drumsOnly !== true) {
     initRNN();
-}
+// }
 
 function resolveDummyPattern() {
     return new Promise(resolve => {

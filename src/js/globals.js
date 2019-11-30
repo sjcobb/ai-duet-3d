@@ -19,7 +19,7 @@ export default {
     // activeInstrColor: '#1f1f1f',
     activeInstrColor: '#343434',
     autoScroll: false,
-    autoStart: true,
+    autoStart: false,
     autoStartTime: 4500,
     bpm: 120,
     //bpm: 160,
