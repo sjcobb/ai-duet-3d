@@ -6,20 +6,25 @@ This project is in active development and is not live yet. Until release v1.0.0,
 
 ## Release Notes
 
+### 0.3
+
+drum machine spinner: https://www.youtube.com/watch?v=2uCANP7zd4s
+
 ### 0.2
 
-https://www.youtube.com/watch?v=uT5s3Svk7Fo
+melody autocompletion: https://www.youtube.com/watch?v=uT5s3Svk7Fo
 
 ### 0.1
 
-https://www.youtube.com/watch?v=8QR59RP-Z_8
+first 3D prototype: https://www.youtube.com/watch?v=8QR59RP-Z_8
 
 ## Project Inspiration 
 
 - Original A.I. Duet: https://github.com/googlecreativelab/aiexperiments-ai-duet
+- [ANIMUSIC videos](https://www.animusic.com/dvds) - [Pipe Dream](https://www.youtube.com/watch?v=hyCIpKAIFyo)
 - All of the amazing work by [teropa](https://github.com/teropa):
   - Neural Arpeggiator: https://codepen.io/teropa/pen/ddqEwj
   - Neural Drum Machine: https://codepen.io/teropa/pen/JLjXGK
   - Neural Melody Autocompletion: https://codepen.io/teropa/pen/gvwwZL
 - Performance RNN: https://magenta.tensorflow.org/performance-rnn
-- Magenta demo: https://magenta.tensorflow.org/demos
+- Magenta demos: https://magenta.tensorflow.org/demos
