@@ -115,7 +115,7 @@ export default class Physics {
         let zPos;
         zPos = options.originalPosition !== undefined ? options.originalPosition.z : Math.random() * (15 - 5) - 2;
 
-        zPos = globals.dropPosY;
+        // zPos = globals.dropPosY; // drum spinner (v0.3)
 
         if (options.type === 'drum') {
             // TODO: new drum machine paradigm - use rotating clock hand to hit drums

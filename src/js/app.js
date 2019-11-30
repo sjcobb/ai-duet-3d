@@ -220,10 +220,10 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
         if (dashedLines === true) {
             // if (i <= 1) {
             if (i === 0 && middleC === true) {
-                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
+                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0xffffff, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
                 staffLine.computeLineDistances();
             } else if (i === 3 || i === 4) {
-                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
+                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0xffffff, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
                 staffLine.computeLineDistances();
             } else {
                 staffLine = new THREE.Line(); // empty line
@@ -237,10 +237,10 @@ const staffLineLengthEnd = 8000;
 if (globals.keysOnly !== true) {
     // addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 } else if (globals.keysOnly === true) {
-    addStaffLines(0x000000, globals.staffLineSecondZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+    addStaffLines(0xffffff, globals.staffLineSecondZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 
     // two dashed lines above treble clef
-    addStaffLines(0x0000ff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, 0.08, 0, 2, true, true);
+    addStaffLines(0xffffff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, 0.08, 0, 2, true, true);
 } else {}
 
 

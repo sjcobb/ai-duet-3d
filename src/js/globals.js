@@ -18,13 +18,13 @@ export default {
     // activeInstrColor: '#001f3e',
     // activeInstrColor: '#1f1f1f',
     activeInstrColor: '#343434',
-    autoScroll: false,
+    autoScroll: false, // true - v0.1, v0.2
     autoStart: false,
     autoStartTime: 4500,
     bpm: 120,
     //bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
-    cameraCircularAnimation: true,
+    cameraCircularAnimation: false, // true - drum spinner (v0.3)
     cameraPositionBehind: false,
     cameraLookUp: false,
     clock: new THREE.Clock(),
@@ -39,14 +39,14 @@ export default {
     dropPosX: 0,
     dropPosY: 0,
     //  dropPosZ: 0, // should z be swapped with y?
-    drumsOnly: true,
+    drumsOnly: false,
     fixedTimeStep: 1.0 / 60.0,
     flameArr: [],
     flameCounter: 0,
     inputMidi: false,
     instr: {},
     instrumentCounter: 0,
-    keysOnly: false,
+    keysOnly: true,
     lastColor: '#000000',
     loader: new THREE.TextureLoader(),
     meshes: [],
@@ -69,6 +69,11 @@ export default {
     triggerAnimationTime: '4:0:0',
     // Transport: Tone.Transport, //TODO: add Transport here for logging ticks and position
     uiHidden: false,
+    ui: {
+        machine: {
+            currentSequence: []
+        }
+    },
     world: new CANNON.World(),
 };
 

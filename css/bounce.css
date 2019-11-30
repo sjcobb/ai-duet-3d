@@ -196,6 +196,13 @@ button#btn-drums-1 {
     letter-spacing: 1.25px;
 }
 
+/*** MACHINE DATA ***/
+#machineData {
+    margin: 5px 0 8px;
+    color: #fff;
+    font-family: sans-serif;
+}
+
 #logo-container {
     position: fixed;
     top: 15px;

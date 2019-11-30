@@ -50,7 +50,7 @@ var introPart = new Tone.Part(function(time, instr) {
 ]);
 // introPart.loop = 6;
 introPart.loop = true;
-introPart.start("0:0:0");
+// introPart.start("0:0:0");
 
 var secPosPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, globals.dropPosX, instr, 1);
@@ -60,7 +60,7 @@ var secPosPart = new Tone.Part(function(time, instr) {
     ["0:0:0", globals.instr.snarePrimary],
 ]);
 secPosPart.loop = true;
-secPosPart.start("0:0:0");
+// secPosPart.start("0:0:0");
 
 
 var thirdPosPart = new Tone.Part(function(time, instr) {
@@ -69,7 +69,7 @@ var thirdPosPart = new Tone.Part(function(time, instr) {
     ["0:0:0", globals.instr.kickPrimary],
 ]);
 thirdPosPart.loop = true;
-thirdPosPart.start("0:0:0");
+// thirdPosPart.start("0:0:0");
 
 var fourthPosPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, globals.dropPosX, instr, 3);
@@ -77,7 +77,7 @@ var fourthPosPart = new Tone.Part(function(time, instr) {
     ["0:0:0", globals.instr.kickPrimary],
 ]);
 fourthPosPart.loop = true;
-fourthPosPart.start("0:0:0");
+// fourthPosPart.start("0:0:0");
 
 
 /*
