@@ -237,10 +237,12 @@ const staffLineLengthEnd = 8000;
 if (globals.keysOnly !== true) {
     // addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 } else if (globals.keysOnly === true) {
-    addStaffLines(0xffffff, globals.staffLineSecondZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+
+    const lineYHeight = -0.99;
+    addStaffLines(0xffffff, globals.staffLineSecondZ, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
 
     // two dashed lines above treble clef
-    addStaffLines(0xffffff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, 0.08, 0, 2, true, true);
+    addStaffLines(0xffffff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, lineYHeight, 0, 2, true, true);
 } else {}
 
 
@@ -420,7 +422,7 @@ let animate = () => {
 
     //ENABLE HORIZONTAL SCROLL
     if (globals.autoScroll === true) {
-        const ticksMultiplier = 9;
+        const ticksMultiplier = 9; // 0.3, 0.2
         // // globals.ticks = Tone.Transport.ticks * 0.014; //old
 
         // globals.ticks += (delta * 5); //PREV
@@ -432,7 +434,8 @@ let animate = () => {
             globals.camera.position.x = globals.posBehindX + (globals.ticks);
             // console.log(globals.camera);
         } else {
-            globals.camera.position.x = (globals.ticks) - 30;
+            // globals.camera.position.x = (globals.ticks) - 30; // 0.3, 0.2
+            globals.camera.position.x = (globals.ticks) - 20;
         }
     }
 

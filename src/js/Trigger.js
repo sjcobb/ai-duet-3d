@@ -102,7 +102,7 @@ export default class Trigger {
     }
     
     triggerNote(obj) {
-        console.log({obj});
+        // console.log({obj});
 
         const physics = new Physics();
 
@@ -157,8 +157,8 @@ export default class Trigger {
             drumIndex++;
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
             // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
-            console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
-            console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
+            // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
+            // console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
 
             // polySynth.triggerAttackRelease(combinedNote, '8n');
             polySynth.triggerAttackRelease(combinedNote, obj.userData.opts.length);

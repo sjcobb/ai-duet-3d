@@ -264,8 +264,8 @@ function humanKeyDown(note, velocity = 0.7) {
 }
 
 function humanKeyUp(note, timestampLength) {
-    console.log('humanKeyUp -> note: ', note);
-    console.log('humanKeyUp -> timestampLength: ', timestampLength);
+    // console.log('humanKeyUp -> note: ', note);
+    // console.log('humanKeyUp -> timestampLength: ', timestampLength);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);
@@ -274,7 +274,7 @@ function humanKeyUp(note, timestampLength) {
     instrMapped.color = '#64b5f6'; // med blue
 
     // instrMapped.length = timestampLength;
-    instrMapped.length = timestampLength / 1000;
+    instrMapped.length = timestampLength / 1000; // IMPORTANT - so length is in milliseconds 
     physics.addBody(true, globals.dropPosX, instrMapped);
 
     humanKeyRemovals.push({ note });
@@ -440,7 +440,7 @@ function startSequenceGenerator(seed) {
             console.log('consumeNext -> generatedSequence: ', generatedSequence);
             let note = generatedSequence.shift();
             if (note > 0) {
-                machineKeyDown(note, time);
+                // machineKeyDown(note, time); // IMPORTANT
             }
         }
     }

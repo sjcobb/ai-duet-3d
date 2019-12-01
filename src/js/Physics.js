@@ -49,11 +49,11 @@ export default class Physics {
 
         // const groundShape = new CANNON.Box(new CANNON.Vec3(10, 10, 0.1));
         // const groundShape = new CANNON.Box(new CANNON.Vec3(15, 15, 5)); // 0.3
-        const groundShape = new CANNON.Box(new CANNON.Vec3(500, 20, 5));
+        const groundShape = new CANNON.Box(new CANNON.Vec3(1500, 20, 5));
 
         // http://schteppe.github.io/cannon.js/docs/classes/Material.html
-        // const tempMaterial = new CANNON.Material({ restitution: 10, friction: 2 }); // no effect
-        const tempMaterial = new CANNON.Material();
+        const tempMaterial = new CANNON.Material({ restitution: 1, friction: 1 });
+        // const tempMaterial = new CANNON.Material();
         // console.log({tempMaterial});
 
         const groundBody = new CANNON.Body({ mass: 0, material: tempMaterial });
@@ -95,16 +95,17 @@ export default class Physics {
         if (options.type === 'drum') {
             sphereRestitution = 0.5; //prev: 0.9, 0.1 = one bounce
         } else {
-            sphereRestitution = 0.1;
+            // sphereRestitution = 0.1;
+
+            sphereRestitution = options.length / 2;
+            // sphereRestitution = 0.2;
+            console.log({sphereRestitution});
         }
         const material = new CANNON.Material({ restitution: sphereRestitution, friction: 1 }); 
 
         // https://schteppe.github.io/cannon.js/docs/classes/Body.html
         const body = new CANNON.Body({ mass: 5, material: material });
         // const body = new CANNON.Body({ mass: 1, material: material }); //no effect
-
-
-
         
         this.shapes = {};
         this.shapes.sphere = new CANNON.Sphere(0.5);
@@ -138,9 +139,8 @@ export default class Physics {
         zPos = options.originalPosition !== undefined ? options.originalPosition.z : Math.random() * (15 - 5) - 2;
         // zPos = globals.dropPosY; // drum spinner (v0.3)
 
-        console.log('HERE body: ', body);
         // body.mass = 1; // feather light
-        body.mass = 8; // heavy
+        // body.mass = 8; // heavy
 
         if (options.type === 'drum') {
             // TODO: new drum machine paradigm - use rotating clock hand to hit drums
@@ -169,9 +169,8 @@ export default class Physics {
 
         body.position.set((sphere) ? -xPos : xPos, yPos, zPos);
 
-        // body.linearDamping = globals.damping;
-        // body.linearDamping = 0.01;
-        body.linearDamping = -0.5;
+        body.linearDamping = globals.damping; // 0.01
+        // body.linearDamping = 0.01; // v0.2, v0.3
 
         // body.angularVelocity.z = 12; //too much rotation - hard to read note letter
         // body.angularVelocity.z = 6; //prev

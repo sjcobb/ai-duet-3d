@@ -1,7 +1,7 @@
 ## Roadmap
 
 ### 0.4
-- [ ] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param
+- [x] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param
 - [ ] update instrumentMappings to use key of B major instead of C
 - [ ] display key signature in UI
 
