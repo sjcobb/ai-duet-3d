@@ -18,7 +18,7 @@ export default {
     // activeInstrColor: '#001f3e',
     // activeInstrColor: '#1f1f1f',
     activeInstrColor: '#343434',
-    autoScroll: false, // true - v0.1, v0.2
+    autoScroll: true, // true - v0.1, v0.2
     autoStart: false,
     autoStartTime: 4500,
     bpm: 120,
@@ -31,7 +31,9 @@ export default {
     configColorAnimate: true,
     controls: '',
     // controls: new FlyControls(camera),
-    damping: 0.01,
+    // currentNoteLength: 0, // not needed
+    // damping: 0.01,
+    // damping: 0.005,
     dropCoordCircle: [],
     dropCoordCircleInterval: [],
     dropOffset: 0,
@@ -67,6 +69,8 @@ export default {
     tempPos: 0,
     ticks: 0,
     triggerAnimationTime: '4:0:0',
+    triggerOn: 'contact', 
+    // triggerOn: 'spinner', 
     // Transport: Tone.Transport, //TODO: add Transport here for logging ticks and position
     uiHidden: false,
     ui: {

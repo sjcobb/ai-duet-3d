@@ -272,6 +272,7 @@ export default class InstrumentMappings {
                 octave: 4,
                 chord: ['C4', 'E4', 'G4'],
                 type: 'chord',
+                length: '8n', // '4n', '2n'
                 originalPosition: { x: 0, y: 0, z: -2 }
             },
             sphereChordD4: {

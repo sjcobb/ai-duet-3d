@@ -48,8 +48,13 @@ export default class Physics {
         // const groundShape = new CANNON.Plane(); // invisible plane across entire screen
 
         // const groundShape = new CANNON.Box(new CANNON.Vec3(10, 10, 0.1));
-        const groundShape = new CANNON.Box(new CANNON.Vec3(15, 15, 5));
-        const tempMaterial = new CANNON.Material(); //http://schteppe.github.io/cannon.js/docs/classes/Material.html
+        // const groundShape = new CANNON.Box(new CANNON.Vec3(15, 15, 5)); // 0.3
+        const groundShape = new CANNON.Box(new CANNON.Vec3(500, 20, 5));
+
+        // http://schteppe.github.io/cannon.js/docs/classes/Material.html
+        // const tempMaterial = new CANNON.Material({ restitution: 10, friction: 2 }); // no effect
+        const tempMaterial = new CANNON.Material();
+        // console.log({tempMaterial});
 
         const groundBody = new CANNON.Body({ mass: 0, material: tempMaterial });
 
@@ -57,7 +62,7 @@ export default class Physics {
         // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0.5, 0, 0), -Math.PI / 2); // invisible giant hill
 
         groundBody.position.set(0, -6, 0);
-        console.log({groundBody});
+        // console.log({groundBody});
 
         groundBody.addShape(groundShape);
         globals.world.add(groundBody);
@@ -65,6 +70,9 @@ export default class Physics {
         // if (this.useVisuals) this.helper.this.addVisual(groundBody, 'ground', false, true);
         this.addVisual(groundBody, 'ground', false, true);
 
+        // https://github.com/schteppe/cannon.js/issues/300
+        // https://github.com/schteppe/cannon.js/blob/master/demos/bounce.html
+        // restitutionValue = 200;
         // const material = new CANNON.Material(); //why both tempMaterial and material needed?
         // const restitutionGround = new CANNON.ContactMaterial(tempMaterial, material, { friction: 0.0, restitution: restitutionValue });
         // globals.world.addContactMaterial(restitutionGround);
@@ -79,15 +87,29 @@ export default class Physics {
             options = defaultInstr.hiHatClosed;
         }
 
+        console.log('addBody -> options: ', options);
+
         const trigger = new Trigger();
 
-        const material = new CANNON.Material();
+        let sphereRestitution = 0.3;
+        if (options.type === 'drum') {
+            sphereRestitution = 0.5; //prev: 0.9, 0.1 = one bounce
+        } else {
+            sphereRestitution = 0.1;
+        }
+        const material = new CANNON.Material({ restitution: sphereRestitution, friction: 1 }); 
+
+        // https://schteppe.github.io/cannon.js/docs/classes/Body.html
         const body = new CANNON.Body({ mass: 5, material: material });
         // const body = new CANNON.Body({ mass: 1, material: material }); //no effect
 
+
+
+        
         this.shapes = {};
         this.shapes.sphere = new CANNON.Sphere(0.5);
         this.shapes.box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
+
         if (sphere) {
             body.addShape(this.shapes.sphere);
         } else {
@@ -114,8 +136,11 @@ export default class Physics {
 
         let zPos;
         zPos = options.originalPosition !== undefined ? options.originalPosition.z : Math.random() * (15 - 5) - 2;
-
         // zPos = globals.dropPosY; // drum spinner (v0.3)
+
+        console.log('HERE body: ', body);
+        // body.mass = 1; // feather light
+        body.mass = 8; // heavy
 
         if (options.type === 'drum') {
             // TODO: new drum machine paradigm - use rotating clock hand to hit drums
@@ -144,35 +169,21 @@ export default class Physics {
 
         body.position.set((sphere) ? -xPos : xPos, yPos, zPos);
 
-        body.linearDamping = globals.damping;
+        // body.linearDamping = globals.damping;
+        // body.linearDamping = 0.01;
+        body.linearDamping = -0.5;
 
         // body.angularVelocity.z = 12; //too much rotation - hard to read note letter
         // body.angularVelocity.z = 6; //prev
         body.angularVelocity.z = 0;
 
         if (options.type === 'animation') {
-            // console.log('addBody -> animation: ', options);
-            
-            // if (globals.flameCounter % 2 === 0) {
-            // if (globals.flameCounter % 3 === 0) {
-            // console.log(globals.flameCounter);
-            // if (globals.flameCounter === 4) {
-            // if (globals.flameCounter % 2 === 1) { //is flame is called odd num of times
-            // if (globals.flameCounter === 1) {
-            //     flamePhysics.create({x: -xPos});
-            //     globals.flameCounter = 0;
-            // }
             flamePhysics.create({x: -xPos});
-
             globals.flameCounter++;
             return;
         }
         
-        // setTimeout(function() { //TODO: remove setTimeout param if not needed anymore
-            globals.world.add(body);
-        // }, timeout);
-
-        // if (this.useVisuals) this.helper.this.addVisual(body, (sphere) ? 'sphere' : 'box', true, false);
+        globals.world.add(body);
 
         body.userData = {
             opts: options
@@ -191,34 +202,9 @@ export default class Physics {
             if (ev.contact) {
                 // console.log('ev.contact.ni', ev.contact.ni); // DEBUG USE
                 // console.log('ev.contact.rj', ev.contact.rj);
-                // if (ev.contact.ri.y === -0.5) {
-                // if (ev.contact.rj.x < 0) {
-                // if (ev.contact.rj.x < -10) {
-                // if (ev.contact.ri.x === 0) {
-                // if (ev.contact.rj.z === 0) {
-
-                // if (ev.contact.z < -2 && ev.contact.ni.y === -1) {
-                // if (ev.contact.ni.x > 0.9) {
-                // if (ev.contact.ni.x !== -0 || ev.contact.ni.z > -2) {
-                // if (ev.contact.ni.x !== -0 || ev.contact.ni.z.toFixed(2) !== -2.22) {
-
-                // const roundedHitMetric = (ev.contact.ni.z * 1000);
-                // const roundedHitMetric = Math.ceil(ev.contact.ni.z * 100) / 100;
-                // const num = (ev.contact.ni.z * 100).toFixed(4);
-                //  Math.round(ev.contact.ni.z * 100);
-                // const num = Math.abs(ev.contact.ni.z);
-                // const num = (ev.contact.ni.z).toPrecision(2);
-                // const num = (ev.contact.ni.z).toLocaleString()
-                // const num = Number(ev.contact.ni.z).parseInt().toPrecision()
-                // const roundedHitMetric = Math.round(num  * 1000) / 1000;
-                // const roundedHitMetric = num.toFixed(2);
-                // console.log({roundedHitMetric});
-                // const roundedHitMetric = Math.sign(num) * Math.round(Math.sign(num) * num);
-                // const roundedHitMetric = Math.sign() * Math.round(ev.contact.ni.z/1000)*1000
-                // const roundedHitMetric = (ev.contact.ni.z * 100);
 
                 //TODO: determine best way to convert from negative scientific notation without rounding to -0, ex: -2.220446049250313e-16
-                const roundedHitMetric = parseInt(ev.contact.ni.z);
+                // const roundedHitMetric = parseInt(ev.contact.ni.z);
                 // if (ev.contact.ni.x !== -0 || roundedHitMetric !== -2) {
                 if (ev.contact.ni.x !== -0) {
                     // console.log('HIT ev.contact.ni', ev.contact.ni);
@@ -230,62 +216,18 @@ export default class Physics {
                 bodyCollideCount++;
             }
 
-            /* IMPORTANT - TODO: uncomment for previous collision functionality (diff for drum vs reg sphere) */
-            // if (options.type === 'drum') {
-            //     if (bodyCollideCount <= 0) {
-            //         trigger.triggerNote(body);
-            //     }
-            // } else {
-                // if (bodyCollideCount <= 0) { // PREV: play note one time on collide
-                if (spinnerCollideCount === 1 && notePlayed !== true) { 
-                    // console.log('spinnerCollideCount ev: ', ev);
+            if (globals.triggerOn === 'contact') {
+                if (bodyCollideCount === 1) {
                     trigger.triggerNote(body);
                     notePlayed = true;
                 }
-            // }
-
-            // console.log(bodyCollideCount);
-            // setTimeout(() => {
-            //     if (bodyCollideCount >= 3) { //play note one time on collide
-            //         console.log({ body });
-            //         globals.world.remove(body);
-            //         // http://www.html5gamedevs.com/topic/28819-solved-how-dispose-mesh-in-oncollideevent/
-            //     }
-            // }, 2000); //does not work
-
-            // if (ev.contact) {
-            //     console.log('ev.contact.ni', ev.contact.ni);
-            //     // console.log('ev.contact.rj', ev.contact.rj);
-            //     // if (ev.contact.ri.y === -0.5) {
-            //     // if (ev.contact.rj.x < 0) {
-            //     // if (ev.contact.rj.x < -10) {
-            //     // if (ev.contact.ri.x === 0) {
-            //     // if (ev.contact.rj.z === 0) {
-            //     if (ev.contact.ni.x > 0.9) {
-            //         console.log('... ...');
-            //         spinnerCollideCount++;
-            //     }
-            //     bodyCollideCount++;
-            // }
+            } else if (globals.triggerOn === 'spinner') {
+                if (spinnerCollideCount === 1 && notePlayed !== true) { // 0.3
+                    trigger.triggerNote(body);
+                    notePlayed = true;
+                }
+            }
         });
-
-        const defaultRestitution = 0.3; //bounciness 
-
-        let sphereRestitution;
-        if (options.type === 'drum') {
-            sphereRestitution = 0.5; //prev: 0.9, 0.1 = one bounce
-        } else {
-            // TODO: map note duration to sphereRestitution so longer note length = bouncier
-                // 1/4 note = 0.25, 1/2 = 0.50 ???
-            sphereRestitution = 0.1;
-        }
-
-        if (globals.cameraPositionBehind === true) {
-            // body.quaternion.x = 11; //sideways spin
-            // body.quaternion.y = 11;
-            // body.quaternion.z = 0.5;
-            // console.log(body); //TODO: rotate adjust HERE!!!
-        }
 
     }
 

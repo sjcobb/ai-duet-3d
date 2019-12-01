@@ -146,11 +146,17 @@ function onActiveInputChange(id) {
     if (input) {
         console.log({input});
 
+        let noteStartTime = 0;
+
         input.addListener('noteon', 1, e => {
+            // console.log('noteon listener -> e: ', e);
             humanKeyDown(e.note.number, e.velocity);
             // uiHidden();
+
+            noteStartTime = e.timestamp;
         });
         input.addListener('controlchange', 1, e => {
+            // console.log('controlchange listener -> e: ', e);
             if (e.controller.number === TEMPO_MIDI_CONTROLLER) {
                 Tone.Transport.bpm.value = (e.value / 128) * MAX_MIDI_BPM;
                 echo.delayTime.value = Tone.Time('8n.').toSeconds();
@@ -158,7 +164,18 @@ function onActiveInputChange(id) {
         });
 
         // TODO: how to map humanKeyUp to floor / ball restitution bounciness, how to map arpeggiator toggle to start or reset generatedSequence
-        input.addListener('noteoff', 1, e => humanKeyUp(e.note.number));
+        // input.addListener('noteoff', 1, e => humanKeyUp(e.note.number));
+        input.addListener('noteoff', 1, e => {
+            // console.log('noteoff listener -> e: ', e);
+            // TODO: access pitchbend using: e.target._userHandlers.channel.pitchbend.1
+
+            const tempNoteLength = e.timestamp - noteStartTime;
+            humanKeyUp(e.note.number, tempNoteLength)
+        });
+
+        // input.addListener('pitchbend', 1, e => {
+        //     console.log('pitchbend listener -> e: ', e); // no effect
+        // });
 
         // for (let option of Array.from(inputSelector.children)) {
         //     option.selected = option.value === id;
@@ -234,23 +251,32 @@ function humanKeyDown(note, velocity = 0.7) {
     // console.log('(humanKeyDown) -> velocity: ', velocity);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
-    let tonalNote = Tonal.Note.fromMidi(note);
-    let tonalFreq = Tonal.Note.midiToFreq(note);
-
     updateChord({ add: note });
 
-    const instrMapped = getInstrByInputNote(tonalNote);
-    instrMapped.color = '#64b5f6'; // med blue
-    
-    physics.addBody(true, globals.dropPosX, instrMapped);
+    // let tonalNote = Tonal.Note.fromMidi(note);
+    // let tonalFreq = Tonal.Note.midiToFreq(note);
+    // const instrMapped = getInstrByInputNote(tonalNote);
+    // instrMapped.color = '#64b5f6'; // med blue
+    // physics.addBody(true, globals.dropPosX, instrMapped);
 
     if (note < MIN_NOTE || note > MAX_NOTE) return;
     humanKeyAdds.push({ note, velocity });
 }
 
-function humanKeyUp(note) {
+function humanKeyUp(note, timestampLength) {
     console.log('humanKeyUp -> note: ', note);
+    console.log('humanKeyUp -> timestampLength: ', timestampLength);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
+
+    let tonalNote = Tonal.Note.fromMidi(note);
+    let tonalFreq = Tonal.Note.midiToFreq(note);
+    const instrMapped = getInstrByInputNote(tonalNote);
+    instrMapped.color = '#64b5f6'; // med blue
+
+    // instrMapped.length = timestampLength;
+    instrMapped.length = timestampLength / 1000;
+    physics.addBody(true, globals.dropPosX, instrMapped);
+
     humanKeyRemovals.push({ note });
     updateChord({ remove: note });
 }
@@ -397,7 +423,7 @@ function startSequenceGenerator(seed) {
                 generatedSequence = generatedSequence.concat(
                     genSeq.notes.map(n => n.pitch)
                 );
-                console.log('(generateNext) .then -> generatedSequence: ', generatedSequence);
+                // console.log('(generateNext) .then -> generatedSequence: ', generatedSequence);
                 updateUI(generatedSequence);
 
                 setTimeout(generateNext, generationIntervalTime * 1000);

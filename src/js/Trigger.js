@@ -102,7 +102,7 @@ export default class Trigger {
     }
     
     triggerNote(obj) {
-        // console.log({obj});
+        console.log({obj});
 
         const physics = new Physics();
 
@@ -151,12 +151,17 @@ export default class Trigger {
                 playerTomHigh.start(); // key: 7
                 // flameFirst.create(obj.initPosition);
             } else {
-                console.log('UNDEF variation - triggerNote() -> triggerObj (drum): ', triggerObj);
+                // console.log('UNDEF variation - triggerNote() -> triggerObj (drum): ', triggerObj);
                 playerHiHat.start();
             }
             drumIndex++;
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
-            polySynth.triggerAttackRelease(combinedNote, '8n');
+            // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
+            console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
+            console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
+
+            // polySynth.triggerAttackRelease(combinedNote, '8n');
+            polySynth.triggerAttackRelease(combinedNote, obj.userData.opts.length);
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);
