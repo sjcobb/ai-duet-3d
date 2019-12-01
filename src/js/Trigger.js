@@ -159,9 +159,8 @@ export default class Trigger {
             // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
             // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
             // console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
-
-            // polySynth.triggerAttackRelease(combinedNote, '8n');
-            polySynth.triggerAttackRelease(combinedNote, obj.userData.opts.length);
+            const noteLength = obj.userData.opts.length ? obj.userData.opts.length : 0.15;
+            polySynth.triggerAttackRelease(combinedNote, noteLength);
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);

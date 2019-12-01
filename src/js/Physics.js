@@ -38,18 +38,21 @@ export default class Physics {
 
         // this.animate();
         this.initGroundContactMaterial(0.3);
+        // this.initGroundContactMaterial(0.3, [0, 10, 0]);
+        this.initGroundContactMaterial(0.3, [0, 5, 0], [2, 2, 0.1]);
 
         this.addSpinner();
     }
 
-    initGroundContactMaterial(restitutionValue = 0.3) {
+    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[1500, 20, 5]) {
         //TODO: add colored ground on contact here
         //http://schteppe.github.io/cannon.js/docs/classes/ContactMaterial.html
         // const groundShape = new CANNON.Plane(); // invisible plane across entire screen
 
         // const groundShape = new CANNON.Box(new CANNON.Vec3(10, 10, 0.1));
         // const groundShape = new CANNON.Box(new CANNON.Vec3(15, 15, 5)); // 0.3
-        const groundShape = new CANNON.Box(new CANNON.Vec3(1500, 20, 5));
+        // const groundShape = new CANNON.Box(new CANNON.Vec3(1500, 20, 5));
+        const groundShape = new CANNON.Box(new CANNON.Vec3(...sizeArr));
 
         // http://schteppe.github.io/cannon.js/docs/classes/Material.html
         const tempMaterial = new CANNON.Material({ restitution: 1, friction: 1 });
@@ -61,7 +64,8 @@ export default class Physics {
         groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2); //PREV
         // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0.5, 0, 0), -Math.PI / 2); // invisible giant hill
 
-        groundBody.position.set(0, -6, 0);
+        // groundBody.position.set(0, -6, 0);
+        groundBody.position.set(...posArr);
         // console.log({groundBody});
 
         groundBody.addShape(groundShape);
@@ -91,15 +95,14 @@ export default class Physics {
 
         const trigger = new Trigger();
 
-        let sphereRestitution = 0.3;
+        let sphereRestitution = 0.1;
         if (options.type === 'drum') {
-            sphereRestitution = 0.5; //prev: 0.9, 0.1 = one bounce
+            sphereRestitution = 0.3; //prev: 0.9, 0.1 = one bounce
         } else {
-            // sphereRestitution = 0.1;
-
-            sphereRestitution = options.length / 2;
-            // sphereRestitution = 0.2;
-            console.log({sphereRestitution});
+            if (options.length > 0) {
+                sphereRestitution = options.length / 2;
+            }
+            // console.log({sphereRestitution});
         }
         const material = new CANNON.Material({ restitution: sphereRestitution, friction: 1 }); 
 

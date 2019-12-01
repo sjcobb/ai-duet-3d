@@ -238,7 +238,7 @@ if (globals.keysOnly !== true) {
     // addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 } else if (globals.keysOnly === true) {
 
-    const lineYHeight = -0.99;
+    const lineYHeight = -0.95;
     addStaffLines(0xffffff, globals.staffLineSecondZ, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
 
     // two dashed lines above treble clef
