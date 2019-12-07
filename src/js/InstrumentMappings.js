@@ -29,8 +29,9 @@ export default class InstrumentMappings {
                 movement: movement, //default: 'physics', or 'static'
                 type: 'drum',
                 variation: 'hihat',
+                originalPosition: { x: 0, y: 0, z: -3 }
                 // originalPosition: { x: 0, y: 0, z: -3 }
-                originalPosition: { x: -3, y: 1.5, z: 1 }
+                // originalPosition: { x: -3, y: 1.5, z: 1 }
             },
             hiHatOpen: {
                 ballDesc: 'H',
@@ -50,7 +51,8 @@ export default class InstrumentMappings {
                 keyInput: '3',
                 type: 'drum',
                 variation: 'snare',
-                originalPosition: { x: -3, y: 1.5, z: 1 }
+                originalPosition: { x: 0, y: 0, z: -3 }
+                // originalPosition: { x: -3, y: 1.5, z: 1 }
                 // originalPosition: { x: 0, y: 0, z: (globalStaffLineSecondZ + 5) }
             },
             kickPrimary: {

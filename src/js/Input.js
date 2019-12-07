@@ -499,8 +499,9 @@ function generateDummySequence(seed = SEED_DEFAULT) {
 
 /* AYSNC - AWAIT VERSION */
 // if (globals.drumsOnly !== true) {
+if (globals.ai.enabled !== true) {
     initRNN();
-// }
+}
 
 function resolveDummyPattern() {
     return new Promise(resolve => {

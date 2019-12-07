@@ -17,22 +17,30 @@ export default {
     // activeInstrColor: '#003366', // spinner midnight blue
     // activeInstrColor: '#001f3e',
     // activeInstrColor: '#1f1f1f',
-    activeInstrColor: '#343434',
+    // activeInstrColor: '#343434', // dk gray
+    activeInstrColor: '#F5F5F5',
     autoScroll: false, // true - v0.1, v0.2
     autoStart: false,
     autoStartTime: 4500,
+    ai: {
+        enabled: false
+    },
     bpm: 120,
     //bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
-    cameraCircularAnimation: false, // true - drum spinner (v0.3)
+    cameraCircularAnimation: true, // true - drum spinner (v0.3)
     cameraPositionBehind: false,
     cameraLookUp: false,
+    // colorSpinner: '#003366', // midnight blue
+    colorSpinner: '#d3d3d3',
+    colorGround: '#d3d3d3',
     clock: new THREE.Clock(),
     configColorAnimate: true,
     controls: '',
     // controls: new FlyControls(camera),
     // currentNoteLength: 0, // not needed
-    damping: 0.01, // effects bounciness, lag
+    // damping: 0.01, // v0.3, effects bounciness, lag
+    damping: 0.05,
     dropCoordCircle: [],
     dropCoordCircleInterval: [],
     dropOffset: 0,
@@ -47,7 +55,7 @@ export default {
     inputMidi: false,
     instr: {},
     instrumentCounter: 0,
-    keysOnly: true,
+    keysOnly: false, // true - adds staff lines
     lastColor: '#000000',
     loader: new THREE.TextureLoader(),
     meshes: [],
@@ -62,6 +70,7 @@ export default {
     renderer: new THREE.WebGLRenderer(),
     scene: new THREE.Scene(),
     spinnerBody: {},
+    spinnerActive: true,
     staffLineInitZ: 8,
     staffLineSecondZ: -8,
     // showStaticRows: false, // old static animation

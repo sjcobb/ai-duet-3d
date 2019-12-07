@@ -44,13 +44,16 @@ var introPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, globals.dropPosX, instr, 0);
     // physics.addBody(true, time * globals.multiplierPosX, instr); // sine wave
 }, [
-    // ["0:0:0", globals.instr.hiHatClosed],
-    ["0:0:0", globals.instr.hiHatOpen],
+    ["0:0:0", globals.instr.hiHatClosed],
+    ["0:4:0", globals.instr.hiHatClosed],
+    ["0:8:0", globals.instr.hiHatClosed],
+    ["0:10:0", globals.instr.snarePrimary],
+    //["0:0:0", globals.instr.hiHatOpen],
     // ["0:11:0", globals.instr.hiHatClosed],
 ]);
 // introPart.loop = 6;
 introPart.loop = true;
-// introPart.start("0:0:0");
+introPart.start("0:0:0");
 
 var secPosPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, globals.dropPosX, instr, 1);

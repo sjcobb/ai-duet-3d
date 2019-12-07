@@ -37,14 +37,25 @@ export default class Physics {
         this.shapes.box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
 
         // this.animate();
-        this.initGroundContactMaterial(0.3);
-        // this.initGroundContactMaterial(0.3, [0, 10, 0]);
-        this.initGroundContactMaterial(0.3, [0, 5, 0], [2, 2, 0.1]);
+        // this.initGroundContactMaterial(0.3); // v0.3, default ground
 
-        this.addSpinner();
+
+        this.initGroundContactMaterial(0.3, [0, -6, 0], [10, 10, 0.1], [1, 0, 0]); // no rotate
+
+        const platformSize = 1.5;
+        this.initGroundContactMaterial(0.3, [0, 10, -10], [platformSize, platformSize, 0.2], [0.8, 0, 0]);
+        this.initGroundContactMaterial(0.3, [0, 5, -5], [platformSize, platformSize, 0.2], [0.8, 0, 0]);
+
+        // this.initGroundContactMaterial(0.3, [0, 5, 0], [2, 2, 0.1], [globals.dropCoordCircleInterval[0].px, globals.dropCoordCircleInterval[0].py, 0]);
+        // xPos = globals.dropCoordCircleInterval[0].px;
+        // zPos = globals.dropCoordCircleInterval[0].py;
+
+        if (globals.spinnerActive === true) {
+            this.addSpinner();
+        }
     }
 
-    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[1500, 20, 5]) {
+    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[1500, 20, 5], rotateArr=[1, 0, 0]) {
         //TODO: add colored ground on contact here
         //http://schteppe.github.io/cannon.js/docs/classes/ContactMaterial.html
         // const groundShape = new CANNON.Plane(); // invisible plane across entire screen
@@ -61,7 +72,8 @@ export default class Physics {
 
         const groundBody = new CANNON.Body({ mass: 0, material: tempMaterial });
 
-        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2); //PREV
+        // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2); //PREV
+        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(...rotateArr), -Math.PI / 2); //PREV
         // groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0.5, 0, 0), -Math.PI / 2); // invisible giant hill
 
         // groundBody.position.set(0, -6, 0);
@@ -72,7 +84,7 @@ export default class Physics {
         globals.world.add(groundBody);
 
         // if (this.useVisuals) this.helper.this.addVisual(groundBody, 'ground', false, true);
-        this.addVisual(groundBody, 'ground', false, true);
+        this.addVisual(groundBody, 'ground', false, true); // TODO: simplify
 
         // https://github.com/schteppe/cannon.js/issues/300
         // https://github.com/schteppe/cannon.js/blob/master/demos/bounce.html
@@ -132,8 +144,8 @@ export default class Physics {
             }
         }
 
-        const yPos = 20; //PREV, just right
-        // const yPos = 26;
+        // const yPos = 20; // v0.2, v0.3
+        const yPos = 30; // TODO change to Z
 
         /*** Randomized Y drop point ***/
         // const y = Math.random() * (10 - 5) + 5; //rdm b/w 5 and 10
@@ -157,15 +169,19 @@ export default class Physics {
         }
 
         if (globals.cameraCircularAnimation === true) {
-            globals.dropOffset = options.variation === 'snare' ? globals.dropOffset -= 0.8 : 0;
-            globals.dropOffset = options.variation === 'kick' ? globals.dropOffset -= 1.2 : 0;
-            globals.dropOffset = options.variation === 'hihat' ? globals.dropOffset -= 1.6 : 0;
-            // console.log('globals.dropOffset: ', globals.dropOffset); // DEBUG
-            // xPos += globals.dropOffset;
-            // zPos += globals.dropOffset;
+            // globals.dropOffset = options.variation === 'snare' ? globals.dropOffset -= 0.8 : 0;
+            // globals.dropOffset = options.variation === 'kick' ? globals.dropOffset -= 1.2 : 0;
+            // globals.dropOffset = options.variation === 'hihat' ? globals.dropOffset -= 1.6 : 0;
 
-            xPos = globals.dropCoordCircleInterval[index].px;
-            zPos = globals.dropCoordCircleInterval[index].py;
+            // globals.dropOffset = options.variation === 'snare' ? globals.dropOffset += 5 : 0;
+            // globals.dropOffset = options.variation === 'kick' ? globals.dropOffset += 5 : 0;
+            // globals.dropOffset = options.variation === 'hihat' ? globals.dropOffset += 5 : 0;
+            console.log('globals.dropOffset: ', globals.dropOffset); // DEBUG
+            // xPos += globals.dropOffset;
+            zPos += globals.dropOffset;
+
+            // xPos = globals.dropCoordCircleInterval[index].px;
+            // zPos = globals.dropCoordCircleInterval[index].py;
         }
 
         // zPos = options.originalPosition.z;
@@ -219,12 +235,13 @@ export default class Physics {
             }
 
             if (globals.triggerOn === 'contact') {
-                if (bodyCollideCount === 1) {
+                // if (bodyCollideCount === 1) { // v0.2
+                if (bodyCollideCount > 0) { // v0.2
                     trigger.triggerNote(body);
                     notePlayed = true;
                 }
             } else if (globals.triggerOn === 'spinner') {
-                if (spinnerCollideCount === 1 && notePlayed !== true) { // 0.3
+                if (spinnerCollideCount === 1 && notePlayed !== true) { // v0.3
                     trigger.triggerNote(body);
                     notePlayed = true;
                 }
@@ -372,7 +389,8 @@ export default class Physics {
 
                     // const boxGeometry = new THREE.BoxGeometry(25, 25, 0.5); // does not coincide with contact surface size
 
-                    material.color = new THREE.Color(globals.activeInstrColor);;
+                    // material.color = new THREE.Color(globals.activeInstrColor);
+                    material.color = new THREE.Color(globals.colorGround);
 
                     // boxGeometry.scale.set(10, 10, 10); // not a function
                     mesh = new THREE.Mesh(boxGeometry, material);
@@ -521,21 +539,19 @@ export default class Physics {
         return new CANNON.ConvexPolyhedron(vertices, faces);
     }
 
-    addSpinner() {
+    addSpinner(sizeArr=[20, 2.5, 2.5]) {
+    // addSpinner(sizeArr=[50, 1.5, 50]) {
         // DRUM MACHINE WHEEL: 
         // https://codepen.io/danlong/pen/LJQYYN?editors=1010
         // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
 
-        // const rotationSpeed = globals.bpm * 0.011;
-        // const rotationSpeed = globals.bpm * 0.019; 
-        // const rotationSpeed = globals.bpm * 0.027; // prev
-        const rotationSpeed = globals.bpm * 0.025;
-        // console.log({rotationSpeed});
-
-        const spinnerLength = 28;
+        // const rotationSpeed = globals.bpm * 0.025; // v0.3
+        const rotationSpeed = 8;
+        console.log({rotationSpeed});
 
         // CANNON (PHYSICS)
-        let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5)); // no effect
+        // let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5)); // no effect
+        let boxShape = new CANNON.Box(new CANNON.Vec3(...sizeArr)); // no effect
 
         // https://schteppe.github.io/cannon.js/docs/classes/Body.html
         globals.spinnerBody = new CANNON.Body({
@@ -555,25 +571,28 @@ export default class Physics {
         // globals.spinnerBody.quaternion = new CANNON.Quaternion(0.5, 0.5, 0.5, 0.5); // rotate standing up
         // globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.5, 0.5); // woah
         
-        globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.05, 0.5); // decent - stage under - wobbly
+        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.05, 0.5); // v0.3 - stage under - wobbly
 
         globals.spinnerBody.addShape(boxShape);
         // console.log('globals.spinnerBody: ', globals.spinnerBody);
-        console.log(globals.spinnerBody);
+        // console.log(globals.spinnerBody);
 
         // globals.spinnerBody.position.set(0, 0.25, 0); // no effect
 
         globals.spinnerBody.name = 'spinner';
         
         // THREE JS (VISUAL)
-        // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
-        var geometry = new THREE.BoxBufferGeometry(spinnerLength, 0.5, 0.5);
+        // var geometry = new THREE.BoxBufferGeometry(spinnerLength, 0.5, 0.5); // v0.3
+        var geometry = new THREE.BoxBufferGeometry(...sizeArr);
+
         // geometry.rotateX(THREE.Math.degToRad(90)); // TODO: animate rotation so rect goes in circle
         // geometry.rotateY(THREE.Math.degToRad(45)); // no effect
         // console.log({geometry});
 
         // var material = new THREE.MeshBasicMaterial({color: 0xff0000}); red
-        var material = new THREE.MeshBasicMaterial({color: 0x003366}); //midnight blue
+        // var material = new THREE.MeshBasicMaterial({color: 0x003366}); //midnight blue, v0.3
+        var material = new THREE.MeshBasicMaterial({color: globals.colorSpinner});
+
         let spinner = new THREE.Mesh(geometry, material);
         // console.log({spinner});
 
@@ -581,6 +600,8 @@ export default class Physics {
         globals.bodies.push(globals.spinnerBody);
         globals.scene.add(spinner);
         globals.world.addBody(globals.spinnerBody);
+
+        // globals.world.add(globals.spinnerBody);
     }
 
     updatePhysics() {
@@ -598,16 +619,9 @@ export default class Physics {
     // },
 
     updateBodies(world) {
-
-        // globals.tempPos += 0.01;
-
-        // globals.spinnerBody.position.set(0, 0.25, 0);
-        // globals.spinnerBody.position.set(0, -1, 0);
-        globals.spinnerBody.position.set(0, -1.5, 0);
-        // globals.spinnerBody.position.set(globals.tempPos, 0.25, 0);
-
-        // globals.spinnerBody.boundingRadius = 40;
-        // console.log(globals.spinnerBody);
+        if (globals.spinnerActive === true) {
+            globals.spinnerBody.position.set(0, -1.5, 0);
+        }
 
         // IMPORTANT: cannon.js boilerplate
         // world.bodies.forEach(function(body) {

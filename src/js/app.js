@@ -50,12 +50,12 @@ const globalLetterNumArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'AA', 'BB', 'CC',
 globals.scene.background = new THREE.Color(0, 0, 0); //prev: 'white'
 
 // globals.camera.position.set(0, 12, 40); // ORIG camera looking down on staff
+// globals.camera.position.set(0, 8, 26); // v0.3
 
-// globals.camera.position.set(0, 30, 0); // directly above
-// globals.camera.position.set(0, 6, 20); // 2nd param (y) = height
-// globals.camera.position.set(0, 8, 22);
-globals.camera.position.set(0, 8, 26);
-globals.camera.lookAt(new THREE.Vector3(0, 1, 0));
+globals.camera.position.set(0, 15, 60);
+globals.camera.lookAt(new THREE.Vector3(0, 10, 0));
+
+// globals.camera.lookAt(new THREE.Vector3(0, 1, 0)); // v0.3
 
 if (globals.cameraPositionBehind === true) {
     globals.camera.position.set(globals.posBehindX, globals.posBehindY, globals.posBehindZ);
@@ -178,9 +178,7 @@ const objCenter = new THREE.Mesh(currentShape, currentMesh);
 objCenter.position.set(0, 0, globals.posBehindZ);
 // globals.scene.add(objCenter); //for absolute center reference
 
-// globals.scene.add(skyboxCubeMesh); //add nightsky skybox
-
-// physics.addSpinner();
+globals.scene.add(skyboxCubeMesh); //add nightsky skybox
 
 //-----MUSIC STAFF------//
 function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ, innerLinePadding, dashedLines = false, middleC = false) {
