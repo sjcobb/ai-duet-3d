@@ -55,7 +55,8 @@ export default class InstrumentMappings {
             },
             kickPrimary: {
                 // ballDesc: 'K', // beat-v1
-                ballDesc: 'B',
+                // ballDesc: 'B',
+                ballDesc: '808',
                 // color: '#003366', //midnight blue
                 color: '#64b5f6', // human (lt blue)
                 keyInput: '4',
@@ -63,7 +64,8 @@ export default class InstrumentMappings {
                 variation: 'kick',
                 // originalPosition: { x: 0, y: 0, z: 5 } // drum staff
                 // originalPosition: { x: 0, y: 0, z: 2 }
-                originalPosition: { x: 0, y: 0, z: 1 }
+                originalPosition: { x: 0, y: 0, z: 1 },
+                size: 'xl',
             },
             crashPrimary: {
                 ballDesc: 'Cr',

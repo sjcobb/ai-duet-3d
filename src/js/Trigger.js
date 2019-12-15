@@ -16,8 +16,8 @@ Tone.Transport.bpm.value = globals.bpm;
 // Tone.Transport.bpm.rampTo(120, 10);
 
 // https://tonejs.github.io/docs/r13/Transport#timesignature
-// Tone.Transport.timeSignature = 12; // PREV
-Tone.Transport.timeSignature = 4;     // DEFAULT
+Tone.Transport.timeSignature = 12;
+// Tone.Transport.timeSignature = 4;     // DEFAULT
 
 // Tone.Transport.setLoopPoints(0, "13m"); //starts over at beginning
 // Tone.Transport.loop = true; //TODO: *** clear all addBody objects if Transport loop true
@@ -58,10 +58,12 @@ playerHiHat.volume.value = -2;
 // const playerKick = new Player("./assets/sounds/drum-kits/dubstep/kick.mp3").toMaster(); //aka analog - PREV
 // const playerKick = new Player("./assets/sounds/drum-kits/electronic/kick.mp3").toMaster(); //guitar pluck
 // const playerKick = new Player("./assets/sounds/drum-kits/percussion/kick.mp3").toMaster(); //normal
+
 // const playerKick = new Player("./assets/sounds/drum-kits/808/808-kick-vh.mp3").toMaster(); // high
-// const playerKick = new Player("./assets/sounds/drum-kits/808/808-kick-vm.mp3").toMaster(); // medium
+const playerKick = new Player("./assets/sounds/drum-kits/808/808-kick-vm.mp3").toMaster(); // medium
 // const playerKick = new Player("./assets/sounds/drum-kits/808/808-kick-vl.mp3").toMaster(); // low
-const playerKick = new Player("./assets/sounds/drum-kits/hiphop/kick.mp3").toMaster(); //boring, but not distorted
+
+// const playerKick = new Player("./assets/sounds/drum-kits/hiphop/kick.mp3").toMaster(); //v2, v3, v4 (boring, but not distorted)
 playerKick.volume.value = +2;
 
 // playerKick.volume.value = -6; // -6 broken

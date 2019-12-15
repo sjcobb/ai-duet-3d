@@ -135,6 +135,8 @@ export default class Helpers {
         ctx.restore();
 
         if (textData) {
+            // console.log({textData});
+
             // do white circle around textData
             ctx.save();
             ctx.translate(w / 4, h / 2);
@@ -156,7 +158,15 @@ export default class Helpers {
             ctx.translate(w / 4, h / 2);
             let textH = w / 4;
             // console.log({textH}); //128
-            textH = 160
+            textH = 160;
+
+            if (textData.length > 2) {
+                textH = textH / 2.5;
+            } else if (textData.length === 2) {
+                textH = textH / 1.5;
+            }
+            // textH = textH / textData.length; // kind of works, but "Cr" too small
+
             // https://www.w3schools.com/cssref/css_websafe_fonts.asp
             // https://www.w3.org/TR/css-fonts-3/#generic-font-families
             // // ctx.font = "bold " + textH + "px Helvetica"; //128px

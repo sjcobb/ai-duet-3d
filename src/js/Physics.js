@@ -68,6 +68,7 @@ export default class Physics {
         groundBody.position.set(...posArr);
         // console.log({groundBody});
 
+        // https://stackoverflow.com/a/35101095 - “Glueing together” two bodies in cannon.js
         groundBody.addShape(groundShape);
         globals.world.add(groundBody);
 
@@ -91,6 +92,14 @@ export default class Physics {
             options = defaultInstr.hiHatClosed;
         }
 
+        let objSize = options.size ? options.size : 'md';
+        if (objSize === 'xl') {
+            objSize = 2.0;
+        } else {
+            // objSize = 0.5; // v0.3
+            objSize = 0.65;
+        }
+
         // console.log('addBody -> options: ', options);
 
         const trigger = new Trigger();
@@ -111,7 +120,8 @@ export default class Physics {
         // const body = new CANNON.Body({ mass: 1, material: material }); //no effect
         
         this.shapes = {};
-        this.shapes.sphere = new CANNON.Sphere(0.5);
+        // this.shapes.sphere = new CANNON.Sphere(0.5);
+        this.shapes.sphere = new CANNON.Sphere(objSize);
         this.shapes.box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
 
         if (sphere) {
@@ -190,6 +200,7 @@ export default class Physics {
         body.userData = {
             opts: options
         };
+
         this.addVisual(body, (sphere) ? 'sphere' : 'box', true, false, options);
 
         let notePlayed = false;
@@ -234,6 +245,10 @@ export default class Physics {
     }
 
     addVisual(body, name, castShadow = true, receiveShadow = true, options = 'Z') {
+
+        const objSize = options.size ? options.size : 'md';
+        console.log('(addVisual) -> options: ', options);
+
         body.name = name;
         if (this.currentMaterial === undefined) this.currentMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 });
         if (this.settings === undefined) {
@@ -264,6 +279,7 @@ export default class Physics {
             };
 
             this.particleGeo = new THREE.SphereGeometry(1, 16, 8);
+            
             this.particleMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });
         }
         // What geometry should be used?
@@ -317,10 +333,16 @@ export default class Physics {
                     // const poolBallMaterial = new THREE.MeshLambertMaterial({ color: 0xf3f3f3 });
                     const poolBallMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
                     poolBallMaterial.map = poolTexture;
+
                     const sphereGeo = new THREE.SphereGeometry(shape.radius, 8, 8);
+
+                    // TODO: if options.size is 'xl' make sphere larger, need to fix Cannon addShape so physics still work
+                    // const sphereGeo = new THREE.SphereGeometry(12, 12, 12);
                     sphereGeo.name = 'sphereGeo'; //*** important for rotation when globals.cameraPositionBehind true
 
                     mesh = new THREE.Mesh(sphereGeo, poolBallMaterial); //prev: material
+
+                    // mesh.scale.set( 5, 5, 5);
                     break;
 
                 case CANNON.Shape.types.PARTICLE:
@@ -484,6 +506,7 @@ export default class Physics {
             // console.log({obj}); //name = groundPlane is child of Object3D type
         });
 
+        console.log('(shape2Mesh) -> obj: ', obj);
         return obj;
     }
 

@@ -17,13 +17,13 @@ var allDrumsPart = new Tone.Part(function(time, instr) {
     // physics.addBody(true, time * globals.multiplierPosX, instr);
     physics.addBody(true, globals.dropPosX, instr);
 }, [
-    // ["0:0:0", globals.instr.kickPrimary],
+    ["0:0:0", globals.instr.kickPrimary],
     // ["0:0:0", globals.instr.snarePrimary],
 
     // ["0:6:0", globals.instr.kickPrimary],
-    // ["0:6:0", globals.instr.snarePrimary],
+    ["0:6:0", globals.instr.snarePrimary],
 
-    // ["0:10:0", globals.instr.kickPrimary],
+    ["0:10:0", globals.instr.kickPrimary],
     // ["0:10:0", globals.instr.snarePrimary],
 
     // ["0:10:0", globals.instr.snarePrimary],

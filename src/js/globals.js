@@ -21,8 +21,8 @@ export default {
     autoScroll: true, // true - v0.1, v0.2
     autoStart: false,
     autoStartTime: 4500,
-    bpm: 120,
-    //bpm: 160,
+    // bpm: 120, // v0.4
+    bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
     cameraCircularAnimation: false, // true - drum spinner (v0.3)
     cameraPositionBehind: false,

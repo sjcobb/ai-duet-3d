@@ -422,7 +422,9 @@ let animate = () => {
 
     //ENABLE HORIZONTAL SCROLL
     if (globals.autoScroll === true) {
-        const ticksMultiplier = 9; // 0.3, 0.2
+        // const ticksMultiplier = 9; // v0.2, v0.3, v0.4
+        const ticksMultiplier = 12;
+
         // // globals.ticks = Tone.Transport.ticks * 0.014; //old
 
         // globals.ticks += (delta * 5); //PREV
