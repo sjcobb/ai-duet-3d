@@ -44,7 +44,7 @@ export default class Physics {
         // this.addSpinner();
     }
 
-    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[1500, 20, 5]) {
+    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[2500, 20, 5]) {
         //TODO: add colored ground on contact here
         //http://schteppe.github.io/cannon.js/docs/classes/ContactMaterial.html
         // const groundShape = new CANNON.Plane(); // invisible plane across entire screen

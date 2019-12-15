@@ -197,16 +197,27 @@ button#btn-drums-1 {
 }
 
 /*** MACHINE DATA ***/
-#machineData {
+#machine-data {
     margin: 10px 0 8px;
     color: #ED4A82;
-    font-family: sans-serif;
+    font-family: Verdana, sans-serif;
+}
+
+#machine-state {
+    position: relative;
+    top: -1px;
+    color: #fff;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
+    font-style: italic;
 }
 
 #logo-container {
     position: fixed;
-    top: 15px;
-    right: 10vw;
+    /* top: 15px; */
+    top: 213px;
+    /* right: 350px; */
+    left: 55px;
 }
 #logo-container .logo {
     display: inline-block;
@@ -220,11 +231,20 @@ button#btn-drums-1 {
     opacity: 0;
     animation: fade-in 2.0s 1;
     animation-fill-mode: forwards;
-    animation-delay: 3s;
+    animation-delay: 6s;
     /* animation-delay: 1s; */
 } 
 
 @keyframes fade-in {
     from {opacity: 0;}
     to {opacity: 1;}
+}
+
+
+.nsc-content-camera-container {
+    margin: 0 0 0 200px;
+}
+
+.nsc-content-camera {
+    background: transparent;
 }

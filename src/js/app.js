@@ -435,7 +435,7 @@ let animate = () => {
             // console.log(globals.camera);
         } else {
             // globals.camera.position.x = (globals.ticks) - 30; // 0.3, 0.2
-            globals.camera.position.x = (globals.ticks) - 20;
+            globals.camera.position.x = (globals.ticks) - 25;
         }
     }
 

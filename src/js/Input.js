@@ -247,22 +247,23 @@ function updateChord({ add = null, remove = null }) {
 let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
-    // console.log('(humanKeyDown) -> note: ', note);
+    console.log('(humanKeyDown) -> note: ', note);
     // console.log('(humanKeyDown) -> velocity: ', velocity);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     updateChord({ add: note });
     // if (note === 60) { // C4
-    if (note === 72) { // C5
+    // if (note === 72) { // C5
+    if (note === 72 || note === 67) { // C5, G5
         globals.machineTrigger = true;
     } else {
         humanKeyAdds.push({ note, velocity });
-        globals.machineTrigger = false;
+        // globals.machineTrigger = false;
     }
 
-    // if (note === 71) {
-    //     globals.machineTrigger = false;
-    // }
+    if (note === 71) { // High B
+        globals.machineTrigger = false;
+    }
 }
 
 function humanKeyUp(note, timestampLength) {
@@ -276,10 +277,14 @@ function humanKeyUp(note, timestampLength) {
     instrMapped.color = '#64b5f6'; // med blue
 
     // instrMapped.length = timestampLength;
+    // console.log({timestampLength});
+    const maxNoteLength = 500;
+    timestampLength = timestampLength > maxNoteLength ? maxNoteLength : timestampLength;
     instrMapped.length = timestampLength / 1000; // IMPORTANT - so length is in milliseconds 
 
     // if (note !== 60) {
-    if (note !== 72) {
+    // if (note !== 72 && note !== 71) {
+    if (note !== 72 && note !== 71 && note !== 67) { // High G, B, C
         physics.addBody(true, globals.dropPosX, instrMapped);
     }
 
@@ -290,7 +295,10 @@ function humanKeyUp(note, timestampLength) {
 function machineKeyDown(note = 60, time = 0) {
     // console.log('(machineKeyDown) -> note: ', note);
     // console.log('(machineKeyDown) -> time: ', time);
-    if (note < MIN_NOTE || note > MAX_NOTE) return;
+    
+    // const TEMP_MIN_NOTE = 60; // C4
+    const TEMP_MIN_NOTE = 64; // E4
+    if (note < TEMP_MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);
     let instrMapped = getInstrByInputNote(tonalNote);
@@ -304,12 +312,13 @@ function machineKeyDown(note = 60, time = 0) {
     }
 
     if (instrMapped === undefined) {
-        instrMapped = getInstrByInputNote('C4');
+        // instrMapped = getInstrByInputNote('C4');
+    } else {
+        // console.log('(machineKeyDown) -> instrMapped: ', instrMapped);
+        instrMapped.color = '#ED4A82'; // pink
+        physics.addBody(true, globals.dropPosX, instrMapped);
     }
 
-    // console.log('(machineKeyDown) -> instrMapped: ', instrMapped);
-    instrMapped.color = '#ED4A82'; // pink
-    physics.addBody(true, globals.dropPosX, instrMapped);
 }
 
 function buildNoteSequence(seed) {
@@ -417,7 +426,7 @@ function startSequenceGenerator(seed) {
     // console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
 
     let launchWaitTime = getSequenceLaunchWaitTime(seed); // returns 1 or 0.3
-    launchWaitTime = 0;
+    launchWaitTime = 0.1;
     let playIntervalTime = getSequencePlayIntervalTime(seed); // 0.25
     let generationIntervalTime = playIntervalTime / 2;
 
@@ -478,7 +487,7 @@ function updateUI(machineSequence) {
         globals.ui.machine.currentSequence = machineSequence;
     }
 }
-let machineDataId = document.getElementById('machineData');
+let machineDataId = document.getElementById('machine-data');
 setInterval(() => {
     if (globals.ui) {
         if (globals.ui.machine.currentSequence.length > 0) {
@@ -495,10 +504,22 @@ setInterval(() => {
             if (mappedNotes.length > 6) {
                 mappedNotes.length = 6;
             }
-            machineDataId.innerHTML = mappedNotes.join(', ');
+
+            if (globals.machineTrigger === true) {
+                machineDataId.innerHTML = mappedNotes.join(', ');
+            } else {
+                machineDataId.innerHTML = '';
+            }
+        }
+
+        let machineStateId = document.getElementById('machine-state');
+        if (globals.machineTrigger === true) {
+            machineStateId.innerHTML = '- ON';
+        } else {
+            machineStateId.innerHTML = '- OFF';
         }
     }
-}, 1000);
+}, 500);
 
 function generateDummySequence(seed = SEED_DEFAULT) {
     const sequence = rnn.continueSequence(
