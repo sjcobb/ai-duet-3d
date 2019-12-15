@@ -39,9 +39,9 @@ export default class Physics {
         // this.animate();
         this.initGroundContactMaterial(0.3);
         // this.initGroundContactMaterial(0.3, [0, 10, 0]);
-        this.initGroundContactMaterial(0.3, [0, 5, 0], [2, 2, 0.1]);
+        // this.initGroundContactMaterial(0.3, [0, 5, 0], [2, 2, 0.1]);
 
-        this.addSpinner();
+        // this.addSpinner();
     }
 
     initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[1500, 20, 5]) {
@@ -91,7 +91,7 @@ export default class Physics {
             options = defaultInstr.hiHatClosed;
         }
 
-        console.log('addBody -> options: ', options);
+        // console.log('addBody -> options: ', options);
 
         const trigger = new Trigger();
 
@@ -599,15 +599,7 @@ export default class Physics {
 
     updateBodies(world) {
 
-        // globals.tempPos += 0.01;
-
-        // globals.spinnerBody.position.set(0, 0.25, 0);
-        // globals.spinnerBody.position.set(0, -1, 0);
-        globals.spinnerBody.position.set(0, -1.5, 0);
-        // globals.spinnerBody.position.set(globals.tempPos, 0.25, 0);
-
-        // globals.spinnerBody.boundingRadius = 40;
-        // console.log(globals.spinnerBody);
+        // globals.spinnerBody.position.set(0, -1.5, 0);
 
         // IMPORTANT: cannon.js boilerplate
         // world.bodies.forEach(function(body) {

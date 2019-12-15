@@ -355,6 +355,16 @@ export default class InstrumentMappings {
                 type: 'chord',
                 originalPosition: { x: 0, y: 0, z: -10 }
             },
+            sphereChordE5: {
+                ballDesc: 'E',
+                color: '#FF001F', //III - redorange
+                keyInput: 'F',
+                note: 'E',
+                octave: 5,
+                chord: ['E5', 'G5', 'B5'],
+                type: 'chord',
+                originalPosition: { x: 0, y: 0, z: -10 }
+            },
             // Db2, Eb2, Gb2, Ab2, Bb2, Db3, Eb3, Gb3, Ab3, Bb3
         };
     }
