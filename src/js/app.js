@@ -1,6 +1,7 @@
 import Tone from 'Tone';
 import globals from './globals.js';
 import InstrumentMappings from './InstrumentMappings.js';
+import { getInstrumentMappingTemplate, generateInstrMetadata, getInstrByInputNote } from './InstrumentMappings.js';
 import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js';
 import Light from './Light.js';
 import Flame from './Flame.js';
@@ -31,7 +32,7 @@ import Trigger from './Trigger.js';
 
 const instrument = new InstrumentMappings();
 
-globals.instr = instrument.getInstrumentMappingTemplate();
+globals.instr = getInstrumentMappingTemplate();
 
 //TODO: no globals, setup Webpack or Gulp
 const globalBallTextureWidth = 512;

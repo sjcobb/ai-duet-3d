@@ -1,5 +1,6 @@
 import globals from './globals.js';
 import InstrumentMappings from './InstrumentMappings.js';
+import { generateInstrMetadata, getInstrByInputNote } from './InstrumentMappings.js';
 import Tone from 'Tone';
 
 import * as Tonal from "tonal";
@@ -216,9 +217,9 @@ function onActiveOutputChange(id) {
     // }
 }
 
-function getInstrByInputNote(note = 'C4') {
-    return instrument.getInstrByNote(note);
-}
+// function getInstrByInputNote(note = 'C4') {
+//     return instrument.getInstrByNote(note);
+// }
 
 function updateChord({ add = null, remove = null }) {
     if (add) {
@@ -271,10 +272,12 @@ function humanKeyUp(note, timestampLength) {
     // console.log('humanKeyUp -> timestampLength: ', timestampLength);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
-    let tonalNote = Tonal.Note.fromMidi(note);
-    let tonalFreq = Tonal.Note.midiToFreq(note);
-    const instrMapped = getInstrByInputNote(tonalNote);
-    instrMapped.color = '#64b5f6'; // med blue
+    // let tonalNote = Tonal.Note.fromMidi(note);
+    // let tonalFreq = Tonal.Note.midiToFreq(note);
+    // const instrMapped = getInstrByInputNote(tonalNote);
+    // instrMapped.color = '#64b5f6'; // med blue
+
+    const instrMapped = generateInstrMetadata(note);
 
     // instrMapped.length = timestampLength;
     // console.log({timestampLength});
@@ -453,7 +456,7 @@ function startSequenceGenerator(seed) {
     function consumeNext(time) {
         // console.log('consumeNext -> time: ', time);
         if (generatedSequence.length) {
-            console.log('consumeNext -> generatedSequence: ', generatedSequence);
+            // console.log('consumeNext -> generatedSequence: ', generatedSequence);
             let note = generatedSequence.shift();
             // if (note > 0) {
             if (note > 0 && globals.machineTrigger === true) {
@@ -532,9 +535,9 @@ function generateDummySequence(seed = SEED_DEFAULT) {
 }
 
 /* AYSNC - AWAIT VERSION */
-// if (globals.drumsOnly !== true) {
+if (globals.ai.enabled === true) {
     initRNN();
-// }
+}
 
 function resolveDummyPattern() {
     return new Promise(resolve => {

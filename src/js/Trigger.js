@@ -5,7 +5,10 @@ import { Transport, Player, Players, Part, Time, Volume } from 'Tone';
 // import Volume from 'Tone/component/Volume';
 
 import globals from './globals.js';
+
 import InstrumentMappings from './InstrumentMappings.js';
+import { getInstrByNote } from './InstrumentMappings.js';
+
 import Physics from './Physics.js';
 import Flame from './Flame.js';
 
@@ -102,7 +105,7 @@ export default class Trigger {
     }
     
     triggerNote(obj) {
-        // console.log({obj});
+        console.log({obj});
 
         const physics = new Physics();
 
@@ -124,7 +127,12 @@ export default class Trigger {
             const triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
             // combinedNote = triggerObj.note + triggerObj.octave;
             combinedNote = triggerNote;
-            triggerObj = instrument.getInstrByNote(triggerNote);
+
+            console.log({combinedNote});
+            triggerObj = obj.userData.opts;
+            // triggerObj = getInstrByNote(triggerNote);
+        // } else if () {
+        
         } else {
             triggerObj = instrument.getNoteMapping(obj); //ORIG
         }

@@ -3,6 +3,7 @@ import globals from './globals.js';
 import Helpers from './Helpers.js';
 import Trigger from './Trigger.js';
 import InstrumentMappings from './InstrumentMappings.js';
+import { getInstrumentMappingTemplate } from './InstrumentMappings.js';
 
 import Flame from './Flame.js';
 
@@ -87,7 +88,7 @@ export default class Physics {
 
         if (options === '') {
             const instrument = new InstrumentMappings();
-            const defaultInstr = instrument.getInstrumentMappingTemplate();
+            const defaultInstr = getInstrumentMappingTemplate();
             options = defaultInstr.hiHatClosed;
         }
 

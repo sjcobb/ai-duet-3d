@@ -18,6 +18,9 @@ export default {
     // activeInstrColor: '#001f3e',
     // activeInstrColor: '#1f1f1f',
     activeInstrColor: '#343434',
+    ai: {
+        enabled: true,
+    },
     autoScroll: true, // true - v0.1, v0.2
     autoStart: false,
     autoStartTime: 4500,
