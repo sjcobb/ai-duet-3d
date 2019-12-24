@@ -393,7 +393,7 @@ for (var i=0; i<720; i++) {
 const dropInterval = globals.dropCoordCircle.length / 4;
 globals.dropCoordCircleInterval = [globals.dropCoordCircle[0], globals.dropCoordCircle[dropInterval], globals.dropCoordCircle[dropInterval * 2], globals.dropCoordCircle[dropInterval * 3]]
 
-console.log('globals.dropCoordCircleInterval: ', globals.dropCoordCircleInterval);
+// console.log('globals.dropCoordCircleInterval: ', globals.dropCoordCircleInterval);
 
 // console.log({dropInterval});
 // console.log('INIT -> globals.dropCoordCircle: ', globals.dropCoordCircle);
@@ -423,7 +423,9 @@ let animate = () => {
 
     //ENABLE HORIZONTAL SCROLL
     if (globals.autoScroll === true) {
-        const ticksMultiplier = 9; // 0.3, 0.2
+        // const ticksMultiplier = 9; // v0.2, v0.3, v0.4
+        const ticksMultiplier = 12;
+
         // // globals.ticks = Tone.Transport.ticks * 0.014; //old
 
         // globals.ticks += (delta * 5); //PREV

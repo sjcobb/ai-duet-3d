@@ -248,14 +248,14 @@ function updateChord({ add = null, remove = null }) {
 let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
-    console.log('(humanKeyDown) -> note: ', note);
+    // console.log('(humanKeyDown) -> note: ', note);
     // console.log('(humanKeyDown) -> velocity: ', velocity);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     updateChord({ add: note });
     // if (note === 60) { // C4
     // if (note === 72) { // C5
-    if (note === 72 || note === 67) { // C5, G5
+    if (note === 72 || note === 67 || note === 66) { // C5, G5, Gb5
         globals.machineTrigger = true;
     } else {
         humanKeyAdds.push({ note, velocity });
@@ -287,7 +287,7 @@ function humanKeyUp(note, timestampLength) {
 
     // if (note !== 60) {
     // if (note !== 72 && note !== 71) {
-    if (note !== 72 && note !== 71 && note !== 67) { // High G, B, C
+    if (note !== 72 && note !== 71 && note !== 67 && note !== 66) { // B5, C6, G5, Gb5
         physics.addBody(true, globals.dropPosX, instrMapped);
     }
 
@@ -300,27 +300,26 @@ function machineKeyDown(note = 60, time = 0) {
     // console.log('(machineKeyDown) -> time: ', time);
     
     // const TEMP_MIN_NOTE = 60; // C4
-    const TEMP_MIN_NOTE = 64; // E4
+    // const TEMP_MIN_NOTE = 64; // E4
+    const TEMP_MIN_NOTE = 60;
+
     if (note < TEMP_MIN_NOTE || note > MAX_NOTE) return;
 
-    let tonalNote = Tonal.Note.fromMidi(note);
-    let instrMapped = getInstrByInputNote(tonalNote);
+    // let tonalNote = Tonal.Note.fromMidi(note);
+    // let instrMapped = getInstrByInputNote(tonalNote);
+    // if (instrMapped === undefined && tonalNote.length === 2) {
+    //     // console.log('(machineKeyDown) UNDEF -> note: ', note);
+    //     console.log('(machineKeyDown) UNDEF -> tonalNote: ', tonalNote);
+    //     const undefNoteArr = tonalNote.split(''); // ERR: note.split is not a function - Eb4
+    //     note = undefNoteArr[0] + undefNoteArr[2];
+    //     instrMapped = getInstrByInputNote(note);
+    // }
 
-    if (instrMapped === undefined && tonalNote.length === 2) {
-        // console.log('(machineKeyDown) UNDEF -> note: ', note);
-        console.log('(machineKeyDown) UNDEF -> tonalNote: ', tonalNote);
-        const undefNoteArr = tonalNote.split(''); // ERR: note.split is not a function - Eb4
-        note = undefNoteArr[0] + undefNoteArr[2];
-        instrMapped = getInstrByInputNote(note);
-    }
-
-    if (instrMapped === undefined) {
-        // instrMapped = getInstrByInputNote('C4');
-    } else {
-        // console.log('(machineKeyDown) -> instrMapped: ', instrMapped);
+    const instrMapped = generateInstrMetadata(note);
+    if (instrMapped.color) {
         instrMapped.color = '#ED4A82'; // pink
-        physics.addBody(true, globals.dropPosX, instrMapped);
     }
+    physics.addBody(true, globals.dropPosX, instrMapped);
 
 }
 

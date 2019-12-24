@@ -76,14 +76,11 @@ export default class InstrumentMappings {
 export function generateInstrMetadata(note) {
     let tonalNote = Tonal.Note.fromMidi(note);
     // let tonalFreq = Tonal.Note.midiToFreq(note);
-    console.log({tonalNote});
+    // console.log({tonalNote});
     // console.log({tonalFreq});
     
-    if (tonalNote.length === 3) {
-
-    }
     const baseNote = tonalNote.length === 3 ? tonalNote[0] + tonalNote[2] : tonalNote;
-    console.log({baseNote});
+    // console.log({baseNote});
     const instrMapped = getInstrByInputNote(baseNote);
 
     if (tonalNote.length === 3) {
@@ -92,6 +89,8 @@ export function generateInstrMetadata(note) {
         // instrMapped.ballDesc = tonalNote;
     }
 
+    // console.log('(generateInstrMetadata) -> instrMapped: ', instrMapped);
+    // TODO: best way to set color for machine, human, reg keyboard???
     if (instrMapped.color) {
         instrMapped.color = '#64b5f6'; // med blue
     }
@@ -168,7 +167,8 @@ export function getInstrumentMappingTemplate(movement = 'physics') {
         },
         kickPrimary: {
             // ballDesc: 'K', // beat-v1
-            ballDesc: 'B',
+            // ballDesc: 'B',
+            ballDesc: '808',
             // color: '#003366', //midnight blue
             color: '#64b5f6', // human (lt blue)
             keyInput: '4',
@@ -476,7 +476,27 @@ export function getInstrumentMappingTemplate(movement = 'physics') {
             octave: 5,
             chord: ['E5', 'G5', 'B5'],
             type: 'chord',
-            originalPosition: { x: 0, y: 0, z: -10 }
+            originalPosition: { x: 0, y: 0, z: -11 }
+        },
+        sphereChordF5: {
+            ballDesc: 'F',
+            color: '#006CFA', //IV - medblue
+            keyInput: '?',
+            note: 'F',
+            octave: 5,
+            chord: ['F5', 'A5', 'C6'],
+            type: 'chord',
+            originalPosition: { x: 0, y: 0, z: -12 }
+        },
+        sphereChordG5: {
+            ballDesc: 'G',
+            color: '#4B0AA1', //V - dkblue
+            keyInput: '?',
+            note: 'G',
+            octave: 5,
+            chord: ['G5', 'B5', 'D6'],
+            type: 'chord',
+            originalPosition: { x: 0, y: 0, z: -13 }
         },
         // Db2, Eb2, Gb2, Ab2, Bb2, Db3, Eb3, Gb3, Ab3, Bb3
     };
