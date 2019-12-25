@@ -6,6 +6,10 @@ This project is in active development and is not live yet. Until release v1.0.0,
 
 ## Release Notes
 
+### 0.4
+
+neural network melody right hand + human left hand: https://www.youtube.com/watch?v=tTNFgoKaEnA
+
 ### 0.3
 
 drum machine spinner: https://www.youtube.com/watch?v=2uCANP7zd4s
