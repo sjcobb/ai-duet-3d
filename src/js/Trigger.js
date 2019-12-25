@@ -10,9 +10,15 @@ import Physics from './Physics.js';
 import Flame from './Flame.js';
 
 //-----TONE------//
-Tone.Transport.bpm.value = 200;
+// Tone.Transport.bpm.value = 200; //PREV
+// Tone.Transport.bpm.value = 120;
+Tone.Transport.bpm.value = globals.bpm;
 // Tone.Transport.bpm.rampTo(120, 10);
-Tone.Transport.timeSignature = 12; // https://tonejs.github.io/docs/r13/Transport#timesignature
+
+// https://tonejs.github.io/docs/r13/Transport#timesignature
+// Tone.Transport.timeSignature = 12; // PREV
+Tone.Transport.timeSignature = 4;     // DEFAULT
+
 // Tone.Transport.setLoopPoints(0, "13m"); //starts over at beginning
 // Tone.Transport.loop = true; //TODO: *** clear all addBody objects if Transport loop true
 
@@ -110,18 +116,21 @@ export default class Trigger {
         } else {
 
         }
-        // let triggerObj = instrument.getNoteMapping(obj); //ORIG
-
-        // console.log('Trigger -> addBody - note: ', obj.userData.opts.note);
-        const triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
-        let triggerObj = instrument.getInstrByNote(triggerNote);
-
-        let combinedNote = triggerObj.note + triggerObj.octave;
+        // console.log('Trigger -> addBody - opts: ', obj.userData.opts);
+        
+        let triggerObj = {};
+        let combinedNote = 'C1';
+        if (obj.userData.opts.type !== 'drum') {
+            const triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
+            // combinedNote = triggerObj.note + triggerObj.octave;
+            combinedNote = triggerNote;
+            triggerObj = instrument.getInstrByNote(triggerNote);
+        } else {
+            triggerObj = instrument.getNoteMapping(obj); //ORIG
+        }
+        
         // console.log('Trigger -> combinedNote: ', combinedNote);
-        // console.log('triggerObj: ', triggerObj);
-
         let drumIndex = 0;
-        // TODO: is if else performance causing sound bug?
         if (triggerObj.type === 'drum') {
             if (triggerObj.variation === 'kick') {
                 // console.log('trigger -> playerKick: ', playerKick);
@@ -142,15 +151,16 @@ export default class Trigger {
                 playerTomHigh.start(); // key: 7
                 // flameFirst.create(obj.initPosition);
             } else {
-                console.log('UNDEF variation - triggerNote() -> triggerObj (drum): ', triggerObj);
+                // console.log('UNDEF variation - triggerNote() -> triggerObj (drum): ', triggerObj);
                 playerHiHat.start();
             }
             drumIndex++;
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
-            // console.log('triggerObj -> chord: ', triggerObj.chord);
-            // polySynth.triggerAttackRelease(triggerObj.chord, '4n');
-            // polySynth.triggerAttackRelease(combinedNote, '4n');
-            polySynth.triggerAttackRelease(combinedNote, '8n');
+            // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
+            // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
+            // console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
+            const noteLength = obj.userData.opts.length ? obj.userData.opts.length : 0.15;
+            polySynth.triggerAttackRelease(combinedNote, noteLength);
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);
@@ -164,23 +174,6 @@ export default class Trigger {
                 globals.activeInstrColor = triggerObj.color;
             }
         }
-
-        // humanKeyDown(52); // TODO: add humanKeyDown as shared method
-
-        // switch (obj.userData.opts.ballDesc) {
-        //     case ('A'):
-        //         bounceSynth.triggerAttackRelease("A3", "8n");
-        //         console.log('triggerNote -> poolBalls.ballA');
-        //         break;
-        //     default:
-        //         // debugger;
-        //         bounceSynth.toMaster();
-        //         bounceSynth.triggerAttackRelease("A2", "8n");
-        //         console.log('default case');
-        // }
-        // //bounceSynth.triggerRelease();
-        // //Tone.Transport.stop();
-
     }
 
 }

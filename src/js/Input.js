@@ -144,17 +144,39 @@ function onActiveInputChange(id) {
     }
     let input = WebMidi.getInputById(id);
     if (input) {
+        console.log({input});
+
+        let noteStartTime = 0;
+
         input.addListener('noteon', 1, e => {
+            // console.log('noteon listener -> e: ', e);
             humanKeyDown(e.note.number, e.velocity);
-            // hideUI();
+            // uiHidden();
+
+            noteStartTime = e.timestamp;
         });
         input.addListener('controlchange', 1, e => {
+            // console.log('controlchange listener -> e: ', e);
             if (e.controller.number === TEMPO_MIDI_CONTROLLER) {
                 Tone.Transport.bpm.value = (e.value / 128) * MAX_MIDI_BPM;
                 echo.delayTime.value = Tone.Time('8n.').toSeconds();
             }
         });
-        input.addListener('noteoff', 1, e => humanKeyUp(e.note.number));
+
+        // TODO: how to map humanKeyUp to floor / ball restitution bounciness, how to map arpeggiator toggle to start or reset generatedSequence
+        // input.addListener('noteoff', 1, e => humanKeyUp(e.note.number));
+        input.addListener('noteoff', 1, e => {
+            // console.log('noteoff listener -> e: ', e);
+            // TODO: access pitchbend using: e.target._userHandlers.channel.pitchbend.1
+
+            const tempNoteLength = e.timestamp - noteStartTime;
+            humanKeyUp(e.note.number, tempNoteLength)
+        });
+
+        // input.addListener('pitchbend', 1, e => {
+        //     console.log('pitchbend listener -> e: ', e); // no effect
+        // });
+
         // for (let option of Array.from(inputSelector.children)) {
         //     option.selected = option.value === id;
         // }
@@ -226,24 +248,46 @@ let humanKeyAdds = [],
     humanKeyRemovals = [];
 function humanKeyDown(note, velocity = 0.7) {
     console.log('(humanKeyDown) -> note: ', note);
+    // console.log('(humanKeyDown) -> velocity: ', velocity);
+    if (note < MIN_NOTE || note > MAX_NOTE) return;
+
+    updateChord({ add: note });
+    // if (note === 60) { // C4
+    // if (note === 72) { // C5
+    if (note === 72 || note === 67) { // C5, G5
+        globals.machineTrigger = true;
+    } else {
+        humanKeyAdds.push({ note, velocity });
+        // globals.machineTrigger = false;
+    }
+
+    if (note === 71) { // High B
+        globals.machineTrigger = false;
+    }
+}
+
+function humanKeyUp(note, timestampLength) {
+    // console.log('humanKeyUp -> note: ', note);
+    // console.log('humanKeyUp -> timestampLength: ', timestampLength);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);
     let tonalFreq = Tonal.Note.midiToFreq(note);
-
-    updateChord({ add: note });
-
     const instrMapped = getInstrByInputNote(tonalNote);
     instrMapped.color = '#64b5f6'; // med blue
-    
-    physics.addBody(true, globals.dropPosX, instrMapped);
 
-    if (note < MIN_NOTE || note > MAX_NOTE) return;
-    humanKeyAdds.push({ note, velocity });
-}
+    // instrMapped.length = timestampLength;
+    // console.log({timestampLength});
+    const maxNoteLength = 500;
+    timestampLength = timestampLength > maxNoteLength ? maxNoteLength : timestampLength;
+    instrMapped.length = timestampLength / 1000; // IMPORTANT - so length is in milliseconds 
 
-function humanKeyUp(note) {
-    if (note < MIN_NOTE || note > MAX_NOTE) return;
+    // if (note !== 60) {
+    // if (note !== 72 && note !== 71) {
+    if (note !== 72 && note !== 71 && note !== 67) { // High G, B, C
+        physics.addBody(true, globals.dropPosX, instrMapped);
+    }
+
     humanKeyRemovals.push({ note });
     updateChord({ remove: note });
 }
@@ -251,7 +295,10 @@ function humanKeyUp(note) {
 function machineKeyDown(note = 60, time = 0) {
     // console.log('(machineKeyDown) -> note: ', note);
     // console.log('(machineKeyDown) -> time: ', time);
-    if (note < MIN_NOTE || note > MAX_NOTE) return;
+    
+    // const TEMP_MIN_NOTE = 60; // C4
+    const TEMP_MIN_NOTE = 64; // E4
+    if (note < TEMP_MIN_NOTE || note > MAX_NOTE) return;
 
     let tonalNote = Tonal.Note.fromMidi(note);
     let instrMapped = getInstrByInputNote(tonalNote);
@@ -265,12 +312,13 @@ function machineKeyDown(note = 60, time = 0) {
     }
 
     if (instrMapped === undefined) {
-        instrMapped = getInstrByInputNote('C4');
+        // instrMapped = getInstrByInputNote('C4');
+    } else {
+        // console.log('(machineKeyDown) -> instrMapped: ', instrMapped);
+        instrMapped.color = '#ED4A82'; // pink
+        physics.addBody(true, globals.dropPosX, instrMapped);
     }
 
-    // console.log('(machineKeyDown) -> instrMapped: ', instrMapped);
-    instrMapped.color = '#ED4A82'; // pink
-    physics.addBody(true, globals.dropPosX, instrMapped);
 }
 
 function buildNoteSequence(seed) {
@@ -375,9 +423,10 @@ function startSequenceGenerator(seed) {
 
     let generatedSequence =
         Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : [];
-    console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
+    // console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
 
     let launchWaitTime = getSequenceLaunchWaitTime(seed); // returns 1 or 0.3
+    launchWaitTime = 0.1;
     let playIntervalTime = getSequencePlayIntervalTime(seed); // 0.25
     let generationIntervalTime = playIntervalTime / 2;
 
@@ -390,11 +439,13 @@ function startSequenceGenerator(seed) {
                 generatedSequence = generatedSequence.concat(
                     genSeq.notes.map(n => n.pitch)
                 );
-                console.log('(generateNext) .then -> generatedSequence: ', generatedSequence);
+                // console.log('(generateNext) .then -> generatedSequence: ', generatedSequence);
+                updateUI(generatedSequence);
+
                 setTimeout(generateNext, generationIntervalTime * 1000);
             });
         } else {
-            console.log('(generateNext) ELSE -> generatedSequence: ', generatedSequence);
+            // console.log('(generateNext) ELSE -> generatedSequence: ', generatedSequence);
             setTimeout(generateNext, generationIntervalTime * 1000);
         }
     }
@@ -404,8 +455,9 @@ function startSequenceGenerator(seed) {
         if (generatedSequence.length) {
             console.log('consumeNext -> generatedSequence: ', generatedSequence);
             let note = generatedSequence.shift();
-            if (note > 0) {
-                machineKeyDown(note, time);
+            // if (note > 0) {
+            if (note > 0 && globals.machineTrigger === true) {
+                machineKeyDown(note, time); // IMPORTANT
             }
         }
     }
@@ -417,12 +469,57 @@ function startSequenceGenerator(seed) {
         playIntervalTime,
         Tone.Transport.seconds + launchWaitTime
     );
+    
+    // updateUI(generatedSequence);
 
     return () => {
         running = false;
         Tone.Transport.clear(consumerId);
     };
 }
+
+function updateUI(machineSequence) {
+    // console.log('updateUI -> machineSequence: ', machineSequence);
+
+    // if (globals.ui.machine.currentSequence.length > 0) {
+    // if (machineSequence.length > 1) {
+    if (machineSequence.length > 0) {
+        globals.ui.machine.currentSequence = machineSequence;
+    }
+}
+let machineDataId = document.getElementById('machine-data');
+setInterval(() => {
+    if (globals.ui) {
+        if (globals.ui.machine.currentSequence.length > 0) {
+
+            // mappedNotes = notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
+            // let mappedNotes = globals.ui.machine.currentSequence.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note)));
+            let mappedNotes = globals.ui.machine.currentSequence.map(note => Tonal.Note.fromMidi(note));
+
+            // console.log('mappedNotes: ', mappedNotes);
+            // console.log(globals.ui.machine.currentSequence);
+            // machineDataId.innerHTML = globals.ui.machine.currentSequence;
+
+            // https://love2dev.com/blog/javascript-remove-from-array/
+            if (mappedNotes.length > 6) {
+                mappedNotes.length = 6;
+            }
+
+            if (globals.machineTrigger === true) {
+                machineDataId.innerHTML = mappedNotes.join(', ');
+            } else {
+                machineDataId.innerHTML = '';
+            }
+        }
+
+        let machineStateId = document.getElementById('machine-state');
+        if (globals.machineTrigger === true) {
+            machineStateId.innerHTML = '- ON';
+        } else {
+            machineStateId.innerHTML = '- OFF';
+        }
+    }
+}, 500);
 
 function generateDummySequence(seed = SEED_DEFAULT) {
     const sequence = rnn.continueSequence(
@@ -435,8 +532,9 @@ function generateDummySequence(seed = SEED_DEFAULT) {
 }
 
 /* AYSNC - AWAIT VERSION */
-// rnn.initialize();
-initRNN(); // TODO: move to async function
+// if (globals.drumsOnly !== true) {
+    initRNN();
+// }
 
 function resolveDummyPattern() {
     return new Promise(resolve => {
@@ -452,9 +550,11 @@ function initRNN() {
         rnn.initialize();
         console.log('initRNN -> rnn: ', rnn);
         resolve('resolved');
-        if (Tone.Transport.state !== 'started') {
+
+        // if (globals.autoStart === true && Tone.Transport.state !== 'started') {
             Tone.Transport.start();
-        }
+        // }
+
         // console.log('initRNN -> Tone.Transport.state: ', Tone.Transport.state); //'started' or 'stopped'
     });
 }

@@ -37,8 +37,6 @@ globals.instr = instrument.getInstrumentMappingTemplate();
 const globalBallTextureWidth = 512;
 const globalCollisionThreshold = 4; //prev: 3.4
 
-let globalDropPosX = 5.5;
-
 // TODO: remove all globalLetterNumArr calls
 const globalLetterNumArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG']; //TODO: remove globalLetterNumArr array, only instrumentMapping obj needed
 
@@ -69,11 +67,13 @@ if (globals.cameraLookUp === true) {
 }
 
 if (globals.keysOnly === true) {
-    globals.camera.position.z -= 6; // middle of first keyboard staff
-    // globals.camera.position.z -= 8; // middle of first keyboard staff
-    // globals.camera.position.z -= 14; // between each keyboard staff (dashed line C)
+    globals.camera.position.z -= 6; // PREV, middle of first keyboard staff
+    globals.posBehindX -= 10;
+}
 
-    // globals.camera.position.x -= 30; // remove, no difference
+if (globals.drumsOnly === true) {
+    // globals.camera.position.z -= 10; // only see top half of spinner
+    globals.camera.position.z += 8;
     globals.posBehindX -= 10;
 }
 
@@ -220,10 +220,10 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
         if (dashedLines === true) {
             // if (i <= 1) {
             if (i === 0 && middleC === true) {
-                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
+                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0xffffff, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
                 staffLine.computeLineDistances();
             } else if (i === 3 || i === 4) {
-                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
+                staffLine = new THREE.Line(staffLineGeo, new THREE.LineDashedMaterial( { color: 0xffffff, dashSize: 1, gapSize: 5 } )); // blue: 0x0000ff
                 staffLine.computeLineDistances();
             } else {
                 staffLine = new THREE.Line(); // empty line
@@ -235,12 +235,14 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
 
 const staffLineLengthEnd = 8000;
 if (globals.keysOnly !== true) {
-    addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+    // addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
 } else if (globals.keysOnly === true) {
-    addStaffLines(0x000000, globals.staffLineSecondZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+
+    const lineYHeight = -0.95;
+    addStaffLines(0xffffff, globals.staffLineSecondZ, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
 
     // two dashed lines above treble clef
-    addStaffLines(0x0000ff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, 0.08, 0, 2, true, true);
+    addStaffLines(0xffffff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, lineYHeight, 0, 2, true, true);
 } else {}
 
 
@@ -360,6 +362,43 @@ function moveObject(object, motionActive, positionUp, threshold) {
 // }, 1);
 // var clock = new THREE.Clock();
 
+let dropAngle = 0;
+function rotateCalc(a) {
+    // https://stackoverflow.com/a/35672783
+    let x = 0
+    let y = 0;  // lower = closer to center of spinner
+    // let y = 8; 
+
+    let r = 10.25;   // radius
+
+    // let a = 0;   // angle (from 0 to Math.PI * 2)
+
+    // x += globals.dropOffset;
+    // y += globals.dropOffset;
+
+    var px = x + r * Math.cos(a);
+    var py = y + r * Math.sin(a);
+    return {
+        'px': px,
+        'py': py
+    }
+}
+// for (var i=0; i<719; i++) {
+for (var i=0; i<720; i++) {
+    dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+    let dropCoord = rotateCalc(dropAngle);
+    globals.dropCoordCircle.push(dropCoord);
+}
+const dropInterval = globals.dropCoordCircle.length / 4;
+globals.dropCoordCircleInterval = [globals.dropCoordCircle[0], globals.dropCoordCircle[dropInterval], globals.dropCoordCircle[dropInterval * 2], globals.dropCoordCircle[dropInterval * 3]]
+
+console.log('globals.dropCoordCircleInterval: ', globals.dropCoordCircleInterval);
+
+// console.log({dropInterval});
+// console.log('INIT -> globals.dropCoordCircle: ', globals.dropCoordCircle);
+// console.log('globals.dropCoordCircle[0]: ', globals.dropCoordCircle[0]);
+// console.log('globals.dropCoordCircle.length ', globals.dropCoordCircle[globals.dropCoordCircle.length - 1]);
+
 //-----ANIMATION------//
 let animate = () => {
     requestAnimationFrame(animate);
@@ -383,7 +422,7 @@ let animate = () => {
 
     //ENABLE HORIZONTAL SCROLL
     if (globals.autoScroll === true) {
-        const ticksMultiplier = 9;
+        const ticksMultiplier = 9; // 0.3, 0.2
         // // globals.ticks = Tone.Transport.ticks * 0.014; //old
 
         // globals.ticks += (delta * 5); //PREV
@@ -395,32 +434,24 @@ let animate = () => {
             globals.camera.position.x = globals.posBehindX + (globals.ticks);
             // console.log(globals.camera);
         } else {
-            // globals.camera.position.x = (globals.ticks) - 12; // prev, works the (delta * 5)
-            globals.camera.position.x = (globals.ticks) - 30;
+            // globals.camera.position.x = (globals.ticks) - 30; // 0.3, 0.2
+            globals.camera.position.x = (globals.ticks) - 25;
         }
     }
 
-    // if (triggerAnimationTime === Tone.Transport.position & flameActive === false) {
-    // if (Tone.Transport.position === "5:8:0" & flameActive === false) {
-    // if (Tone.Transport.position === "6:5:0" & flameActive === false) {
-    // if (Tone.Transport.seconds > 23 & flameActive === false) {
-    if (flameActive === false) {
-        // console.log('addFire active -> position: ', Tone.Transport.position);
-        // flameFirst.addFire(globals.ticks);
-        // flameActive = true;
-    }
+    // if (globals.cameraCircularAnimation === true) {
+    //     // 3D z axis rotation: https://jsfiddle.net/prisoner849/opau47vk/
+    //     // camera Three.js ex: https://stackoverflow.com/a/10342429
+    //     // USE - simple trig ex: https://stackoverflow.com/a/35672783
+    //     dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+    //     let dropCoord = rotateCalc(dropAngle);
+    //     globals.dropPosX = dropCoord.px;
+    //     globals.dropPosY = dropCoord.py;
+    // }
 
-    if (Tone.Transport.seconds > 41 && Tone.Transport.seconds < 42) {
-        flameActive = false;
-    }
+    // to reinit flame animation, see: https://github.com/sjcobb/music360js/blob/v4-fire/src/js/app.js
+    // if (flameActive === false) {}
 
-    // TODO: readd after webpack setup
-    var flameRate = globals.clock.getElapsedTime() * 2.0;
-    // volumetricFire.update(flameRate);
-    if (globals.flameArr.length > 0) {
-        globals.flameArr[0].update(flameRate);
-    }
-    
     physics.updateBodies(globals.world);
     globals.world.step(globals.fixedTimeStep);
 
@@ -450,8 +481,8 @@ window.onload = () => {
 
             switch (keyName) {
                 case ('z'):
-                    // physics.addBody(true, globalDropPosX, keyMapped);
-                    // globalDropPosX -= 1.3;
+                    // physics.addBody(true, globals.dropPosX, keyMapped);
+                    // globals.dropPosX -= 1.3;
                     break;
                 default:
                     // console.log('keydown -> DEFAULT...', event);
@@ -466,8 +497,8 @@ window.onload = () => {
                 
                 if (keyName === keyMapped.keyInput) { //*** IMPORTANT ***
                     // console.log({keyMapped});
-                    physics.addBody(true, globalDropPosX, keyMapped);
-                    globalDropPosX -= 1.3; //TODO: how to manipulate Y drop position?
+                    physics.addBody(true, globals.dropPosX, keyMapped);
+                    // globals.dropPosX -= 1.3; //TODO: how to manipulate Y drop position?
                     console.log('keydown -> keyMapped, event: ', keyMapped, event);
                 } else {
                     console.log('keyMapped UNDEF -> else: ', event);

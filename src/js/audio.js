@@ -9,56 +9,78 @@ let flameAudio = new Flame();
  *** AUDIO ***
  */
 
-/*
+
 const physics = new Physics();
 
 //-----INSTRUMENT PARTS------//
 var allDrumsPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    // physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, globals.dropPosX, instr);
 }, [
-    ["0:0:0", globals.instr.kickPrimary],
-    ["0:6:0", globals.instr.kickPrimary],
-    ["0:7:0", globals.instr.kickPrimary],
+    // ["0:0:0", globals.instr.kickPrimary],
+    // ["0:0:0", globals.instr.snarePrimary],
 
-    ["0:10:0", globals.instr.snarePrimary],
+    // ["0:6:0", globals.instr.kickPrimary],
+    // ["0:6:0", globals.instr.snarePrimary],
 
-    ["0:4:0", globals.instr.crashPrimary],
+    // ["0:10:0", globals.instr.kickPrimary],
+    // ["0:10:0", globals.instr.snarePrimary],
 
-    ["0:4:0", globals.instr.tomHigh],
+    // ["0:10:0", globals.instr.snarePrimary],
+
+    // ["0:8:0", globals.instr.crashPrimary],
+    // ["0:8:0", globals.instr.snarePrimary],
+
+    // ["0:4:0", globals.instr.tomHigh],
 ]);
 allDrumsPart.loop = true;
 // allDrumsPart.start("0:0:0");
-allDrumsPart.start("2:0:0");
-
-var secondVerseDrumsPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
-}, [
-    ["0:0:0", globals.instr.ridePrimary],
-    ["0:2:0", globals.instr.ridePrimary],
-    ["0:4:0", globals.instr.ridePrimary],
-    ["0:6:0", globals.instr.ridePrimary],
-]);
-secondVerseDrumsPart.loop = 4;
-secondVerseDrumsPart.start("7:0:0");
+// // allDrumsPart.start("1:0:0");
+// // allDrumsPart.start("2:0:0");
 
 var introPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    // TODO: use globals.dropCoordCircle [0] and [719] for dropPosX and dropPosY (must be added as param to addBody) coordinates
+    // console.log('introPart -> dropPosX, dropPosY: ', globals.dropPosX, '-', globals.dropPosY);
+    physics.addBody(true, globals.dropPosX, instr, 0);
+    // physics.addBody(true, time * globals.multiplierPosX, instr); // sine wave
 }, [
-    ["0:0:0", globals.instr.hiHatClosed],
-    ["0:2:0", globals.instr.hiHatClosed],
-    ["0:2:3", globals.instr.hiHatClosed],
-    ["0:2:6", globals.instr.hiHatClosed],
-    ["0:2:9", globals.instr.hiHatClosed],
-
-    ["0:6:0", globals.instr.hiHatClosed],
-    ["0:6:3", globals.instr.hiHatClosed],
-    ["0:6:6", globals.instr.hiHatClosed],
-    ["0:6:9", globals.instr.hiHatClosed],
-    ["0:10:0", globals.instr.hiHatOpen],
+    // ["0:0:0", globals.instr.hiHatClosed],
+    ["0:0:0", globals.instr.hiHatOpen],
+    // ["0:11:0", globals.instr.hiHatClosed],
 ]);
-introPart.loop = 6;
-introPart.start("0:0:0");
+// introPart.loop = 6;
+introPart.loop = true;
+// introPart.start("0:0:0");
 
+var secPosPart = new Tone.Part(function(time, instr) {
+    physics.addBody(true, globals.dropPosX, instr, 1);
+}, [
+    //[ "0:0:0", globals.instr.hiHatClosed],
+    // ["0:2:0", globals.instr.kickPrimary],
+    ["0:0:0", globals.instr.snarePrimary],
+]);
+secPosPart.loop = true;
+// secPosPart.start("0:0:0");
+
+
+var thirdPosPart = new Tone.Part(function(time, instr) {
+    physics.addBody(true, globals.dropPosX, instr, 2);
+}, [
+    ["0:0:0", globals.instr.kickPrimary],
+]);
+thirdPosPart.loop = true;
+// thirdPosPart.start("0:0:0");
+
+var fourthPosPart = new Tone.Part(function(time, instr) {
+    physics.addBody(true, globals.dropPosX, instr, 3);
+}, [
+    ["0:0:0", globals.instr.kickPrimary],
+]);
+fourthPosPart.loop = true;
+// fourthPosPart.start("0:0:0");
+
+
+/*
 var groovePart = new Tone.Part(function(time, instr) {
     physics.addBody(true, time * globals.multiplierPosX, instr);
 }, [
@@ -168,5 +190,4 @@ export default class Audio {
 
     }
 }
-
 */

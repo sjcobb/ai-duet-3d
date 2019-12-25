@@ -1,16 +1,16 @@
 ## Roadmap
 
 ### 0.4
-- [ ] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param
-- [ ] update instrumentMappings to use key of B major instead of C
-- [ ] display key signature in UI
+- [x] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param
 
 ### 0.5
 - [ ] rename state variables to store, separate property for UI related variables
-- [ ] different iframes / canvas for each instrument type, separate routes with different globals can be used
-- [ ] balls drop and hit key of 3D piano
+- [ ] update instrumentMappings to use key of B major instead of C
+- [ ] display key signature in UI
 
 ### 0.6
+- [ ] different iframes / canvas for each instrument type, separate routes with different globals can be used
+- [ ] balls drop and hit key of 3D piano
 - [ ] instrument animations mapped to note sequences, ex: flamePhysics.create triggered on FD - FD -- A3F - A3F added to note sequence (use humanKeyAdds array? or buildNoteSequence function)
 
 ### 0.7
