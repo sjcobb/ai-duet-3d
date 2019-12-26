@@ -384,21 +384,16 @@ function rotateCalc(a) {
         'py': py
     }
 }
-// for (var i=0; i<719; i++) {
-for (var i=0; i<720; i++) {
-    dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
-    let dropCoord = rotateCalc(dropAngle);
-    globals.dropCoordCircle.push(dropCoord);
+
+if (globals.view.drumCircle === true) {
+    for (var i=0; i<720; i++) {
+        dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
+        let dropCoord = rotateCalc(dropAngle);
+        globals.dropCoordCircle.push(dropCoord);
+    }
+    const dropInterval = globals.dropCoordCircle.length / 4;
+    globals.dropCoordCircleInterval = [globals.dropCoordCircle[0], globals.dropCoordCircle[dropInterval], globals.dropCoordCircle[dropInterval * 2], globals.dropCoordCircle[dropInterval * 3]]    
 }
-const dropInterval = globals.dropCoordCircle.length / 4;
-globals.dropCoordCircleInterval = [globals.dropCoordCircle[0], globals.dropCoordCircle[dropInterval], globals.dropCoordCircle[dropInterval * 2], globals.dropCoordCircle[dropInterval * 3]]
-
-// console.log('globals.dropCoordCircleInterval: ', globals.dropCoordCircleInterval);
-
-// console.log({dropInterval});
-// console.log('INIT -> globals.dropCoordCircle: ', globals.dropCoordCircle);
-// console.log('globals.dropCoordCircle[0]: ', globals.dropCoordCircle[0]);
-// console.log('globals.dropCoordCircle.length ', globals.dropCoordCircle[globals.dropCoordCircle.length - 1]);
 
 //-----ANIMATION------//
 let animate = () => {
@@ -442,7 +437,7 @@ let animate = () => {
         }
     }
 
-    // if (globals.cameraCircularAnimation === true) {
+    // if (globals.view.drumCircle === true) {
     //     // 3D z axis rotation: https://jsfiddle.net/prisoner849/opau47vk/
     //     // camera Three.js ex: https://stackoverflow.com/a/10342429
     //     // USE - simple trig ex: https://stackoverflow.com/a/35672783

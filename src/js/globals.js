@@ -81,6 +81,9 @@ export default {
             currentSequence: []
         }
     },
+    view: {
+        drumCircle: true,
+    },
     world: new CANNON.World(),
 };
 
