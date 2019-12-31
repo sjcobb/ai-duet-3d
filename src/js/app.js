@@ -56,8 +56,12 @@ Store.scene.background = new THREE.Color(0, 0, 0); //prev: 'white'
 // Store.camera.position.set(0, 30, 0); // directly above
 // Store.camera.position.set(0, 6, 20); // 2nd param (y) = height
 // Store.camera.position.set(0, 8, 22);
-Store.camera.position.set(0, 8, 26);
-Store.camera.lookAt(new THREE.Vector3(0, 1, 0));
+// Store.camera.position.set(0, 8, 26); // // v0.3, v0.4
+Store.camera.position.set(0, 14, 26); 
+
+// Store.camera.lookAt(new THREE.Vector3(0, 1, 0)); // v0.3, v0.4
+
+Store.camera.lookAt(new THREE.Vector3(0, -2.5, 0)); // v0.5
 
 if (Store.cameraPositionBehind === true) {
     Store.camera.position.set(Store.posBehindX, Store.posBehindY, Store.posBehindZ);
@@ -516,7 +520,7 @@ window.onload = () => {
             let keyMapped = instrument.getKeyboardMapping(keyName);
             // console.log({keyMapped});
 
-            console.log({keyName});
+            // console.log({keyName});
             switch (keyName) { 
                 case ('z'):
                     // physics.addBody(true, Store.dropPosX, keyMapped);
