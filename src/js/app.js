@@ -432,13 +432,8 @@ let animate = () => {
 
     //ENABLE HORIZONTAL SCROLL
     if (Store.autoScroll === true) {
-        const ticksMultiplier = 9; // v0.2, v0.3, v0.4
-        // const ticksMultiplier = 12;
-
-        // // Store.ticks = Tone.Transport.ticks * 0.014; //old
-
-        // Store.ticks += (delta * 5); //PREV
-        // Store.ticks += (delta * 6); // higher multiplier = higher dist between drops
+        // const ticksMultiplier = 9; // v0.2, v0.3, v0.4
+        const ticksMultiplier = 12;
 
         Store.ticks += (delta * ticksMultiplier); // Too fast, balls dropped too far left
         
@@ -447,7 +442,7 @@ let animate = () => {
             // console.log(Store.camera);
         } else {
             // Store.camera.position.x = (Store.ticks) - 30; // 0.3, 0.2
-            Store.camera.position.x = (Store.ticks) - 25;
+            Store.camera.position.x = (Store.ticks) - 30;
         }
     }
 
@@ -483,9 +478,9 @@ let animate = () => {
             // machineDataId.innerHTML = Store.ui.machine.currentSequence;
 
             // https://love2dev.com/blog/javascript-remove-from-array/
-            if (mappedNotes.length > 6) {
-                mappedNotes.length = 6;
-            }
+            // if (mappedNotes.length > 6) {
+            //     mappedNotes.length = 6;
+            // }
 
             if (Store.machineTrigger === true) {
                 machineDataId.innerHTML = mappedNotes.join(', ');
@@ -532,7 +527,8 @@ window.onload = () => {
                     if (Store.polySynth) {
                         console.log(Store.polySynth);
                         Store.polySynth.triggerRelease();
-                        // Store.polySynth.disconnect();
+                        Store.polySynth.disconnect();
+                        Store.polySynth.connect();
                     } 
                     // console.log(Tone.Transport);
                     // Tone.disconnect();

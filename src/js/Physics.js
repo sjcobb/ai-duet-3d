@@ -98,7 +98,8 @@ export default class Physics {
             objSize = 2.0;
         } else {
             // objSize = 0.5; // v0.3
-            objSize = 0.65;
+            // objSize = 0.65;
+            objSize = 0.70;
         }
 
         // console.log('addBody -> options: ', options);

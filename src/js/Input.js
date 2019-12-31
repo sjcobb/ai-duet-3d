@@ -320,7 +320,6 @@ function machineKeyDown(note = 60, time = 0) {
         instrMapped.color = '#ED4A82'; // pink
     }
     physics.addBody(true, Store.dropPosX, instrMapped);
-
 }
 
 function buildNoteSequence(seed) {
@@ -425,7 +424,8 @@ function startSequenceGenerator(seed) {
 
     let generatedSequence =
         Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : [];
-    console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
+    // console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
+    // updateUI(generatedSequence);
 
     let launchWaitTime = getSequenceLaunchWaitTime(seed); // returns 1 or 0.3
     launchWaitTime = 0.1;
@@ -434,6 +434,9 @@ function startSequenceGenerator(seed) {
 
     function generateNext() {
         if (!running) return;
+
+        // updateUI(generatedSequence);
+        
         if (generatedSequence.length < 10) {
             lastGenerationTask = rnn
             .continueSequence(seedSeq, 20, temperature, [chord])
@@ -442,13 +445,15 @@ function startSequenceGenerator(seed) {
                     genSeq.notes.map(n => n.pitch)
                 );
                 // console.log('(generateNext) .then -> generatedSequence: ', generatedSequence);
-                updateUI(generatedSequence);
+                // updateUI(generatedSequence);
 
                 setTimeout(generateNext, generationIntervalTime * 1000);
             });
         } else {
             // console.log('(generateNext) ELSE -> generatedSequence: ', generatedSequence);
             setTimeout(generateNext, generationIntervalTime * 1000);
+
+            // updateUI(generatedSequence);
         }
     }
     
@@ -456,9 +461,12 @@ function startSequenceGenerator(seed) {
         // console.log('consumeNext -> time: ', time);
         if (generatedSequence.length) {
             // console.log('consumeNext -> generatedSequence: ', generatedSequence);
+            updateUI(generatedSequence);
+            
             let note = generatedSequence.shift();
             // if (note > 0) {
             if (note > 0 && Store.machineTrigger === true) {
+                // updateUI(generatedSequence);
                 machineKeyDown(note, time); // IMPORTANT
             }
         }
@@ -591,6 +599,7 @@ document.addEventListener('keydown', (event) => {
                     console.log({generatedPattern});
                     
                     if (generatedPattern) {
+                        
                         startSequenceGenerator(generatedPattern);
                         console.log('Tone.Transport - STARTED');
                         Tone.Transport.start();
