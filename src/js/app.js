@@ -103,32 +103,6 @@ globals.controls.rollSpeed = Math.PI / 40; /*** IMPORTANT - movement, rotation s
 globals.controls.autoForward = false;
 globals.controls.dragToLook = true;
 
-//-----SKYBOX (LOAD TEXTURES)------//
-// https://github.com/hghazni/Three.js-Skybox/blob/master/js/script.js#L35
-// assets: http://www.custommapmakers.org/skyboxes.php
-
-const globalSkyboxTheme = 'nightsky';
-// const globalSkyboxTheme = 'hills'; //blurry
-// const globalSkyboxTheme = 'island'; //only unsupported .tga currently
-// const globalSkyboxTheme = 'bluefreeze';
-// const globalSkyboxTheme = 'mercury';
-
-// var geometry = new THREE.CubeGeometry(1200, 1200, 1200); //prev
-var geometry = new THREE.CubeGeometry(1800, 1800, 1800);
-
-var cubeMaterials = [
-    // new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/flame/FireOrig.png`), side: THREE.DoubleSide }), //front side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/ft.png`), side: THREE.DoubleSide }), //front side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/bk.png`), side: THREE.DoubleSide }), //back side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/up.png`), side: THREE.DoubleSide }), //up side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/dn.png`), side: THREE.DoubleSide }), //down side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/rt.png`), side: THREE.DoubleSide }), //right side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/lf.png`), side: THREE.DoubleSide }) //left side
-];
-
-var cubeMaterial = new THREE.MeshFaceMaterial(cubeMaterials);
-var skyboxCubeMesh = new THREE.Mesh(geometry, cubeMaterial); //nightsky skybox
-
 //*** LOADER ***
 globals.loader = new THREE.TextureLoader();
 // globals.loader.load('assets/textures/grass.png', onTextureLoaded);
@@ -170,7 +144,7 @@ let lambert = new THREE.MeshPhongMaterial({
     refractionRatio: 1
 });
 
-//-----FUNCTIONALITY------//
+//-----OBJ FUNCTIONALITY------//
 //make the objects and add them to the scene
 let currentShape, currentMesh;
 currentShape = box;
@@ -179,7 +153,31 @@ const objCenter = new THREE.Mesh(currentShape, currentMesh);
 objCenter.position.set(0, 0, globals.posBehindZ);
 // globals.scene.add(objCenter); //for absolute center reference
 
-// globals.scene.add(skyboxCubeMesh); //add nightsky skybox
+//-----SKYBOX (LOAD TEXTURES)------//
+// https://github.com/hghazni/Three.js-Skybox/blob/master/js/script.js#L35
+// assets: http://www.custommapmakers.org/skyboxes.php
+
+const globalSkyboxTheme = 'nightsky';
+// const globalSkyboxTheme = 'hills'; //blurry
+// const globalSkyboxTheme = 'island'; //only unsupported .tga currently
+// const globalSkyboxTheme = 'bluefreeze';
+// const globalSkyboxTheme = 'mercury';
+
+var skyboxGeometry = new THREE.CubeGeometry(1800, 1800, 1800);
+
+var cubeMaterials = [
+    // new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/flame/FireOrig.png`), side: THREE.DoubleSide }), //front side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/ft.png`), side: THREE.DoubleSide }), //front side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/bk.png`), side: THREE.DoubleSide }), //back side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/up.png`), side: THREE.DoubleSide }), //up side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/dn.png`), side: THREE.DoubleSide }), //down side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/rt.png`), side: THREE.DoubleSide }), //right side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load(`assets/skybox/${globalSkyboxTheme}/lf.png`), side: THREE.DoubleSide }) //left side
+];
+
+var cubeMaterial = new THREE.MeshFaceMaterial(cubeMaterials);
+var skyboxCubeMesh = new THREE.Mesh(skyboxGeometry, cubeMaterial); //nightsky skybox
+globals.scene.add(skyboxCubeMesh); //add nightsky skybox
 
 // physics.addSpinner();
 
