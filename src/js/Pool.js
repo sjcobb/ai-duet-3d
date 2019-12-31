@@ -1,4 +1,4 @@
-import globals from './globals.js';
+import Store from './Store.js';
 import Helpers from './Helpers.js';
 
 /*

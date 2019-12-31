@@ -1,4 +1,4 @@
-import globals from './globals.js';
+import Store from './Store.js';
 // import THREE.Fire from '../vendor/Fire.js';
 // import Fire from './Fire.js';
 
@@ -20,9 +20,9 @@ export default class Flame {
     create(pos) {
         // console.log(pos);
         // console.log(globals);
-        // console.log(globals.flameArr);
+        // console.log(Store.flameArr);
 
-        const fireTex = globals.loader.load("assets/flame/FireOrig.png");
+        const fireTex = Store.loader.load("assets/flame/FireOrig.png");
         const volumetricFire = new THREE.Fire(fireTex);
 
         // volumetricFire.material.uniforms.magnitude.value = 0.5; //PREV: higher = spaciness
@@ -41,9 +41,9 @@ export default class Flame {
         // volumetricFire.scale.set(15, 22, 15); //
         // volumetricFire.scale.set(150, 220, 150); // TODO: fix scale for higher values & position
 
-        // volumetricFire.position.set(globals.posBehindX + 30, 3.5, globals.posBehindZ);
-        // volumetricFire.position.set(pos.x, 3.5, globals.posBehindZ);
-        volumetricFire.position.set(pos.x, globals.posBehindY, globals.posBehindZ);
+        // volumetricFire.position.set(Store.posBehindX + 30, 3.5, Store.posBehindZ);
+        // volumetricFire.position.set(pos.x, 3.5, Store.posBehindZ);
+        volumetricFire.position.set(pos.x, Store.posBehindY, Store.posBehindZ);
 
         var wireframeMat = new THREE.MeshBasicMaterial({
             color : new THREE.Color(0xffffff),
@@ -53,14 +53,14 @@ export default class Flame {
         volumetricFire.add(wireframe);
         wireframe.visible = false;
 
-        // globals.flameArr.push(volumetricFire)
-        globals.flameArr = [volumetricFire];
-        // globals.scene.add(volumetricFire);
-        globals.scene.add(globals.flameArr[0]);
+        // Store.flameArr.push(volumetricFire)
+        Store.flameArr = [volumetricFire];
+        // Store.scene.add(volumetricFire);
+        Store.scene.add(Store.flameArr[0]);
     }
 
-    addFire(posX = globals.posBehindX + 22, currentTime) {
-        volumetricFire.position.set(posX, 0, globals.posBehindZ);
+    addFire(posX = Store.posBehindX + 22, currentTime) {
+        volumetricFire.position.set(posX, 0, Store.posBehindZ);
         scene.add(volumetricFire);
     }
 

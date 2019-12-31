@@ -1,4 +1,4 @@
-import globals from './globals.js';
+import Store from './Store.js';
 import Tone from 'Tone';
 import Physics from './Physics.js';
 import Flame from './Flame.js';
@@ -14,24 +14,24 @@ const physics = new Physics();
 
 //-----INSTRUMENT PARTS------//
 var allDrumsPart = new Tone.Part(function(time, instr) {
-    // physics.addBody(true, time * globals.multiplierPosX, instr);
-    physics.addBody(true, globals.dropPosX, instr);
+    // physics.addBody(true, time * Store.multiplierPosX, instr);
+    physics.addBody(true, Store.dropPosX, instr);
 }, [
-    ["0:0:0", globals.instr.kickPrimary],
-    // ["0:0:0", globals.instr.snarePrimary],
+    ["0:0:0", Store.instr.kickPrimary],
+    // ["0:0:0", Store.instr.snarePrimary],
 
-    // ["0:6:0", globals.instr.kickPrimary],
-    ["0:6:0", globals.instr.snarePrimary],
+    // ["0:6:0", Store.instr.kickPrimary],
+    ["0:6:0", Store.instr.snarePrimary],
 
-    ["0:10:0", globals.instr.kickPrimary],
-    // ["0:10:0", globals.instr.snarePrimary],
+    ["0:10:0", Store.instr.kickPrimary],
+    // ["0:10:0", Store.instr.snarePrimary],
 
-    // ["0:10:0", globals.instr.snarePrimary],
+    // ["0:10:0", Store.instr.snarePrimary],
 
-    // ["0:8:0", globals.instr.crashPrimary],
-    // ["0:8:0", globals.instr.snarePrimary],
+    // ["0:8:0", Store.instr.crashPrimary],
+    // ["0:8:0", Store.instr.snarePrimary],
 
-    // ["0:4:0", globals.instr.tomHigh],
+    // ["0:4:0", Store.instr.tomHigh],
 ]);
 allDrumsPart.loop = true;
 // allDrumsPart.start("0:0:0");
@@ -39,42 +39,42 @@ allDrumsPart.loop = true;
 // // allDrumsPart.start("2:0:0");
 
 var introPart = new Tone.Part(function(time, instr) {
-    // TODO: use globals.dropCoordCircle [0] and [719] for dropPosX and dropPosY (must be added as param to addBody) coordinates
-    // console.log('introPart -> dropPosX, dropPosY: ', globals.dropPosX, '-', globals.dropPosY);
-    physics.addBody(true, globals.dropPosX, instr, 0);
-    // physics.addBody(true, time * globals.multiplierPosX, instr); // sine wave
+    // TODO: use Store.dropCoordCircle [0] and [719] for dropPosX and dropPosY (must be added as param to addBody) coordinates
+    // console.log('introPart -> dropPosX, dropPosY: ', Store.dropPosX, '-', Store.dropPosY);
+    physics.addBody(true, Store.dropPosX, instr, 0);
+    // physics.addBody(true, time * Store.multiplierPosX, instr); // sine wave
 }, [
-    // ["0:0:0", globals.instr.hiHatClosed],
-    ["0:0:0", globals.instr.hiHatOpen],
-    // ["0:11:0", globals.instr.hiHatClosed],
+    // ["0:0:0", Store.instr.hiHatClosed],
+    ["0:0:0", Store.instr.hiHatOpen],
+    // ["0:11:0", Store.instr.hiHatClosed],
 ]);
 // introPart.loop = 6;
 introPart.loop = true;
 // introPart.start("0:0:0");
 
 var secPosPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, globals.dropPosX, instr, 1);
+    physics.addBody(true, Store.dropPosX, instr, 1);
 }, [
-    //[ "0:0:0", globals.instr.hiHatClosed],
-    // ["0:2:0", globals.instr.kickPrimary],
-    ["0:0:0", globals.instr.snarePrimary],
+    //[ "0:0:0", Store.instr.hiHatClosed],
+    // ["0:2:0", Store.instr.kickPrimary],
+    ["0:0:0", Store.instr.snarePrimary],
 ]);
 secPosPart.loop = true;
 // secPosPart.start("0:0:0");
 
 
 var thirdPosPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, globals.dropPosX, instr, 2);
+    physics.addBody(true, Store.dropPosX, instr, 2);
 }, [
-    ["0:0:0", globals.instr.kickPrimary],
+    ["0:0:0", Store.instr.kickPrimary],
 ]);
 thirdPosPart.loop = true;
 // thirdPosPart.start("0:0:0");
 
 var fourthPosPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, globals.dropPosX, instr, 3);
+    physics.addBody(true, Store.dropPosX, instr, 3);
 }, [
-    ["0:0:0", globals.instr.kickPrimary],
+    ["0:0:0", Store.instr.kickPrimary],
 ]);
 fourthPosPart.loop = true;
 // fourthPosPart.start("0:0:0");
@@ -82,16 +82,16 @@ fourthPosPart.loop = true;
 
 /*
 var groovePart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, [
-    ["0:0:0", globals.instr.hiHatClosed],
-    ["0:2:0", globals.instr.hiHatClosed],
-    ["0:3:0", globals.instr.hiHatClosed],
-    ["0:4:0", globals.instr.hiHatOpen],
+    ["0:0:0", Store.instr.hiHatClosed],
+    ["0:2:0", Store.instr.hiHatClosed],
+    ["0:3:0", Store.instr.hiHatClosed],
+    ["0:4:0", Store.instr.hiHatOpen],
 
-    ["0:8:0", globals.instr.snarePrimary],
+    ["0:8:0", Store.instr.snarePrimary],
 
-    ["0:6:0", globals.instr.kickPrimary],
+    ["0:6:0", Store.instr.kickPrimary],
 ]);
 groovePart.loop = 2;
 // groovePart.start("0:0:0");
@@ -99,60 +99,60 @@ groovePart.loop = 2;
 //-----KEYBOARED PARTS------//
 
 var introPianoPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, [
-    ["0:0:0", globals.instr.sphereChordC],
-    ["0:4:0", globals.instr.sphereChordF],
-    ["0:8:0", globals.instr.sphereChordG],
-    ["0:9:0", globals.instr.sphereChordG],
+    ["0:0:0", Store.instr.sphereChordC],
+    ["0:4:0", Store.instr.sphereChordF],
+    ["0:8:0", Store.instr.sphereChordG],
+    ["0:9:0", Store.instr.sphereChordG],
 ]);
 introPianoPart.loop = 2;
 // introPianoPart.start("6:0:0");
 
 const boleroFireChords = [
-    ["0:0:0", globals.instr.sphereChordF],
-    ["0:1:0", globals.instr.sphereChordD],
-    ["0:3:0", globals.instr.sphereChordF],
-    ["0:4:0", globals.instr.sphereChordD],
-    ["0:6:0", globals.instr.sphereChordA3],
-    ["0:7:0", globals.instr.sphereChordF],
-    ["0:9:0", globals.instr.sphereChordA3],
-    ["0:10:0", globals.instr.sphereChordF],
-    // ["0:11:0", globals.instr.flameCenter],
+    ["0:0:0", Store.instr.sphereChordF],
+    ["0:1:0", Store.instr.sphereChordD],
+    ["0:3:0", Store.instr.sphereChordF],
+    ["0:4:0", Store.instr.sphereChordD],
+    ["0:6:0", Store.instr.sphereChordA3],
+    ["0:7:0", Store.instr.sphereChordF],
+    ["0:9:0", Store.instr.sphereChordA3],
+    ["0:10:0", Store.instr.sphereChordF],
+    // ["0:11:0", Store.instr.flameCenter],
 ];
 
 let flameActive = false;
 const pianoChordsFirstPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, boleroFireChords);
 
-// boleroFireChords.push(["0:11:0", globals.instr.flameCenter]);
+// boleroFireChords.push(["0:11:0", Store.instr.flameCenter]);
 const pianoChordsSecondPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, boleroFireChords);
 
 pianoChordsFirstPart.loop = 2;
 // pianoChordsFirstPart.start("1:0:0");
 // pianoChordsFirstPart.start("4:0:0");
-pianoChordsFirstPart.start(globals.triggerAnimationTime); //"4:0:0"
+pianoChordsFirstPart.start(Store.triggerAnimationTime); //"4:0:0"
 
 pianoChordsSecondPart.loop = 2;
 // pianoChordsSecondPart.start("6:0:0");
 pianoChordsSecondPart.start("9:0:0");
 
 var animationPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, [
-    // ["0:0:0", globals.instr.flameCenter],
-    ["0:0:0", globals.instr.flameCenter],
+    // ["0:0:0", Store.instr.flameCenter],
+    ["0:0:0", Store.instr.flameCenter],
 ]);
 animationPart.start("6:4:3");
 // animationPart.start("0:0:0");
 
 var animationPart2 = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, [
-    ["0:0:0", globals.instr.flameCenter],
+    ["0:0:0", Store.instr.flameCenter],
 ]);
 // animationPart2.start("10:5:0"); //TODO: add second animation part for fire
 animationPart2.start("11:5:0"); //TODO: add second animation part for fire
@@ -160,20 +160,20 @@ animationPart2.start("11:5:0"); //TODO: add second animation part for fire
 // animationPart.start("5:10:0");
 // animationPart.start("6:0:0");
 // var animationEvent = new Tone.Event(function(time, instr){
-// 	physics.addBody(true, time * globals.multiplierPosX, instr);
-// //}, ["0:0:0", globals.instr.flameCenter]);
-// }, [["0:0:0", globals.instr.flameCenter]]); //err: TypeError: Failed to execute 'setValueAtTime' on 'AudioParam': The provided float value is non-finite.
+// 	physics.addBody(true, time * Store.multiplierPosX, instr);
+// //}, ["0:0:0", Store.instr.flameCenter]);
+// }, [["0:0:0", Store.instr.flameCenter]]); //err: TypeError: Failed to execute 'setValueAtTime' on 'AudioParam': The provided float value is non-finite.
 // animationEvent.start("5:11:0");
 
 var pianoChordsFinalPart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * globals.multiplierPosX, instr);
+    physics.addBody(true, time * Store.multiplierPosX, instr);
 }, [
-    // ["0:0:0", globals.instr.flameCenter], //too soon
-    ["0:0:0", globals.instr.sphereChordE],
-    ["0:2:0", globals.instr.sphereChordG],
-    ["0:4:0", globals.instr.sphereChordA3],
-    ["0:5:0", globals.instr.sphereChordA3],
-    ["0:6:0", globals.instr.sphereChordB3],
+    // ["0:0:0", Store.instr.flameCenter], //too soon
+    ["0:0:0", Store.instr.sphereChordE],
+    ["0:2:0", Store.instr.sphereChordG],
+    ["0:4:0", Store.instr.sphereChordA3],
+    ["0:5:0", Store.instr.sphereChordA3],
+    ["0:6:0", Store.instr.sphereChordB3],
 ]);
 pianoChordsFinalPart.loop = 2;
 // pianoChordsFinalPart.start("0:0:0");

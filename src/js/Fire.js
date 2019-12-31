@@ -41,10 +41,10 @@ export default class Fire {
     }
 
     create() {
-        const fireTex = globals.loader.load("assets/flame/FireOrig.png");
+        const fireTex = Store.loader.load("assets/flame/FireOrig.png");
         volumetricFire = new THREE.Fire(fireTex);
         volumetricFire.scale.set(6, 6.8, 6.0); //width, height, z
-        volumetricFire.position.set(globals.posBehindX + 30, 3.5, globals.posBehindZ);
+        volumetricFire.position.set(Store.posBehindX + 30, 3.5, Store.posBehindZ);
         var wireframeMat = new THREE.MeshBasicMaterial({
             color : new THREE.Color(0xffffff),
             wireframe : true
@@ -52,7 +52,7 @@ export default class Fire {
         var wireframe = new THREE.Mesh(volumetricFire.geometry, wireframeMat.clone());
         volumetricFire.add(wireframe);
         wireframe.visible = false;
-        globals.scene.add(volumetricFire);
+        Store.scene.add(volumetricFire);
     }
 
     // update = function ( time ) {

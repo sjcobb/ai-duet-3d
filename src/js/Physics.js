@@ -1,4 +1,4 @@
-import globals from './globals.js';
+import Store from './Store.js';
 // import Helpers from './Helpers.js';
 import Helpers from './Helpers.js';
 import Trigger from './Trigger.js';
@@ -23,15 +23,15 @@ export default class Physics {
     }
 
     //-----CANNON INIT------//
-    // globals.world = new CANNON.World();
+    // Store.world = new CANNON.World();
 
     initPhysics() {
         this.fixedTimeStep = 1.0 / 60.0;
         this.damping = 0.01;
 
-        globals.world.broadphase = new CANNON.NaiveBroadphase();
-        globals.world.gravity.set(0, -10, 0);
-        this.debugRenderer = new THREE.CannonDebugRenderer(globals.scene, globals.world);
+        Store.world.broadphase = new CANNON.NaiveBroadphase();
+        Store.world.gravity.set(0, -10, 0);
+        this.debugRenderer = new THREE.CannonDebugRenderer(Store.scene, Store.world);
 
         this.shapes = {};
         this.shapes.sphere = new CANNON.Sphere(0.5);
@@ -71,7 +71,7 @@ export default class Physics {
 
         // https://stackoverflow.com/a/35101095 - “Glueing together” two bodies in cannon.js
         groundBody.addShape(groundShape);
-        globals.world.add(groundBody);
+        Store.world.add(groundBody);
 
         // if (this.useVisuals) this.helper.this.addVisual(groundBody, 'ground', false, true);
         this.addVisual(groundBody, 'ground', false, true);
@@ -81,11 +81,11 @@ export default class Physics {
         // restitutionValue = 200;
         // const material = new CANNON.Material(); //why both tempMaterial and material needed?
         // const restitutionGround = new CANNON.ContactMaterial(tempMaterial, material, { friction: 0.0, restitution: restitutionValue });
-        // globals.world.addContactMaterial(restitutionGround);
+        // Store.world.addContactMaterial(restitutionGround);
     }
 
     // addBody(sphere = true, xPosition = 5.5, options = '', timeout = 0) {
-    addBody(sphere = true, xPosition=5.5, options = '', index=0) { // TODO: take yPosition from globals.dropCoordCircleInterval[] loop, swap yPos to zPos
+    addBody(sphere = true, xPosition=5.5, options = '', index=0) { // TODO: take yPosition from Store.dropCoordCircleInterval[] loop, swap yPos to zPos
 
         if (options === '') {
             const instrument = new InstrumentMappings();
@@ -142,12 +142,12 @@ export default class Physics {
         let xRand = Math.random() * (15 - 1) + 1; //rdm b/w 1 and 15
         let xPos = xPosition; //TODO: remove xPosition param if not used
         
-        if (globals.autoScroll === true) {
+        if (Store.autoScroll === true) {
             if (options.type === 'drum') {
-                xPos = -(globals.ticks);
+                xPos = -(Store.ticks);
             } else {
-                xPos = -(globals.ticks);
-                globals.InstrumentCounter++;
+                xPos = -(Store.ticks);
+                Store.InstrumentCounter++;
             }
         }
 
@@ -159,7 +159,7 @@ export default class Physics {
 
         let zPos;
         zPos = options.originalPosition !== undefined ? options.originalPosition.z : Math.random() * (15 - 5) - 2;
-        // zPos = globals.dropPosY; // drum spinner (v0.3)
+        // zPos = Store.dropPosY; // drum spinner (v0.3)
 
         // body.mass = 1; // feather light
         // body.mass = 8; // heavy
@@ -167,7 +167,7 @@ export default class Physics {
         if (options.type === 'drum') {
             // TODO: new drum machine paradigm - use rotating clock hand to hit drums
             // https://codepen.io/danlong/pen/LJQYYN
-            // zPos += 10; // PREV: see globals.staffLineInitZ and globals.staffLineSecondZ
+            // zPos += 10; // PREV: see Store.staffLineInitZ and Store.staffLineSecondZ
 
             zPos -= 8;
         } else {
@@ -175,23 +175,23 @@ export default class Physics {
             // zPos = 0;
         }
 
-        if (globals.cameraCircularAnimation === true) {
-            globals.dropOffset = options.variation === 'snare' ? globals.dropOffset -= 0.8 : 0;
-            globals.dropOffset = options.variation === 'kick' ? globals.dropOffset -= 1.2 : 0;
-            globals.dropOffset = options.variation === 'hihat' ? globals.dropOffset -= 1.6 : 0;
-            // console.log('globals.dropOffset: ', globals.dropOffset); // DEBUG
-            // xPos += globals.dropOffset;
-            // zPos += globals.dropOffset;
+        if (Store.cameraCircularAnimation === true) {
+            Store.dropOffset = options.variation === 'snare' ? Store.dropOffset -= 0.8 : 0;
+            Store.dropOffset = options.variation === 'kick' ? Store.dropOffset -= 1.2 : 0;
+            Store.dropOffset = options.variation === 'hihat' ? Store.dropOffset -= 1.6 : 0;
+            // console.log('Store.dropOffset: ', Store.dropOffset); // DEBUG
+            // xPos += Store.dropOffset;
+            // zPos += Store.dropOffset;
 
-            xPos = globals.dropCoordCircleInterval[index].px;
-            zPos = globals.dropCoordCircleInterval[index].py;
+            xPos = Store.dropCoordCircleInterval[index].px;
+            zPos = Store.dropCoordCircleInterval[index].py;
         }
 
         // zPos = options.originalPosition.z;
 
         body.position.set((sphere) ? -xPos : xPos, yPos, zPos);
 
-        body.linearDamping = globals.damping; // 0.01
+        body.linearDamping = Store.damping; // 0.01
         // body.linearDamping = 0.01; // v0.2, v0.3
 
         // body.angularVelocity.z = 12; //too much rotation - hard to read note letter
@@ -200,11 +200,11 @@ export default class Physics {
 
         if (options.type === 'animation') {
             flamePhysics.create({x: -xPos});
-            globals.flameCounter++;
+            Store.flameCounter++;
             return;
         }
         
-        globals.world.add(body);
+        Store.world.add(body);
 
         body.userData = {
             opts: options
@@ -238,12 +238,12 @@ export default class Physics {
                 bodyCollideCount++;
             }
 
-            if (globals.triggerOn === 'contact') {
+            if (Store.triggerOn === 'contact') {
                 if (bodyCollideCount === 1) {
                     trigger.triggerNote(body);
                     notePlayed = true;
                 }
-            } else if (globals.triggerOn === 'spinner') {
+            } else if (Store.triggerOn === 'spinner') {
                 if (spinnerCollideCount === 1 && notePlayed !== true) { // 0.3
                     trigger.triggerNote(body);
                     notePlayed = true;
@@ -304,7 +304,7 @@ export default class Physics {
             body.threemesh = mesh;
             mesh.castShadow = castShadow;
             mesh.receiveShadow = receiveShadow;
-            globals.scene.add(mesh);
+            Store.scene.add(mesh);
         }
     }
 
@@ -347,7 +347,7 @@ export default class Physics {
 
                     // TODO: if options.size is 'xl' make sphere larger, need to fix Cannon addShape so physics still work
                     // const sphereGeo = new THREE.SphereGeometry(12, 12, 12);
-                    sphereGeo.name = 'sphereGeo'; //*** important for rotation when globals.cameraPositionBehind true
+                    sphereGeo.name = 'sphereGeo'; //*** important for rotation when Store.cameraPositionBehind true
 
                     mesh = new THREE.Mesh(sphereGeo, poolBallMaterial); //prev: material
 
@@ -375,7 +375,7 @@ export default class Physics {
                     // const randColor = (Math.random()*0xFFFFFF<<0).toString(16);
                     // const tempColor = parseInt('0x' + randColor); //or options.color
                     
-                    const tempColor = globals.activeInstrColor;
+                    const tempColor = Store.activeInstrColor;
                     // const tempColor = '#9F532A'; //red
 
                     const defaultColor = new THREE.Color(tempColor);
@@ -403,7 +403,7 @@ export default class Physics {
 
                     // const boxGeometry = new THREE.BoxGeometry(25, 25, 0.5); // does not coincide with contact surface size
 
-                    material.color = new THREE.Color(globals.activeInstrColor);;
+                    material.color = new THREE.Color(Store.activeInstrColor);;
 
                     // boxGeometry.scale.set(10, 10, 10); // not a function
                     mesh = new THREE.Mesh(boxGeometry, material);
@@ -504,7 +504,7 @@ export default class Physics {
             mesh.quaternion.set(q.x, q.y, q.z, q.w);
 
             if (mesh.geometry) {
-                if (mesh.geometry.name === 'sphereGeo' && globals.cameraPositionBehind) {
+                if (mesh.geometry.name === 'sphereGeo' && Store.cameraPositionBehind) {
                     // console.log('sphereGeo debug rotation: ', mesh.rotation);
                     mesh.rotation.set(0, -1.5, 0); //x: more faces downwards, y: correct - around center, z
                 }
@@ -558,10 +558,10 @@ export default class Physics {
         // https://codepen.io/danlong/pen/LJQYYN?editors=1010
         // FORK: https://codepen.io/sjcobb/pen/vYYpKMv
 
-        // const rotationSpeed = globals.bpm * 0.011;
-        // const rotationSpeed = globals.bpm * 0.019; 
-        // const rotationSpeed = globals.bpm * 0.027; // prev
-        const rotationSpeed = globals.bpm * 0.025;
+        // const rotationSpeed = Store.bpm * 0.011;
+        // const rotationSpeed = Store.bpm * 0.019; 
+        // const rotationSpeed = Store.bpm * 0.027; // prev
+        const rotationSpeed = Store.bpm * 0.025;
         // console.log({rotationSpeed});
 
         const spinnerLength = 28;
@@ -570,7 +570,7 @@ export default class Physics {
         let boxShape = new CANNON.Box(new CANNON.Vec3(12.25, 0.5, 0.5)); // no effect
 
         // https://schteppe.github.io/cannon.js/docs/classes/Body.html
-        globals.spinnerBody = new CANNON.Body({
+        Store.spinnerBody = new CANNON.Body({
             // mass: 1000,
             mass: 1000,
             // angularVelocity: new CANNON.Vec3(0, 5 ,0),
@@ -583,19 +583,19 @@ export default class Physics {
             // boundingRadius: 2
             // interpolatedPosition: {x: 100, y: 100, z: 100}
         });
-        // globals.spinnerBody.quaternion = new CANNON.Quaternion(-0.5, -0.5, 0.5, 0.5); // rotate standing up
-        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0.5, 0.5, 0.5, 0.5); // rotate standing up
-        // globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.5, 0.5); // woah
+        // Store.spinnerBody.quaternion = new CANNON.Quaternion(-0.5, -0.5, 0.5, 0.5); // rotate standing up
+        // Store.spinnerBody.quaternion = new CANNON.Quaternion(0.5, 0.5, 0.5, 0.5); // rotate standing up
+        // Store.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.5, 0.5); // woah
         
-        globals.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.05, 0.5); // decent - stage under - wobbly
+        Store.spinnerBody.quaternion = new CANNON.Quaternion(0, 0.5, 0.05, 0.5); // decent - stage under - wobbly
 
-        globals.spinnerBody.addShape(boxShape);
-        // console.log('globals.spinnerBody: ', globals.spinnerBody);
-        console.log(globals.spinnerBody);
+        Store.spinnerBody.addShape(boxShape);
+        // console.log('Store.spinnerBody: ', Store.spinnerBody);
+        console.log(Store.spinnerBody);
 
-        // globals.spinnerBody.position.set(0, 0.25, 0); // no effect
+        // Store.spinnerBody.position.set(0, 0.25, 0); // no effect
 
-        globals.spinnerBody.name = 'spinner';
+        Store.spinnerBody.name = 'spinner';
         
         // THREE JS (VISUAL)
         // var geometry = new THREE.BoxBufferGeometry( 24.5, 0.5, 0.5 );
@@ -609,10 +609,10 @@ export default class Physics {
         let spinner = new THREE.Mesh(geometry, material);
         // console.log({spinner});
 
-        globals.meshes.push(spinner);
-        globals.bodies.push(globals.spinnerBody);
-        globals.scene.add(spinner);
-        globals.world.addBody(globals.spinnerBody);
+        Store.meshes.push(spinner);
+        Store.bodies.push(Store.spinnerBody);
+        Store.scene.add(spinner);
+        Store.world.addBody(Store.spinnerBody);
     }
 
     updatePhysics() {
@@ -624,28 +624,28 @@ export default class Physics {
 
     // updateMeshPositions() {
     //     for (var i = 0; i !== this.meshes.length; i++) {
-    //         globals.meshes[i].position.copy(this.bodies[i].position);
-    //         globals.meshes[i].quaternion.copy(this.bodies[i].quaternion);
+    //         Store.meshes[i].position.copy(this.bodies[i].position);
+    //         Store.meshes[i].quaternion.copy(this.bodies[i].quaternion);
     //     }
     // },
 
     updateBodies(world) {
 
-        // globals.spinnerBody.position.set(0, -1.5, 0);
+        // Store.spinnerBody.position.set(0, -1.5, 0);
 
         // IMPORTANT: cannon.js boilerplate
         // world.bodies.forEach(function(body) {
-        globals.world.bodies.forEach(function(body) {
+        Store.world.bodies.forEach(function(body) {
             if (body.threemesh != undefined) {
                 body.threemesh.position.copy(body.position);
                 body.threemesh.quaternion.copy(body.quaternion);
             }
         });
 
-        // TODO: standard way to update bodies? globals.bodies and globals.meshes shouldn't only be for spinner
-        for (var i = 0; i !== globals.meshes.length; i++) {
-            globals.meshes[i].position.copy(globals.bodies[i].position);
-            globals.meshes[i].quaternion.copy(globals.bodies[i].quaternion);
+        // TODO: standard way to update bodies? Store.bodies and Store.meshes shouldn't only be for spinner
+        for (var i = 0; i !== Store.meshes.length; i++) {
+            Store.meshes[i].position.copy(Store.bodies[i].position);
+            Store.meshes[i].quaternion.copy(Store.bodies[i].quaternion);
         }
     }
 

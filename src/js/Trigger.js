@@ -4,7 +4,7 @@ import { Transport, Player, Players, Part, Time, Volume } from 'Tone';
 // import Transport from 'Tone/core/Transport';
 // import Volume from 'Tone/component/Volume';
 
-import globals from './globals.js';
+import Store from './Store.js';
 
 import InstrumentMappings from './InstrumentMappings.js';
 import { getInstrByNote } from './InstrumentMappings.js';
@@ -15,7 +15,7 @@ import Flame from './Flame.js';
 //-----TONE------//
 // Tone.Transport.bpm.value = 200; //PREV
 // Tone.Transport.bpm.value = 120;
-Tone.Transport.bpm.value = globals.bpm;
+Tone.Transport.bpm.value = Store.bpm;
 // Tone.Transport.bpm.rampTo(120, 10);
 
 // https://tonejs.github.io/docs/r13/Transport#timesignature
@@ -115,10 +115,10 @@ export default class Trigger {
 
         const instrument = new InstrumentMappings();
 
-        globals.musicActive = true; //remove?
+        Store.musicActive = true; //remove?
 
-        // console.log('globals.inputMidi: ', globals.inputMidi);
-        if (globals.inputMidi === true) {
+        // console.log('Store.inputMidi: ', Store.inputMidi);
+        if (Store.inputMidi === true) {
 
         } else {
 
@@ -178,12 +178,12 @@ export default class Trigger {
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);
         }
 
-        globals.musicActive = false; //remove?
+        Store.musicActive = false; //remove?
 
-        if (globals.configColorAnimate === true && triggerObj.color) {
+        if (Store.configColorAnimate === true && triggerObj.color) {
             // console.log("configColorAnimate -> GLOBALS: ", globals);
             if (triggerObj.type !== 'drum') {
-                globals.activeInstrColor = triggerObj.color;
+                Store.activeInstrColor = triggerObj.color;
             }
         }
     }

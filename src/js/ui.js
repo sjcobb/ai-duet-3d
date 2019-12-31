@@ -1,4 +1,4 @@
-import globals from './globals.js';
+import Store from './Store.js';
 import Tone from 'Tone';
 
 /*
@@ -89,15 +89,15 @@ toggleId.onclick = (el) => {
 //     addBody();
 // };
 
-// if (globals.autoStart === true || globals.uiHidden === true) {
-if (globals.uiHidden === true) {
+// if (Store.autoStart === true || Store.uiHidden === true) {
+if (Store.uiHidden === true) {
     controlsId.classList.toggle('hidden');
 }
 
-if (globals.autoStart === true) {
+if (Store.autoStart === true) {
     setTimeout(function() {
         Tone.Transport.start();
-    }, globals.autoStartTime);
+    }, Store.autoStartTime);
     // }, 9000);
 } else {
     controlsId.classList.toggle('show');
@@ -114,26 +114,26 @@ document.addEventListener("visibilitychange", function() {
 });
 
 // setTimeout(function() {
-//     globals.cameraPositionBehind = false;
-//     // globals.camera.position.set(0, 20, 40);
-//     // globals.camera.position.set(0, 5, 35);
-//     globals.camera.position.set(0, 12, 30);
-//     globals.camera.lookAt(new THREE.Vector3(0, 1, 10));
-//     // globals.camera.lookAt(new THREE.Vector3(-1, 1, 10));
-// // }, globals.autoStartTime + 32000); //globals.autoStartTime = 9000
-// }, globals.autoStartTime + 46000); 
+//     Store.cameraPositionBehind = false;
+//     // Store.camera.position.set(0, 20, 40);
+//     // Store.camera.position.set(0, 5, 35);
+//     Store.camera.position.set(0, 12, 30);
+//     Store.camera.lookAt(new THREE.Vector3(0, 1, 10));
+//     // Store.camera.lookAt(new THREE.Vector3(-1, 1, 10));
+// // }, Store.autoStartTime + 32000); //Store.autoStartTime = 9000
+// }, Store.autoStartTime + 46000); 
 // // }, 33000);
 // // }, 1000);
 
-// globals.cameraPositionBehind = false;
+// Store.cameraPositionBehind = false;
 // // camera.position.set(0, 5, 35);
 // camera.position.set(0, 5, 35);
 // camera.lookAt(new THREE.Vector3(-1, 1, 10));
 // // camera.lookAt(new THREE.Vector3(-1, 1, 10));
 // setTimeout(function() {
 //     scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.0028 );
-//     globals.cameraPositionBehind = true;
-//     camera.position.set(globals.posBehindX, 6, globalPosBehindZ);
+//     Store.cameraPositionBehind = true;
+//     camera.position.set(Store.posBehindX, 6, globalPosBehindZ);
 //     camera.lookAt(new THREE.Vector3(globalDropPosX - 5, 1, globalPosBehindZ));
 // }, 58000);
 // // }, 2000);

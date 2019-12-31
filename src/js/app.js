@@ -1,5 +1,5 @@
 import Tone from 'Tone';
-import globals from './globals.js';
+import Store from './Store.js';
 import InstrumentMappings from './InstrumentMappings.js';
 import { getInstrumentMappingTemplate, generateInstrMetadata, getInstrByInputNote } from './InstrumentMappings.js';
 import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js';
@@ -32,7 +32,7 @@ import Trigger from './Trigger.js';
 
 const instrument = new InstrumentMappings();
 
-globals.instr = getInstrumentMappingTemplate();
+Store.instr = getInstrumentMappingTemplate();
 
 //TODO: no globals, setup Webpack or Gulp
 const globalBallTextureWidth = 512;
@@ -48,64 +48,64 @@ const globalLetterNumArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'AA', 'BB', 'CC',
 //set up the scene
 //TODO: use modules - https://threejs.org/docs/#manual/en/introduction/Import-via-modules
 // const scene = new THREE.Scene();
-globals.scene.background = new THREE.Color(0, 0, 0); //prev: 'white'
+Store.scene.background = new THREE.Color(0, 0, 0); //prev: 'white'
 
-// globals.camera.position.set(0, 12, 40); // ORIG camera looking down on staff
+// Store.camera.position.set(0, 12, 40); // ORIG camera looking down on staff
 
-// globals.camera.position.set(0, 30, 0); // directly above
-// globals.camera.position.set(0, 6, 20); // 2nd param (y) = height
-// globals.camera.position.set(0, 8, 22);
-globals.camera.position.set(0, 8, 26);
-globals.camera.lookAt(new THREE.Vector3(0, 1, 0));
+// Store.camera.position.set(0, 30, 0); // directly above
+// Store.camera.position.set(0, 6, 20); // 2nd param (y) = height
+// Store.camera.position.set(0, 8, 22);
+Store.camera.position.set(0, 8, 26);
+Store.camera.lookAt(new THREE.Vector3(0, 1, 0));
 
-if (globals.cameraPositionBehind === true) {
-    globals.camera.position.set(globals.posBehindX, globals.posBehindY, globals.posBehindZ);
-    globals.camera.lookAt(new THREE.Vector3(globals.dropPosX - 5, 1, globals.posBehindZ));
+if (Store.cameraPositionBehind === true) {
+    Store.camera.position.set(Store.posBehindX, Store.posBehindY, Store.posBehindZ);
+    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 1, Store.posBehindZ));
 }
 
-if (globals.cameraLookUp === true) {
-    globals.camera.lookAt(new THREE.Vector3(globals.dropPosX - 5, 100, globals.posBehindZ));
+if (Store.cameraLookUp === true) {
+    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 100, Store.posBehindZ));
 }
 
-if (globals.keysOnly === true) {
-    globals.camera.position.z -= 6; // PREV, middle of first keyboard staff
-    globals.posBehindX -= 10;
+if (Store.keysOnly === true) {
+    Store.camera.position.z -= 6; // PREV, middle of first keyboard staff
+    Store.posBehindX -= 10;
 }
 
-if (globals.drumsOnly === true) {
-    // globals.camera.position.z -= 10; // only see top half of spinner
-    globals.camera.position.z += 8;
-    globals.posBehindX -= 10;
+if (Store.drumsOnly === true) {
+    // Store.camera.position.z -= 10; // only see top half of spinner
+    Store.camera.position.z += 8;
+    Store.posBehindX -= 10;
 }
 
-globals.renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(globals.renderer.domElement);
-globals.renderer.domElement.id = 'bounce-renderer';
+Store.renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(Store.renderer.domElement);
+Store.renderer.domElement.id = 'bounce-renderer';
 
 // update viewport on resize
 window.addEventListener('resize', function() {
     var width = window.innerWidth;
     var height = window.innerHeight;
-    globals.renderer.setSize(width, height);
-    globals.camera.aspect = width / height; //aspect ratio
-    globals.camera.updateProjectionMatrix();
+    Store.renderer.setSize(width, height);
+    Store.camera.aspect = width / height; //aspect ratio
+    Store.camera.updateProjectionMatrix();
 });
 
 //CONTROLS
-// controls = new THREE.OrbitControls(camera, globals.renderer.domElement);
+// controls = new THREE.OrbitControls(camera, Store.renderer.domElement);
 
 // https://threejs.org/examples/#misc_controls_fly
-globals.controls = new FlyControls(globals.camera);
-globals.controls.movementSpeed = 1; //prev: 10
-globals.controls.domElement = globals.renderer.domElement;
-// globals.controls.rollSpeed = Math.PI / 24;
-globals.controls.rollSpeed = Math.PI / 40; /*** IMPORTANT - movement, rotation speed ***/
-globals.controls.autoForward = false;
-globals.controls.dragToLook = true;
+Store.controls = new FlyControls(Store.camera);
+Store.controls.movementSpeed = 1; //prev: 10
+Store.controls.domElement = Store.renderer.domElement;
+// Store.controls.rollSpeed = Math.PI / 24;
+Store.controls.rollSpeed = Math.PI / 40; /*** IMPORTANT - movement, rotation speed ***/
+Store.controls.autoForward = false;
+Store.controls.dragToLook = true;
 
 //*** LOADER ***
-globals.loader = new THREE.TextureLoader();
-// globals.loader.load('assets/textures/grass.png', onTextureLoaded);
+Store.loader = new THREE.TextureLoader();
+// Store.loader.load('assets/textures/grass.png', onTextureLoaded);
 
 function onTextureLoaded(texture) {
     console.log('onTextureLoaded() run......');
@@ -118,7 +118,7 @@ function onTextureLoaded(texture) {
 //       https://jsfiddle.net/q0Lfm165/
 
 const light = new Light();
-light.addLights(globals.renderer);
+light.addLights(Store.renderer);
 
 const physics = new Physics();
 physics.initPhysics();
@@ -150,8 +150,8 @@ let currentShape, currentMesh;
 currentShape = box;
 currentMesh = phong;
 const objCenter = new THREE.Mesh(currentShape, currentMesh);
-objCenter.position.set(0, 0, globals.posBehindZ);
-// globals.scene.add(objCenter); //for absolute center reference
+objCenter.position.set(0, 0, Store.posBehindZ);
+// Store.scene.add(objCenter); //for absolute center reference
 
 //-----SKYBOX (LOAD TEXTURES)------//
 // https://github.com/hghazni/Three.js-Skybox/blob/master/js/script.js#L35
@@ -178,8 +178,8 @@ var cubeMaterials = [
 var cubeMaterial = new THREE.MeshFaceMaterial(cubeMaterials);
 var skyboxCubeMesh = new THREE.Mesh(skyboxGeometry, cubeMaterial); //nightsky skybox
 
-if (globals.view.skybox === true) {
-    globals.scene.add(skyboxCubeMesh); //add nightsky skybox
+if (Store.view.skybox === true) {
+    Store.scene.add(skyboxCubeMesh); //add nightsky skybox
 }
 
 // physics.addSpinner();
@@ -231,20 +231,20 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
                 staffLine = new THREE.Line(); // empty line
             }
         }
-        globals.scene.add(staffLine);
+        Store.scene.add(staffLine);
     }
 }
 
 const staffLineLengthEnd = 8000;
-if (globals.keysOnly !== true) {
-    // addStaffLines(0x000000, globals.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
-} else if (globals.keysOnly === true) {
+if (Store.keysOnly !== true) {
+    // addStaffLines(0x000000, Store.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+} else if (Store.keysOnly === true) {
 
     const lineYHeight = -0.95;
-    addStaffLines(0xffffff, globals.staffLineSecondZ, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
+    addStaffLines(0xffffff, Store.staffLineSecondZ, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
 
     // two dashed lines above treble clef
-    addStaffLines(0xffffff, globals.staffLineSecondZ - 10, -1000, staffLineLengthEnd, lineYHeight, 0, 2, true, true);
+    addStaffLines(0xffffff, Store.staffLineSecondZ - 10, -1000, staffLineLengthEnd, lineYHeight, 0, 2, true, true);
 } else {}
 
 
@@ -289,7 +289,7 @@ function addThickStaffLines() {
     lineThick.computeLineDistances();
     // lineThick.scale.set( 1, 1, 1 );
     lineThick.scale.set(0.02, 0.02, 0.02);
-    globals.scene.add(lineThick);
+    Store.scene.add(lineThick);
 
     // var geo = new THREE.BufferGeometry();
     // geo.addAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
@@ -301,22 +301,22 @@ function addThickStaffLines() {
     // line1.visible = false;
     // line1.position.set( 1, 1, 1 );
     // line1.scale.set( 1, 1, 1 );
-    // globals.scene.add(line1);
+    // Store.scene.add(line1);
 }
 // addThickStaffLines();
 
 //-----Static Fire Example------//
-globals.loader.crossOrigin = '';
+Store.loader.crossOrigin = '';
 
 let flameActive = false;
-// // let flameFirst = new Flame(globals.triggerAnimationTime);
+// // let flameFirst = new Flame(Store.triggerAnimationTime);
 // let flameFirst = new Flame();
 // // flameFirst.create();
 
 
 //-----Lil A.I. Logo Image------//
-// var spriteTexture = globals.loader.load("assets/ai_robot_1.jpeg"); // http://localhost:8082/assets/ai_robot_1.jpeg
-// // var spriteTexture = globals.loader.load('/assets/ai_robot_1.jpg', onTextureLoaded);
+// var spriteTexture = Store.loader.load("assets/ai_robot_1.jpeg"); // http://localhost:8082/assets/ai_robot_1.jpeg
+// // var spriteTexture = Store.loader.load('/assets/ai_robot_1.jpg', onTextureLoaded);
 // var spriteMaterial = new THREE.SpriteMaterial({
 //     map: spriteTexture,
 //     color: 0xffffff
@@ -325,7 +325,7 @@ let flameActive = false;
 // robotSprite.position.set(-10, 8, 0);
 // // robotSprite.scale.set(5, 10, 5);
 // robotSprite.scale.set(2, 2, 2);
-// globals.scene.add(robotSprite);
+// Store.scene.add(robotSprite);
 
 //-----PREV (Static Animation Methods)------//
 function getObjectState(object, objPositionUp, threshold) {
@@ -375,8 +375,8 @@ function rotateCalc(a) {
 
     // let a = 0;   // angle (from 0 to Math.PI * 2)
 
-    // x += globals.dropOffset;
-    // y += globals.dropOffset;
+    // x += Store.dropOffset;
+    // y += Store.dropOffset;
 
     var px = x + r * Math.cos(a);
     var py = y + r * Math.sin(a);
@@ -386,77 +386,77 @@ function rotateCalc(a) {
     }
 }
 
-if (globals.view.drumCircle === true) {
+if (Store.view.drumCircle === true) {
     for (var i=0; i<720; i++) {
         dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
         let dropCoord = rotateCalc(dropAngle);
-        globals.dropCoordCircle.push(dropCoord);
+        Store.dropCoordCircle.push(dropCoord);
     }
-    const dropInterval = globals.dropCoordCircle.length / 4;
-    globals.dropCoordCircleInterval = [globals.dropCoordCircle[0], globals.dropCoordCircle[dropInterval], globals.dropCoordCircle[dropInterval * 2], globals.dropCoordCircle[dropInterval * 3]]    
+    const dropInterval = Store.dropCoordCircle.length / 4;
+    Store.dropCoordCircleInterval = [Store.dropCoordCircle[0], Store.dropCoordCircle[dropInterval], Store.dropCoordCircle[dropInterval * 2], Store.dropCoordCircle[dropInterval * 3]]    
 }
 
 //-----ANIMATION------//
 let animate = () => {
     requestAnimationFrame(animate);
 
-    var delta = globals.clock.getDelta();
+    var delta = Store.clock.getDelta();
     // console.log('delta: ', delta); //hundreths
     // TODO: fix logs - why not updating correctly?
     // console.log('ticks: ', Tone.Transport.ticks); //ex. 10 
     // console.log('position: ', Tone.Transport.position); //ex: 0:0:0.124
     // console.log('seconds: ', Tone.Transport.seconds);
-    // console.log(globals.ticks);
-    // console.log(globals.clock.elapsedTime);
+    // console.log(Store.ticks);
+    // console.log(Store.clock.elapsedTime);
 
     /*
     //circular rotation
     globalRotation += 0.002;
-    globals.camera.position.x = Math.sin(globalRotation) * 15; //prev: 500
-    globals.camera.position.z = Math.cos(globalRotation) * 15;
-    globals.camera.lookAt(globals.scene.position); // the origin
+    Store.camera.position.x = Math.sin(globalRotation) * 15; //prev: 500
+    Store.camera.position.z = Math.cos(globalRotation) * 15;
+    Store.camera.lookAt(Store.scene.position); // the origin
     */
 
     //ENABLE HORIZONTAL SCROLL
-    if (globals.autoScroll === true) {
+    if (Store.autoScroll === true) {
         const ticksMultiplier = 9; // v0.2, v0.3, v0.4
         // const ticksMultiplier = 12;
 
-        // // globals.ticks = Tone.Transport.ticks * 0.014; //old
+        // // Store.ticks = Tone.Transport.ticks * 0.014; //old
 
-        // globals.ticks += (delta * 5); //PREV
-        // globals.ticks += (delta * 6); // higher multiplier = higher dist between drops
+        // Store.ticks += (delta * 5); //PREV
+        // Store.ticks += (delta * 6); // higher multiplier = higher dist between drops
 
-        globals.ticks += (delta * ticksMultiplier); // Too fast, balls dropped too far left
+        Store.ticks += (delta * ticksMultiplier); // Too fast, balls dropped too far left
         
-        if (globals.cameraPositionBehind === true) {
-            globals.camera.position.x = globals.posBehindX + (globals.ticks);
-            // console.log(globals.camera);
+        if (Store.cameraPositionBehind === true) {
+            Store.camera.position.x = Store.posBehindX + (Store.ticks);
+            // console.log(Store.camera);
         } else {
-            // globals.camera.position.x = (globals.ticks) - 30; // 0.3, 0.2
-            globals.camera.position.x = (globals.ticks) - 25;
+            // Store.camera.position.x = (Store.ticks) - 30; // 0.3, 0.2
+            Store.camera.position.x = (Store.ticks) - 25;
         }
     }
 
-    // if (globals.view.drumCircle === true) {
+    // if (Store.view.drumCircle === true) {
     //     // 3D z axis rotation: https://jsfiddle.net/prisoner849/opau47vk/
     //     // camera Three.js ex: https://stackoverflow.com/a/10342429
     //     // USE - simple trig ex: https://stackoverflow.com/a/35672783
     //     dropAngle = (dropAngle + Math.PI / 360) % (Math.PI * 2);
     //     let dropCoord = rotateCalc(dropAngle);
-    //     globals.dropPosX = dropCoord.px;
-    //     globals.dropPosY = dropCoord.py;
+    //     Store.dropPosX = dropCoord.px;
+    //     Store.dropPosY = dropCoord.py;
     // }
 
     // to reinit flame animation, see: https://github.com/sjcobb/music360js/blob/v4-fire/src/js/app.js
     // if (flameActive === false) {}
 
-    physics.updateBodies(globals.world);
-    globals.world.step(globals.fixedTimeStep);
+    physics.updateBodies(Store.world);
+    Store.world.step(Store.fixedTimeStep);
 
-    globals.controls.update(delta);
+    Store.controls.update(delta);
 
-    globals.renderer.render(globals.scene, globals.camera);
+    Store.renderer.render(Store.scene, Store.camera);
 };
 
 window.onload = () => {
@@ -481,8 +481,8 @@ window.onload = () => {
             console.log({keyName});
             switch (keyName) { 
                 case ('z'):
-                    // physics.addBody(true, globals.dropPosX, keyMapped);
-                    // globals.dropPosX -= 1.3;
+                    // physics.addBody(true, Store.dropPosX, keyMapped);
+                    // Store.dropPosX -= 1.3;
                     break;
                 // case(' '):
                 //     console.error('... SPACEBAR RESET -> polySynth.triggerRelease() ...');
@@ -503,8 +503,8 @@ window.onload = () => {
                 
                 if (keyName === keyMapped.keyInput) { //*** IMPORTANT ***
                     // console.log({keyMapped});
-                    physics.addBody(true, globals.dropPosX, keyMapped);
-                    // globals.dropPosX -= 1.3; //TODO: how to manipulate Y drop position?
+                    physics.addBody(true, Store.dropPosX, keyMapped);
+                    // Store.dropPosX -= 1.3; //TODO: how to manipulate Y drop position?
                     console.log('keydown -> keyMapped, event: ', keyMapped, event);
                 } else {
                     console.log('keyMapped UNDEF -> else: ', event);
