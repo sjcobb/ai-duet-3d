@@ -9,6 +9,7 @@ import Physics from './Physics.js';
 import Helpers from './Helpers.js';
 import Pool from './Pool.js';
 import Trigger from './Trigger.js';
+import * as Tonal from "tonal";
 
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
@@ -396,6 +397,18 @@ if (Store.view.drumCircle === true) {
     Store.dropCoordCircleInterval = [Store.dropCoordCircle[0], Store.dropCoordCircle[dropInterval], Store.dropCoordCircle[dropInterval * 2], Store.dropCoordCircle[dropInterval * 3]]    
 }
 
+let machineStateId = document.getElementById('machine-state');
+let machineDataId = document.getElementById('machine-data');
+// function updateUI(machineSequence) {
+//     // console.log('updateUI -> machineSequence: ', machineSequence);
+
+//     // if (Store.ui.machine.currentSequence.length > 0) {
+//     // if (machineSequence.length > 1) {
+//     if (machineSequence.length > 0) {
+//         Store.ui.machine.currentSequence = machineSequence;
+//     }
+// }
+
 //-----ANIMATION------//
 let animate = () => {
     requestAnimationFrame(animate);
@@ -457,6 +470,36 @@ let animate = () => {
     Store.controls.update(delta);
 
     Store.renderer.render(Store.scene, Store.camera);
+
+    if (Store.ui) {
+        if (Store.ui.machine.currentSequence.length > 0) {
+
+            // mappedNotes = notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
+            // let mappedNotes = Store.ui.machine.currentSequence.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note)));
+            let mappedNotes = Store.ui.machine.currentSequence.map(note => Tonal.Note.fromMidi(note));
+
+            // console.log('mappedNotes: ', mappedNotes);
+            // console.log(Store.ui.machine.currentSequence);
+            // machineDataId.innerHTML = Store.ui.machine.currentSequence;
+
+            // https://love2dev.com/blog/javascript-remove-from-array/
+            if (mappedNotes.length > 6) {
+                mappedNotes.length = 6;
+            }
+
+            if (Store.machineTrigger === true) {
+                machineDataId.innerHTML = mappedNotes.join(', ');
+            } else {
+                machineDataId.innerHTML = '';
+            }
+        }
+
+        if (Store.machineTrigger === true) {
+            machineStateId.innerHTML = '- ON';
+        } else {
+            machineStateId.innerHTML = '- OFF';
+        }
+    }
 };
 
 window.onload = () => {
@@ -484,12 +527,19 @@ window.onload = () => {
                     // physics.addBody(true, Store.dropPosX, keyMapped);
                     // Store.dropPosX -= 1.3;
                     break;
-                // case(' '):
-                //     console.error('... SPACEBAR RESET -> polySynth.triggerRelease() ...');
-                //     console.log(polySynth);
-                //     if (polySynth) {
-                //         polySynth.triggerRelease(); 
-                //     }
+                case(' '):
+                    console.error('... SPACEBAR RESET -> polySynth.triggerRelease() ...');
+                    if (Store.polySynth) {
+                        console.log(Store.polySynth);
+                        Store.polySynth.triggerRelease();
+                        // Store.polySynth.disconnect();
+                    } 
+                    // console.log(Tone.Transport);
+                    // Tone.disconnect();
+                    // Tone.Transport.destroy();
+                    // Tone.Transport.stop();
+                    // bounceSynth.disconnect();
+                    // bounceSynth.dispose();
                 default:
                     // console.log('keydown -> DEFAULT...', event);
             }

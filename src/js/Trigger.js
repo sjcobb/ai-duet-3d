@@ -26,11 +26,36 @@ Tone.Transport.timeSignature = 12;
 // Tone.Transport.loop = true; //TODO: *** clear all addBody objects if Transport loop true
 
 //-----SYNTH ASSETS------//
-var polySynth = new Tone.PolySynth(6, Tone.Synth).toMaster();
-polySynth.volume.value = -6;
-// polySynth.volume.value = -8; //prev
-// polySynth.set("detune", +1200); // octave = 12 semitones of 100 cents each
-// polySynth.set("detune", +1200);
+// https://tonejs.github.io/examples/Store.polySynth.html
+// https://tonejs.github.io/docs/13.8.25/Store.polySynth
+
+// var polySynth = new Tone.PolySynth(6, Tone.Synth, {
+Store.polySynth = new Tone.PolySynth(6, Tone.Synth, {
+    oscillator: {
+        type: "triangle", // sine, square, sawtooth, triangle (default), custom
+        // frequency: 440 ,
+        // detune: 0 ,
+        // phase: 0 ,
+        // partials: [] ,
+       partialCount: 0
+    },
+    // https://tonejs.github.io/docs/13.8.25/Envelope
+    envelope: {
+        // attack: 0.1,
+        // decay: 0.2,
+        sustain: 1,
+        // release: 0.8,
+    },
+    // https://tonejs.github.io/docs/13.8.25/Filter#type
+    filter: {
+		// type: "highpass", // lowpass, highpass, bandpass, lowshelf, highshelf, notch, allpass, peaking
+	},
+}).toMaster();
+
+Store.polySynth.volume.value = -6;
+// Store.polySynth.volume.value = -8; //prev
+// Store.polySynth.set("detune", +1200); // octave = 12 semitones of 100 cents each
+// Store.polySynth.set("detune", +1200);
 
 const bounceSynth = new Tone.Synth();
 bounceSynth.volume.value = 2;
@@ -109,7 +134,6 @@ export default class Trigger {
     triggerNote(obj) {
         // console.log({obj});
         // console.log(obj.userData.opts);
-        console.log({polySynth});
 
         const physics = new Physics();
 
@@ -132,7 +156,7 @@ export default class Trigger {
             // combinedNote = triggerObj.note + triggerObj.octave;
             combinedNote = triggerNote;
 
-            console.log({combinedNote});
+            // console.log({combinedNote});
             triggerObj = obj.userData.opts;
             // triggerObj = getInstrByNote(triggerNote);
         // } else if () {
@@ -172,7 +196,7 @@ export default class Trigger {
             // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
             // console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
             const noteLength = obj.userData.opts.length ? obj.userData.opts.length : 0.15;
-            polySynth.triggerAttackRelease(combinedNote, noteLength);
+            Store.polySynth.triggerAttackRelease(combinedNote, noteLength);
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");
             // console.log('triggerNote -> ballDesc: ', triggerObj.ballDesc, ', note: ', combinedNote);

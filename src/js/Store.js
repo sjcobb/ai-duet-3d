@@ -59,6 +59,7 @@ export default {
     multiplierPosX: -2.5,
     musicActive: false,
     patternInfinite: false,
+    polySynth: {},
     posBehindX: -30,
     posBehindY: 2,
     posBehindZ: 3.8,

@@ -425,7 +425,7 @@ function startSequenceGenerator(seed) {
 
     let generatedSequence =
         Math.random() < 0.7 ? _.clone(seedSeq.notes.map(n => n.pitch)) : [];
-    // console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
+    console.log('(startSequenceGenerator) -> generatedSequence: ', generatedSequence);
 
     let launchWaitTime = getSequenceLaunchWaitTime(seed); // returns 1 or 0.3
     launchWaitTime = 0.1;
@@ -489,38 +489,38 @@ function updateUI(machineSequence) {
         Store.ui.machine.currentSequence = machineSequence;
     }
 }
-let machineDataId = document.getElementById('machine-data');
+// let machineDataId = document.getElementById('machine-data');
 setInterval(() => {
-    if (Store.ui) {
-        if (Store.ui.machine.currentSequence.length > 0) {
+    // if (Store.ui) {
+    //     if (Store.ui.machine.currentSequence.length > 0) {
 
-            // mappedNotes = notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
-            // let mappedNotes = Store.ui.machine.currentSequence.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note)));
-            let mappedNotes = Store.ui.machine.currentSequence.map(note => Tonal.Note.fromMidi(note));
+    //         // mappedNotes = notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
+    //         // let mappedNotes = Store.ui.machine.currentSequence.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note)));
+    //         let mappedNotes = Store.ui.machine.currentSequence.map(note => Tonal.Note.fromMidi(note));
 
-            // console.log('mappedNotes: ', mappedNotes);
-            // console.log(Store.ui.machine.currentSequence);
-            // machineDataId.innerHTML = Store.ui.machine.currentSequence;
+    //         // console.log('mappedNotes: ', mappedNotes);
+    //         // console.log(Store.ui.machine.currentSequence);
+    //         // machineDataId.innerHTML = Store.ui.machine.currentSequence;
 
-            // https://love2dev.com/blog/javascript-remove-from-array/
-            if (mappedNotes.length > 6) {
-                mappedNotes.length = 6;
-            }
+    //         // https://love2dev.com/blog/javascript-remove-from-array/
+    //         if (mappedNotes.length > 6) {
+    //             mappedNotes.length = 6;
+    //         }
 
-            if (Store.machineTrigger === true) {
-                machineDataId.innerHTML = mappedNotes.join(', ');
-            } else {
-                machineDataId.innerHTML = '';
-            }
-        }
+    //         if (Store.machineTrigger === true) {
+    //             machineDataId.innerHTML = mappedNotes.join(', ');
+    //         } else {
+    //             machineDataId.innerHTML = '';
+    //         }
+    //     }
 
-        let machineStateId = document.getElementById('machine-state');
-        if (Store.machineTrigger === true) {
-            machineStateId.innerHTML = '- ON';
-        } else {
-            machineStateId.innerHTML = '- OFF';
-        }
-    }
+    //     let machineStateId = document.getElementById('machine-state');
+    //     if (Store.machineTrigger === true) {
+    //         machineStateId.innerHTML = '- ON';
+    //     } else {
+    //         machineStateId.innerHTML = '- OFF';
+    //     }
+    // }
 }, 500);
 
 function generateDummySequence(seed = SEED_DEFAULT) {
