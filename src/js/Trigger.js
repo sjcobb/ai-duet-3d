@@ -109,6 +109,7 @@ export default class Trigger {
     triggerNote(obj) {
         // console.log({obj});
         // console.log(obj.userData.opts);
+        console.log({polySynth});
 
         const physics = new Physics();
 

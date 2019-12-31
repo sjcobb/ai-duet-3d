@@ -116,8 +116,8 @@ export default class Physics {
                 sphereRestitution = options.length * 1;
 
                 // TODO: clean up bounciness default and min / max height
-                if (sphereRestitution < 0.2) {
-                    sphereRestitution = 0.2;
+                if (sphereRestitution < 0.225) {
+                    sphereRestitution = 0.225;
                 }
             }
             // console.log({sphereRestitution});
@@ -125,8 +125,8 @@ export default class Physics {
         const material = new CANNON.Material({ restitution: sphereRestitution, friction: 1 }); 
 
         // https://schteppe.github.io/cannon.js/docs/classes/Body.html
-        const body = new CANNON.Body({ mass: 5, material: material });
-        // const body = new CANNON.Body({ mass: 1, material: material }); //no effect
+        // const body = new CANNON.Body({ mass: 5, material: material }); // v0.3, v0.4
+        const body = new CANNON.Body({ mass: 250, material: material });
         
         this.shapes = {};
         // this.shapes.sphere = new CANNON.Sphere(0.5);

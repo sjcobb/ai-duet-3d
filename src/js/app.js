@@ -418,8 +418,8 @@ let animate = () => {
 
     //ENABLE HORIZONTAL SCROLL
     if (globals.autoScroll === true) {
-        // const ticksMultiplier = 9; // v0.2, v0.3, v0.4
-        const ticksMultiplier = 12;
+        const ticksMultiplier = 9; // v0.2, v0.3, v0.4
+        // const ticksMultiplier = 12;
 
         // // globals.ticks = Tone.Transport.ticks * 0.014; //old
 
@@ -477,11 +477,18 @@ window.onload = () => {
             let keyMapped = instrument.getKeyboardMapping(keyName);
             // console.log({keyMapped});
 
-            switch (keyName) {
+            console.log({keyName});
+            switch (keyName) { 
                 case ('z'):
                     // physics.addBody(true, globals.dropPosX, keyMapped);
                     // globals.dropPosX -= 1.3;
                     break;
+                // case(' '):
+                //     console.error('... SPACEBAR RESET -> polySynth.triggerRelease() ...');
+                //     console.log(polySynth);
+                //     if (polySynth) {
+                //         polySynth.triggerRelease(); 
+                //     }
                 default:
                     // console.log('keydown -> DEFAULT...', event);
             }
