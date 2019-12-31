@@ -177,7 +177,10 @@ var cubeMaterials = [
 
 var cubeMaterial = new THREE.MeshFaceMaterial(cubeMaterials);
 var skyboxCubeMesh = new THREE.Mesh(skyboxGeometry, cubeMaterial); //nightsky skybox
-globals.scene.add(skyboxCubeMesh); //add nightsky skybox
+
+if (globals.view.skybox === true) {
+    globals.scene.add(skyboxCubeMesh); //add nightsky skybox
+}
 
 // physics.addSpinner();
 

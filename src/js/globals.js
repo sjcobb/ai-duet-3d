@@ -27,7 +27,7 @@ export default {
     // bpm: 120, // v0.4
     bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
-    cameraCircularAnimation: false, // true - drum spinner (v0.3)
+    // cameraCircularAnimation: false, // true - drum spinner (v0.3), NOW view.drumCircle
     cameraPositionBehind: false,
     cameraLookUp: false,
     clock: new THREE.Clock(),
@@ -83,6 +83,7 @@ export default {
     },
     view: {
         drumCircle: true,
+        skybox: false,
     },
     world: new CANNON.World(),
 };
