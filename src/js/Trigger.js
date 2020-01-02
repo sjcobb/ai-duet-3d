@@ -26,8 +26,8 @@ Tone.Transport.timeSignature = 12;
 // Tone.Transport.loop = true; //TODO: *** clear all addBody objects if Transport loop true
 
 //-----SYNTH ASSETS------//
-// https://tonejs.github.io/examples/Store.polySynth.html
-// https://tonejs.github.io/docs/13.8.25/Store.polySynth
+// https://tonejs.github.io/examples/polySynth.html
+// https://tonejs.github.io/docs/13.8.25/PolySynth
 
 // var polySynth = new Tone.PolySynth(6, Tone.Synth, {
 Store.polySynth = new Tone.PolySynth(6, Tone.Synth, {

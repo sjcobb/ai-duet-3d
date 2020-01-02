@@ -163,7 +163,7 @@ export default class Helpers {
             if (textData.length > 2) {
                 textH = textH / 2.5;
             } else if (textData.length === 2) {
-                textH = textH / 1.5;
+                textH = textH / 1.2;
             }
             // textH = textH / textData.length; // kind of works, but "Cr" too small
 
@@ -181,9 +181,8 @@ export default class Helpers {
             
             //TODO: adjust textOffset position here, make spheres bigger?
             let textOffsetX = 0.0;
-            // let textOffsetY = 0.8; //ORIG
-            // let textOffsetY = 0.6; //PREV
-            let textOffsetY = 0.4;
+            // let textOffsetY = 0.4; // v0.3, v0.4
+            let textOffsetY = -0.1;
 
             // if (textW > 100) {
             //     // console.log(textData); //TODO: make fillEllipse wider or font (textH) smaller when multiple characters
@@ -315,7 +314,7 @@ export default class Helpers {
         var object3d = new THREE.Mesh(geometry, material);
         object3d.rotation.x = -Math.PI / 2;
 
-        // if (Store.cameraPositionBehind === true) {
+        // if (globals.cameraPositionBehind === true) {
         //     object3d.rotation.y = 1.0; //no effect
         // }
 

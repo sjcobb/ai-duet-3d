@@ -57,7 +57,7 @@ Store.scene.background = new THREE.Color(0, 0, 0); //prev: 'white'
 // Store.camera.position.set(0, 6, 20); // 2nd param (y) = height
 // Store.camera.position.set(0, 8, 22);
 // Store.camera.position.set(0, 8, 26); // // v0.3, v0.4
-Store.camera.position.set(0, 14, 26); 
+Store.camera.position.set(0, 16, 26); 
 
 // Store.camera.lookAt(new THREE.Vector3(0, 1, 0)); // v0.3, v0.4
 
@@ -530,9 +530,11 @@ window.onload = () => {
                     console.error('... SPACEBAR RESET -> polySynth.triggerRelease() ...');
                     if (Store.polySynth) {
                         console.log(Store.polySynth);
-                        Store.polySynth.triggerRelease();
-                        Store.polySynth.disconnect();
-                        Store.polySynth.connect();
+                        Store.polySynth.releaseAll();
+                        // Store.polySynth.triggerRelease();
+                        // Store.polySynth.dispose();
+                        // Store.polySynth.disconnect();
+                        // Store.polySynth.connect();
                     } 
                     // console.log(Tone.Transport);
                     // Tone.disconnect();

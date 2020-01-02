@@ -99,11 +99,11 @@ export default class Physics {
             objSize = 2.0;
         } else {
             // objSize = 0.5; // v0.3
-            // objSize = 0.65;
-            objSize = 0.70;
+            // objSize = 0.65; // too big for D maj chord
+            objSize = 0.50;
         }
 
-        // console.log('addBody -> options: ', options);
+        // console.log('addBody -> options: ', options);       
 
         const trigger = new Trigger();
 
@@ -128,7 +128,7 @@ export default class Physics {
 
         // https://schteppe.github.io/cannon.js/docs/classes/Body.html
         // const body = new CANNON.Body({ mass: 5, material: material }); // v0.3, v0.4
-        const body = new CANNON.Body({ mass: 250, material: material });
+        const body = new CANNON.Body({ mass: 550, material: material });
         
         this.shapes = {};
         // this.shapes.sphere = new CANNON.Sphere(0.5);
