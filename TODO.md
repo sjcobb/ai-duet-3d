@@ -4,23 +4,25 @@
 - [x] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param
 
 ### 0.5
-- [ ] rename state variables to store, separate property for UI related variables
-- [ ] update instrumentMappings to use key of B major instead of C
-- [ ] display key signature in UI
+- [x] rename state variables to store, separate property for UI related variables
 
 ### 0.6
-- [ ] different iframes / canvas for each instrument type, separate routes with different globals can be used
-- [ ] balls drop and hit key of 3D piano
-- [ ] instrument animations mapped to note sequences, ex: flamePhysics.create triggered on FD - FD -- A3F - A3F added to note sequence (use humanKeyAdds array? or buildNoteSequence function)
+- [ ] fix Three.js warnings: 
+    - https://stackoverflow.com/questions/37914161/three-js-render-warning-render-count-or-primcount-is-0
+- [ ] display key signature in UI
+- [ ] update instrumentMappings to use key of B major instead of C
 
 ### 0.7
+- [ ] balls drop and hit key of 3D piano
 - [ ] robot drops balls from top of mountain, spinner knocks off balls that do not need to hit 3D piano
 
 ### 0.8
+- [ ] instrument animations mapped to note sequences, ex: flamePhysics.create triggered on FD - FD -- A3F - A3F added to note sequence (use humanKeyAdds array? or buildNoteSequence function)
 - [ ] different worlds: space, ice mountain, cartoon forest
 
 ### 1.0
 - [ ] full UI implementation
+- [ ] different iframes / canvas for each instrument type, separate routes with different globals can be used
 - [ ] support for computer keyboard in addition to MIDI controller
 - [ ] UI for editable 'instrument - shape - note - keyboard' mapping object
 - [ ] record and playback audio, import and convert MIDI notes to Tone.js friendly JSON using https://github.com/Tonejs/Midi
