@@ -151,18 +151,21 @@ function humanKeyDown(note, velocity = 0.7) {
     // console.log('(humanKeyDown) -> velocity: ', velocity);
     if (note < MIN_NOTE || note > MAX_NOTE) return;
 
-    updateChord({ add: note });
+    if (Store.ai.enabled === true) {
+        updateChord({ add: note });
 
-    // TODO: implement UI for turning on / off AI instead of using MIDI controller
-    if (note === 72 || note === 67 || note === 66) { // C5, G5, Gb5
-        Store.machineTrigger = true;
-    } else {
-        humanKeyAdds.push({ note, velocity });
-    }
+        // TODO: implement UI for turning on / off AI instead of using MIDI controller
+        if (note === 72 || note === 67 || note === 66) { // C5, G5, Gb5
+            Store.machineTrigger = true;
+        } else {
+            humanKeyAdds.push({ note, velocity });
+        }
 
-    if (note === 71) { // B5
-        Store.machineTrigger = false;
+        if (note === 71) { // B5
+            Store.machineTrigger = false;
+        }
     }
+    
 }
 
 function humanKeyUp(note, timestampLength) {
@@ -176,12 +179,18 @@ function humanKeyUp(note, timestampLength) {
     timestampLength = timestampLength > maxNoteLength ? maxNoteLength : timestampLength;
     instrMapped.length = timestampLength / 1000; // IMPORTANT - so length is in milliseconds 
 
-    if (note !== 72 && note !== 71 && note !== 67 && note !== 66) { // B5, C6, G5, Gb5
+    if (Store.ai.enabled === true) {
+
+        if (note !== 72 && note !== 71 && note !== 67 && note !== 66) { // B5, C6, G5, Gb5
+            physics.addBody(true, Store.dropPosX, instrMapped);
+        }
+
+        humanKeyRemovals.push({ note });
+        updateChord({ remove: note });
+    } else {
         physics.addBody(true, Store.dropPosX, instrMapped);
     }
-
-    humanKeyRemovals.push({ note });
-    updateChord({ remove: note });
+    
 }
 
 function machineKeyDown(note = 60, time = 0) {

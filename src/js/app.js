@@ -403,15 +403,6 @@ if (Store.view.drumCircle === true) {
 
 let machineStateId = document.getElementById('machine-state');
 let machineDataId = document.getElementById('machine-data');
-// function updateUI(machineSequence) {
-//     // console.log('updateUI -> machineSequence: ', machineSequence);
-
-//     // if (Store.ui.machine.currentSequence.length > 0) {
-//     // if (machineSequence.length > 1) {
-//     if (machineSequence.length > 0) {
-//         Store.ui.machine.currentSequence = machineSequence;
-//     }
-// }
 
 //-----ANIMATION------//
 let animate = () => {
@@ -470,21 +461,11 @@ let animate = () => {
 
     Store.renderer.render(Store.scene, Store.camera);
 
-    if (Store.ui) {
+    // if (Store.ui) {
+    if (Store.ai.enabled === true) {
         if (Store.ui.machine.currentSequence.length > 0) {
 
-            // mappedNotes = notes.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note))).sort();
-            // let mappedNotes = Store.ui.machine.currentSequence.map(n => Tonal.Note.pc(Tonal.Note.fromMidi(n.note)));
             let mappedNotes = Store.ui.machine.currentSequence.map(note => Tonal.Note.fromMidi(note));
-
-            // console.log('mappedNotes: ', mappedNotes);
-            // console.log(Store.ui.machine.currentSequence);
-            // machineDataId.innerHTML = Store.ui.machine.currentSequence;
-
-            // https://love2dev.com/blog/javascript-remove-from-array/
-            // if (mappedNotes.length > 6) {
-            //     mappedNotes.length = 6;
-            // }
 
             if (Store.machineTrigger === true) {
                 machineDataId.innerHTML = mappedNotes.join(', ');

@@ -19,7 +19,7 @@ export default {
     // activeInstrColor: '#1f1f1f',
     activeInstrColor: '#343434',
     ai: {
-        enabled: true,
+        enabled: false,
     },
     autoScroll: true, // true - v0.1, v0.2
     autoStart: false,
@@ -82,9 +82,12 @@ export default {
         drumCircle: true,
         skybox: false,
         cameraPositionBehind: true,
-        posBehindX: -30,
-        posBehindY: 2,
-        posBehindZ: 3.8,
+        // posBehindX: -30,
+        // posBehindY: 2,
+        // posBehindZ: 3.8,
+        posBehindX: -60,
+        posBehindY: 8,
+        posBehindZ: 0,
     },
     world: new CANNON.World(),
 };

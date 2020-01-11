@@ -34,8 +34,8 @@ var allDrumsPart = new Tone.Part(function(time, instr) {
     // ["0:4:0", Store.instr.tomHigh],
 ]);
 allDrumsPart.loop = true;
-allDrumsPart.start("0:0:0");
-// // allDrumsPart.start("1:0:0");
+// allDrumsPart.start("0:0:0");
+allDrumsPart.start("1:0:0");
 // // allDrumsPart.start("2:0:0");
 
 var introPart = new Tone.Part(function(time, instr) {
@@ -44,13 +44,23 @@ var introPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, Store.dropPosX, instr, 0);
     // physics.addBody(true, time * Store.multiplierPosX, instr); // sine wave
 }, [
-    // ["0:0:0", Store.instr.hiHatClosed],
-    ["0:0:0", Store.instr.hiHatOpen],
-    // ["0:11:0", Store.instr.hiHatClosed],
+    ["0:0:0", Store.instr.hiHatClosed],
+    ["0:1:0", Store.instr.hiHatClosed],
+    ["0:2:0", Store.instr.hiHatClosed],
+    ["0:3:0", Store.instr.hiHatClosed],
+    ["0:4:0", Store.instr.hiHatClosed],
+    ["0:5:0", Store.instr.hiHatClosed],
+    ["0:6:0", Store.instr.hiHatClosed],
+    ["0:7:0", Store.instr.hiHatClosed],
+    ["0:8:0", Store.instr.hiHatClosed],
+    ["0:9:0", Store.instr.hiHatClosed],
+    ["0:10:0", Store.instr.hiHatClosed],
+    ["0:11:0", Store.instr.hiHatClosed],
+    // ["0:0:0", Store.instr.hiHatOpen],
 ]);
-// introPart.loop = 6;
+introPart.loop = 6;
 introPart.loop = true;
-// introPart.start("0:0:0");
+introPart.start("0:0:0");
 
 var secPosPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, Store.dropPosX, instr, 1);

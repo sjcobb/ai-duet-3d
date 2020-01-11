@@ -141,8 +141,8 @@ export function getInstrumentMappingTemplate(movement = 'physics') {
             movement: movement, //default: 'physics', or 'static'
             type: 'drum',
             variation: 'hihat',
-            // originalPosition: { x: 0, y: 0, z: -3 }
-            originalPosition: { x: -3, y: 1.5, z: 1 }
+            // originalPosition: { x: -3, y: 1.5, z: 1 }
+            originalPosition: { x: 0, y: 0, z: 10 }
         },
         hiHatOpen: {
             ballDesc: 'H',
@@ -175,7 +175,8 @@ export function getInstrumentMappingTemplate(movement = 'physics') {
             type: 'drum',
             variation: 'kick',
             // originalPosition: { x: 0, y: 0, z: 5 }, // drum staff
-            originalPosition: { x: 0, y: 0, z: 4 },
+            // originalPosition: { x: 0, y: 0, z: 4 }, // B
+            originalPosition: { x: 0, y: 0, z: 2 }, // B
             // originalPosition: { x: 0, y: 0, z: 1 },
             size: 'xl',
         },

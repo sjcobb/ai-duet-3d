@@ -45,7 +45,7 @@ export default class Physics {
         // this.addSpinner();
     }
 
-    // initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[2500, 20, 5]) {
+    // initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, -5], sizeArr=[5000, 10, 5]) {
     initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, -5], sizeArr=[5000, 10, 5]) {
         //TODO: add colored ground on contact here
         //http://schteppe.github.io/cannon.js/docs/classes/ContactMaterial.html
@@ -153,8 +153,9 @@ export default class Physics {
             }
         }
 
-        const yPos = 20; //PREV, just right
-        // const yPos = 26;
+        // https://stackoverflow.com/questions/44630265/how-can-i-set-z-up-coordinate-system-in-three-js
+        // const yPos = 20; // v0.4, v0.5
+        const yPos = 1;
 
         /*** Randomized Y drop point ***/
         // const y = Math.random() * (10 - 5) + 5; //rdm b/w 5 and 10
@@ -171,7 +172,7 @@ export default class Physics {
             // https://codepen.io/danlong/pen/LJQYYN
             // zPos += 10; // PREV: see Store.staffLineInitZ and Store.staffLineSecondZ
 
-            zPos -= 8;
+            zPos -= 8; // TODO: is this still needed?
         } else {
             zPos -= 3; //PREV
             // zPos = 0;
