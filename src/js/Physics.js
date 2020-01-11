@@ -349,7 +349,7 @@ export default class Physics {
 
                     // TODO: if options.size is 'xl' make sphere larger, need to fix Cannon addShape so physics still work
                     // const sphereGeo = new THREE.SphereGeometry(12, 12, 12);
-                    sphereGeo.name = 'sphereGeo'; //*** important for rotation when Store.cameraPositionBehind true
+                    sphereGeo.name = 'sphereGeo'; //*** important for rotation when Store.view.cameraPositionBehind true
 
                     mesh = new THREE.Mesh(sphereGeo, poolBallMaterial); //prev: material
 
@@ -506,7 +506,7 @@ export default class Physics {
             mesh.quaternion.set(q.x, q.y, q.z, q.w);
 
             if (mesh.geometry) {
-                if (mesh.geometry.name === 'sphereGeo' && Store.cameraPositionBehind) {
+                if (mesh.geometry.name === 'sphereGeo' && Store.view.cameraPositionBehind) {
                     // console.log('sphereGeo debug rotation: ', mesh.rotation);
                     mesh.rotation.set(0, -1.5, 0); //x: more faces downwards, y: correct - around center, z
                 }

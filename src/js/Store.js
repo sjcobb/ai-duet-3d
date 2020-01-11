@@ -28,7 +28,6 @@ export default {
     bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
     // cameraCircularAnimation: false, // true - drum spinner (v0.3), NOW view.drumCircle
-    cameraPositionBehind: false,
     cameraLookUp: false,
     clock: new THREE.Clock(),
     configColorAnimate: true,
@@ -60,9 +59,6 @@ export default {
     musicActive: false,
     patternInfinite: false,
     polySynth: {},
-    posBehindX: -30,
-    posBehindY: 2,
-    posBehindZ: 3.8,
     groundMeshIncrementer: 0,
     renderer: new THREE.WebGLRenderer(),
     scene: new THREE.Scene(),
@@ -85,6 +81,10 @@ export default {
     view: {
         drumCircle: true,
         skybox: false,
+        cameraPositionBehind: true,
+        posBehindX: -30,
+        posBehindY: 2,
+        posBehindZ: 3.8,
     },
     world: new CANNON.World(),
 };

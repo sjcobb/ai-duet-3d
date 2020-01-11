@@ -174,9 +174,10 @@ export function getInstrumentMappingTemplate(movement = 'physics') {
             keyInput: '4',
             type: 'drum',
             variation: 'kick',
-            // originalPosition: { x: 0, y: 0, z: 5 } // drum staff
-            // originalPosition: { x: 0, y: 0, z: 2 }
-            originalPosition: { x: 0, y: 0, z: 1 }
+            // originalPosition: { x: 0, y: 0, z: 5 }, // drum staff
+            originalPosition: { x: 0, y: 0, z: 4 },
+            // originalPosition: { x: 0, y: 0, z: 1 },
+            size: 'xl',
         },
         crashPrimary: {
             ballDesc: 'Cr',

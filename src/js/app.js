@@ -63,24 +63,24 @@ Store.camera.position.set(0, 16, 26);
 
 Store.camera.lookAt(new THREE.Vector3(0, -2.5, 0)); // v0.5
 
-if (Store.cameraPositionBehind === true) {
-    Store.camera.position.set(Store.posBehindX, Store.posBehindY, Store.posBehindZ);
-    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 1, Store.posBehindZ));
+if (Store.view.cameraPositionBehind === true) {
+    Store.camera.position.set(Store.view.posBehindX, Store.view.posBehindY, Store.view.posBehindZ);
+    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 1, Store.view.posBehindZ));
 }
 
 if (Store.cameraLookUp === true) {
-    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 100, Store.posBehindZ));
+    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 100, Store.view.posBehindZ));
 }
 
 if (Store.keysOnly === true) {
     Store.camera.position.z -= 6; // PREV, middle of first keyboard staff
-    Store.posBehindX -= 10;
+    Store.view.posBehindX -= 10;
 }
 
 if (Store.drumsOnly === true) {
     // Store.camera.position.z -= 10; // only see top half of spinner
     Store.camera.position.z += 8;
-    Store.posBehindX -= 10;
+    Store.view.posBehindX -= 10;
 }
 
 Store.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -155,7 +155,7 @@ let currentShape, currentMesh;
 currentShape = box;
 currentMesh = phong;
 const objCenter = new THREE.Mesh(currentShape, currentMesh);
-objCenter.position.set(0, 0, Store.posBehindZ);
+objCenter.position.set(0, 0, Store.view.posBehindZ);
 // Store.scene.add(objCenter); //for absolute center reference
 
 //-----SKYBOX (LOAD TEXTURES)------//
@@ -441,8 +441,8 @@ let animate = () => {
 
         Store.ticks += (delta * ticksMultiplier); // Too fast, balls dropped too far left
         
-        if (Store.cameraPositionBehind === true) {
-            Store.camera.position.x = Store.posBehindX + (Store.ticks);
+        if (Store.view.cameraPositionBehind === true) {
+            Store.camera.position.x = Store.view.posBehindX + (Store.ticks);
             // console.log(Store.camera);
         } else {
             // Store.camera.position.x = (Store.ticks) - 30; // 0.3, 0.2

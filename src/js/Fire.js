@@ -44,7 +44,7 @@ export default class Fire {
         const fireTex = Store.loader.load("assets/flame/FireOrig.png");
         volumetricFire = new THREE.Fire(fireTex);
         volumetricFire.scale.set(6, 6.8, 6.0); //width, height, z
-        volumetricFire.position.set(Store.posBehindX + 30, 3.5, Store.posBehindZ);
+        volumetricFire.position.set(Store.view.posBehindX + 30, 3.5, Store.view.posBehindZ);
         var wireframeMat = new THREE.MeshBasicMaterial({
             color : new THREE.Color(0xffffff),
             wireframe : true

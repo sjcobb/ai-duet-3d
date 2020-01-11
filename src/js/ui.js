@@ -114,7 +114,7 @@ document.addEventListener("visibilitychange", function() {
 });
 
 // setTimeout(function() {
-//     Store.cameraPositionBehind = false;
+//     Store.view.cameraPositionBehind = false;
 //     // Store.camera.position.set(0, 20, 40);
 //     // Store.camera.position.set(0, 5, 35);
 //     Store.camera.position.set(0, 12, 30);
@@ -125,15 +125,15 @@ document.addEventListener("visibilitychange", function() {
 // // }, 33000);
 // // }, 1000);
 
-// Store.cameraPositionBehind = false;
+// Store.view.cameraPositionBehind = false;
 // // camera.position.set(0, 5, 35);
 // camera.position.set(0, 5, 35);
 // camera.lookAt(new THREE.Vector3(-1, 1, 10));
 // // camera.lookAt(new THREE.Vector3(-1, 1, 10));
 // setTimeout(function() {
 //     scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.0028 );
-//     Store.cameraPositionBehind = true;
-//     camera.position.set(Store.posBehindX, 6, globalPosBehindZ);
+//     Store.view.cameraPositionBehind = true;
+//     camera.position.set(Store.view.posBehindX, 6, globalPosBehindZ);
 //     camera.lookAt(new THREE.Vector3(globalDropPosX - 5, 1, globalPosBehindZ));
 // }, 58000);
 // // }, 2000);

@@ -41,9 +41,9 @@ export default class Flame {
         // volumetricFire.scale.set(15, 22, 15); //
         // volumetricFire.scale.set(150, 220, 150); // TODO: fix scale for higher values & position
 
-        // volumetricFire.position.set(Store.posBehindX + 30, 3.5, Store.posBehindZ);
-        // volumetricFire.position.set(pos.x, 3.5, Store.posBehindZ);
-        volumetricFire.position.set(pos.x, Store.posBehindY, Store.posBehindZ);
+        // volumetricFire.position.set(Store.view.posBehindX + 30, 3.5, Store.view.posBehindZ);
+        // volumetricFire.position.set(pos.x, 3.5, Store.view.posBehindZ);
+        volumetricFire.position.set(pos.x, Store.view.posBehindY, Store.view.posBehindZ);
 
         var wireframeMat = new THREE.MeshBasicMaterial({
             color : new THREE.Color(0xffffff),
@@ -59,8 +59,8 @@ export default class Flame {
         Store.scene.add(Store.flameArr[0]);
     }
 
-    addFire(posX = Store.posBehindX + 22, currentTime) {
-        volumetricFire.position.set(posX, 0, Store.posBehindZ);
+    addFire(posX = Store.view.posBehindX + 22, currentTime) {
+        volumetricFire.position.set(posX, 0, Store.view.posBehindZ);
         scene.add(volumetricFire);
     }
 
