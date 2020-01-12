@@ -62,6 +62,37 @@ export default {
                 ['C4', 1, 0, 0, 1],
                 ['D4', 0, 1, 1, 1],
             ]
+        },
+        midiConvertData: {
+            source: [
+                {
+                    "duration": 0.6,
+                    "durationTicks": 960,
+                    "midi": 60,
+                    "name": "C4",
+                    "ticks": 0,
+                    "time": 0,
+                    "velocity": 0.5433070866141733
+                },
+                {
+                    "duration": 1.2,
+                    "durationTicks": 1920,
+                    "midi": 48,
+                    "name": "C3",
+                    "ticks": 0,
+                    "time": 0,
+                    "velocity": 0.5118110236220472
+                },
+                {
+                    "duration": 0.6,
+                    "durationTicks": 960,
+                    "midi": 60,
+                    "name": "C4",
+                    "ticks": 960,
+                    "time": 0.6,
+                    "velocity": 0.5984251968503937
+                },
+            ]
         }
     },
     dropCoordCircle: [],

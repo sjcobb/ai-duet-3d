@@ -11,6 +11,8 @@ import Pool from './Pool.js';
 import Trigger from './Trigger.js';
 import * as Tonal from "tonal";
 
+import Stats from 'stats.js';
+
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // console.clear();
@@ -27,6 +29,10 @@ import * as Tonal from "tonal";
 
 // const helpers = new Helpers();
 // const pool = new Pool();
+
+var stats = new Stats();
+stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 //-----INITIAL GLOBAL VARIABLES------//
 // const globalClock = new THREE.Clock();
@@ -406,7 +412,9 @@ let machineDataId = document.getElementById('machine-data');
 
 //-----ANIMATION------//
 let animate = () => {
-    requestAnimationFrame(animate);
+
+    // requestAnimationFrame(animate);
+    stats.begin();
 
     var delta = Store.clock.getDelta();
     // console.log('delta: ', delta); //hundreths
@@ -483,6 +491,11 @@ let animate = () => {
             machineStateId.innerHTML = '- OFF';
         }
     }
+
+    stats.end();
+
+    requestAnimationFrame(animate);
+
 };
 
 window.onload = () => {

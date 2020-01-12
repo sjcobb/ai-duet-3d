@@ -14,6 +14,7 @@ const path = require('path');
 const config = {
     entry: {
         'bundle.js': [
+            path.resolve(__dirname, 'node_modules/stats.js/build/stats.min.js'),
             path.resolve(__dirname, 'node_modules/webmidi/webmidi.min.js'),
             // path.resolve(__dirname, 'node_modules/tonal/build/es6.js'),
             // path.resolve(__dirname, 'node_modules/tone/build/Tone.js'),
