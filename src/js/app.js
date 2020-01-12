@@ -85,7 +85,7 @@ if (Store.drumsOnly === true) {
 
 Store.renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(Store.renderer.domElement);
-Store.renderer.domElement.id = 'bounce-renderer';
+Store.renderer.domElement.id = 'canvas-scene-primary';
 
 // update viewport on resize
 window.addEventListener('resize', function() {
@@ -576,16 +576,19 @@ function initCharts () {
     // https://echarts.apache.org/examples/en/editor.html?c=custom-hexbin
     // Circle of Fifths heatmap: https://echarts.apache.org/examples/en/editor.html?c=custom-polar-heatmap
 
+
     // https://echarts.apache.org/examples/en/editor.html?c=dataset-link
-    const dataset = {
-        source: [
-            ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-            ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
-            ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
-            ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
-            ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
-        ]
-    };
+    // const dataset = {
+    //     source: [
+    //         ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+    //         ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+    //         ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+    //         ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+    //         ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+    //     ]
+    // };
+
+    const dataset = Store.dashboard.dataset;
 
     // const myChart = echarts.init(document.getElementById('chart'));
     Store.dashboard.chart = echarts.init(document.getElementById('chart'));
@@ -595,7 +598,7 @@ function initCharts () {
         },
         tooltip: {},
         legend: {
-            data:['Note']
+            // data:['Note']
         },
         xAxis: {
             type: 'category',
@@ -604,32 +607,42 @@ function initCharts () {
         yAxis: {},
         series: [
             {
-                name: 'Note',
-                type: 'bar',
-                // data: [5, 20, 36, 10, 10, 20],
+                type: 'line', 
+                smooth: true, 
                 seriesLayoutBy: 'row',
+                //seriesLayoutBy: 'column',
             },
             {
                 type: 'line', 
                 smooth: true, 
                 seriesLayoutBy: 'row',
+                //seriesLayoutBy: 'column',
             },
-            {
-                type: 'pie',
-                radius: '30%',
-                center: ['50%', '25%'],
-                label: {
-                    formatter: '{b}: {@2012} ({d}%)'
-                },
-                encode: {
-                    itemName: 'product',
-                    value: '2012',
-                    // tooltip: '2012'
-                }
-            }
+            // {
+            //     name: 'Note',
+            //     type: 'bar',
+            //     // data: [5, 20, 36, 10, 10, 20],
+            //     seriesLayoutBy: 'row',
+            //     // seriesLayoutBy: 'column',
+            // },
+            // {
+            //     type: 'pie',
+            //     radius: '30%',
+            //     center: ['50%', '25%'],
+            //     label: {
+            //         formatter: '{b}: {@2012} ({d}%)'
+            //     },
+            //     encode: {
+            //         itemName: 'product',
+            //         value: '2012',
+            //         // tooltip: '2012'
+            //     }
+            // }
         ],
         dataset: dataset
     };
+
+    // Store.dashboard.chart.resize(); // no effect
     Store.dashboard.chart.setOption(option);
 }
 

@@ -37,6 +37,17 @@ export default {
     damping: 0.01, // effects bounciness, lag
     dashboard: {
         chart: {},
+        lastNote: 'C4',
+        allNotes: ['C4', 'D4', 'C5'],
+        // allNotes: ['C4'],
+        instrData: [],
+        dataset: {
+            source: [
+                ['Note', '0:0:0', '1:0:0', '2:0:0', '3:0:0'],
+                ['C4', 1, 0, 0, 1],
+                ['D4', 0, 1, 1, 1],
+            ]
+        }
     },
     dropCoordCircle: [],
     dropCoordCircleInterval: [],

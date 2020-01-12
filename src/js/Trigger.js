@@ -152,15 +152,15 @@ export default class Trigger {
         let triggerObj = {};
         let combinedNote = 'C1';
         if (obj.userData.opts.type !== 'drum') {
-            const triggerNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
-            // combinedNote = triggerObj.note + triggerObj.octave;
-            combinedNote = triggerNote;
-
+            combinedNote = obj.userData.opts.note ? (obj.userData.opts.note + obj.userData.opts.octave) : 'C4';
             // console.log({combinedNote});
+
+            Store.dashboard.lastNote = combinedNote;
+            Store.dashboard.allNotes.push(combinedNote);
+            console.log('triggerNote -> Store.dashboard.allNotes: ', Store.dashboard.allNotes);
+
             triggerObj = obj.userData.opts;
-            // triggerObj = getInstrByNote(triggerNote);
-        // } else if () {
-        
+
         } else {
             triggerObj = instrument.getNoteMapping(obj); //ORIG
         }
