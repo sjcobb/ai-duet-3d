@@ -35,6 +35,9 @@ export default {
     // controls: new FlyControls(camera),
     // currentNoteLength: 0, // not needed
     damping: 0.01, // effects bounciness, lag
+    dashboard: {
+        chart: {},
+    },
     dropCoordCircle: [],
     dropCoordCircleInterval: [],
     dropOffset: 0,

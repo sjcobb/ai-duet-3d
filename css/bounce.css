@@ -255,10 +255,15 @@ button#btn-drums-1 {
 /* data viz */
 
 .echarts-entry {
+    /* display: none; */
     position: absolute;
     top: auto;
     right: 0;
     bottom: 0;
     left: 0;
     margin: 0 auto;
+    /* background: #fff; */
+}
+.echarts-entry canvas {
+    background: #fff;
 }

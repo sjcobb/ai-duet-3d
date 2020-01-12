@@ -562,123 +562,134 @@ function activeSwitcher(obj) {
 
 //setInterval(function () {document.getElementById("myButtonId").click();}, 1000);
 
-// TODO: ECharts heatmap or 3d bar floor
-// https://communities.sas.com/t5/SAS-Communities-Library/Combining-the-Power-of-D3-with-Three-js-to-Create-a-3D/ta-p/569501
-// https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/16_Basic_3D_Choropleth.html
-// https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/19_3D_Residual_Plot.html
-// https://echarts.apache.org/examples/en/editor.html?c=bar3d-music-visualization&gl=1
-// https://echarts.apache.org/examples/en/editor.html?c=image-surface-sushuang&gl=1
-// https://echarts.apache.org/examples/en/editor.html?c=custom-hexbin
-// Circle of Fifths heatmap: https://echarts.apache.org/examples/en/editor.html?c=custom-polar-heatmap
+/* 
+ * MUSIC VISUALIZATION DASHBOARD
+ */
 
-// based on prepared DOM, initialize echarts instance
-var myChart = echarts.init(document.getElementById('chart'));
+function initCharts () {
+    // TODO: ECharts heatmap or 3d bar floor
+    // https://communities.sas.com/t5/SAS-Communities-Library/Combining-the-Power-of-D3-with-Three-js-to-Create-a-3D/ta-p/569501
+    // https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/16_Basic_3D_Choropleth.html
+    // https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/19_3D_Residual_Plot.html
+    // https://echarts.apache.org/examples/en/editor.html?c=bar3d-music-visualization&gl=1
+    // https://echarts.apache.org/examples/en/editor.html?c=image-surface-sushuang&gl=1
+    // https://echarts.apache.org/examples/en/editor.html?c=custom-hexbin
+    // Circle of Fifths heatmap: https://echarts.apache.org/examples/en/editor.html?c=custom-polar-heatmap
 
-// specify chart configuration item and data
-var option = {
-    title: {
-        // text: 'Song Stats'
-    },
-    tooltip: {},
-    legend: {
-        data:['Note']
-    },
-    xAxis: {
-        data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-    },
-    yAxis: {},
-    series: [{
-        name: 'Note',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
-    }]
-};
+    // https://echarts.apache.org/examples/en/editor.html?c=dataset-link
+    const dataset = {
+        source: [
+            ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+            ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+            ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+            ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+            ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+        ]
+    };
 
-// use configuration item and data specified to show chart
-myChart.setOption(option);
+    // const myChart = echarts.init(document.getElementById('chart'));
+    Store.dashboard.chart = echarts.init(document.getElementById('chart'));
+    const option = {
+        title: {
+            // text: 'Song Stats'
+        },
+        tooltip: {},
+        legend: {
+            data:['Note']
+        },
+        xAxis: {
+            type: 'category',
+            // data: ["shirt", "cardign", "chiffon shirt", "pants", "heels", "socks"],
+        },
+        yAxis: {},
+        series: [
+            {
+                name: 'Note',
+                type: 'bar',
+                // data: [5, 20, 36, 10, 10, 20],
+                seriesLayoutBy: 'row',
+            },
+            {
+                type: 'line', 
+                smooth: true, 
+                seriesLayoutBy: 'row',
+            },
+            {
+                type: 'pie',
+                radius: '30%',
+                center: ['50%', '25%'],
+                label: {
+                    formatter: '{b}: {@2012} ({d}%)'
+                },
+                encode: {
+                    itemName: 'product',
+                    value: '2012',
+                    // tooltip: '2012'
+                }
+            }
+        ],
+        dataset: dataset
+    };
+    Store.dashboard.chart.setOption(option);
+}
 
-const chartGeometry = new THREE.SphereGeometry(1, 250, 250);
-const vizMesh = new THREE.Mesh(chartGeometry, new THREE.MeshBasicMaterial({ map: getTexture() }));
-vizMesh.scale.set(2, 2, 2);
-Store.scene.add(vizMesh);
+// const addDashboard = (params={}) => {
+function addDashboard(params={}) {
 
-function getTexture() {
-    // Append canvas and save reference
-    // const canvas = d3
-    //     .select("body")
-    //     .append("canvas")
-    //     .attr("width", CANVAS_WIDTH)
-    //     .attr("height", CANVAS_HEIGHT);
+    // const chartId = document.getElementById('chart');
+    // const chartId = echarts.init(document.getElementById('chart');
+    const chartSelector = Store.dashboard.chart;
 
-    // let canvas = document.getElementById('chart');
-    // const context = canvas.node().getContext("2d");
-    // console.log({canvas});
-    // console.log({context});
+    // https://threejs.org/docs/#api/en/geometries/BoxGeometry
+    // const chartGeometry = new THREE.SphereGeometry(1, 250, 250);
+    const chartGeometry = new THREE.BoxGeometry(1, 15, 15);
 
-    // // Create geo path generator
-    // const path = d3
-    //     .geoPath()
-    //     .projection(PROJECTION)
-    //     .context(context);
+    // https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+    const vizMesh = new THREE.Mesh(chartGeometry, new THREE.MeshBasicMaterial(
+        { 
+            map: getChartTexture(chartSelector),
+            // map: getChartTexture(myChart),
+            // color: 0x00ff00,
+            // color: 0x00008b,
+            // color: 0xefefef,
+            color: 0xffffff,
+        }
+    ));
 
-    // // Draw background
-    // context.fillStyle = "#555";
-    // context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // vizMesh.scale.set(2, 2, 2);
+    vizMesh.position.set(0, 10, -25);
+    Store.scene.add(vizMesh);
+}
 
-    // // Draw features from geojson
-    // context.strokeStyle = "#555";
-    // context.lineWidth = 0.25;
-
-    // WORLD_JSON.features.forEach(function(d) {
-    //     context.fillStyle = DATA[d.properties.iso_a3]
-    //     ? COLOR_SCALE(DATA[d.properties.iso_a3].measure)
-    //     : "#CCC";
-    //     context.beginPath();
-    //     path(d);
-    //     context.fill();
-    //     context.stroke();
-    // });
-
-    // Generate texture from canvas
-    // const texture = new THREE.Texture(canvas.node());
-    // const texture = new THREE.Texture(context.node());
-    // texture.needsUpdate = true;
-
-    // canvas.remove();
-
-    // // // //
-
-    const canvasDebug = document.querySelector('canvas');
-    console.log(canvasDebug);
-    // const canvasContext = canvasDebug.node().getContext("2d");
-    // console.log({canvasContext});
-
-    let chartId = document.getElementById('chart');
-
-    // https://echarts.apache.org/en/api.html#echartsInstance.getDataURL
-    var img = new Image();
-    img.src = myChart.getDataURL({
-        pixelRatio: 2,
-        backgroundColor: '#fff'
-    });
-    // console.log(img);
-    
+// const getChartTexture = (chart) => {
+function getChartTexture(chart) {
     // https://stackoverflow.com/questions/37755406/load-textures-from-base64-in-three-js
-    const imgAsset = THREE.ImageUtils.loadTexture(img.src);
-    imgAsset.needsUpdate = true;
-    console.log({imgAsset});
-
-    // const texture = new THREE.Texture(imgAsset);
-    // console.log({texture});
-
-    // TODO: canvas texture research: 
-    // https://threejs.org/docs/#api/en/textures/CanvasTexture
     // http://bl.ocks.org/MAKIO135/eab7b74e85ed2be48eeb
     // https://dustinpfister.github.io/2018/04/17/threejs-canvas-texture/
     // https://threejsfundamentals.org/threejs/lessons/threejs-canvas-textures.html
     
-    const texture = new THREE.Texture(canvasDebug);
-    // const texture = new THREE.Texture(canvasDebug.node());
-    
-    return texture;
+    const canvasElement = document.querySelector('canvas');
+
+    // https://echarts.apache.org/en/api.html#echartsInstance.getDataURL
+    var img = new Image();
+    img.src = chart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+    });
+
+    // https://threejs.org/docs/#api/en/textures/Texture
+    // https://threejs.org/docs/#api/en/textures/CanvasTexture
+    const canvasTexture = new THREE.CanvasTexture(canvasElement); // same as texture.needsUpdate = true;
+    // canvasTexture.repeat.set(4, 4);
+    // https://threejs.org/docs/#api/en/textures/Texture.rotation
+    // https://threejs.org/docs/#api/en/textures/Texture.flipY
+    // https://threejs.org/docs/#api/en/textures/Texture.clone
+    // https://threejs.org/docs/#api/en/textures/Texture.dispose
+
+    return canvasTexture;
 }
+
+initCharts();
+setTimeout(() => {
+    addDashboard();
+}, 2000);
