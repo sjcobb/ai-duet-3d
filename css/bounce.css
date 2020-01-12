@@ -244,11 +244,21 @@ button#btn-drums-1 {
     to {opacity: 1;}
 }
 
-
+/* screen capture webcam customization */
 .nsc-content-camera-container {
     margin: 0 0 0 200px;
 }
-
 .nsc-content-camera {
     background: transparent;
+}
+
+/* data viz */
+
+.echarts-entry {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
 }

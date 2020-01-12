@@ -558,3 +558,34 @@ function activeSwitcher(obj) {
 }
 
 //setInterval(function () {document.getElementById("myButtonId").click();}, 1000);
+
+// TODO: ECharts heatmap or 3d bar floor
+// https://communities.sas.com/t5/SAS-Communities-Library/Combining-the-Power-of-D3-with-Three-js-to-Create-a-3D/ta-p/569501
+// https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/16_Basic_3D_Choropleth.html
+// https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/19_3D_Residual_Plot.html
+
+// based on prepared DOM, initialize echarts instance
+var myChart = echarts.init(document.getElementById('chart'));
+
+// specify chart configuration item and data
+var option = {
+    title: {
+        // text: 'Song Stats'
+    },
+    tooltip: {},
+    legend: {
+        data:['Note']
+    },
+    xAxis: {
+        data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
+    },
+    yAxis: {},
+    series: [{
+        name: 'Note',
+        type: 'bar',
+        data: [5, 20, 36, 10, 10, 20]
+    }]
+};
+
+// use configuration item and data specified to show chart
+myChart.setOption(option);

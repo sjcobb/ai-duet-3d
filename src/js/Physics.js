@@ -155,7 +155,8 @@ export default class Physics {
 
         // https://stackoverflow.com/questions/44630265/how-can-i-set-z-up-coordinate-system-in-three-js
         // const yPos = 20; // v0.4, v0.5
-        const yPos = 1;
+        // const yPos = 1;
+        const yPos = 30;
 
         /*** Randomized Y drop point ***/
         // const y = Math.random() * (10 - 5) + 5; //rdm b/w 5 and 10
