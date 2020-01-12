@@ -50,8 +50,10 @@ export default {
         ],
         noteCountsDataset: {
             source: {
-                'note': [],
-                'count': [],
+                'note': ['C4'],
+                'count': [1],
+                // 'test': [1],
+                'time': [0],
             }
         },
         instrData: [],

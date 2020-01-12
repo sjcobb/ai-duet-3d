@@ -265,7 +265,9 @@ button#btn-drums-1 {
 }
 .echarts-entry canvas {
     display: inline-block;
-    background: #fff;
+    /* background: #fff; */
+    background: transparent;
+    /* background: rgba(204, 204, 204, 0.7); */
     width: 400px;
     height: 300px;
 }

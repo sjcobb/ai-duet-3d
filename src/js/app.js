@@ -567,6 +567,12 @@ window.onload = () => {
     // addBody(sphere = true, xPosition = 5.5, options = 'Z', timeout = 0);
     // physics.addBody();
 
+    // createCharts();
+
+    // setTimeout(() => {
+    //     addDashboard();
+    // }, 2000);
+
 };
 
 function activeSwitcher(obj) {
@@ -592,13 +598,17 @@ function initDashboardData() {
 } 
 
 function countNotes(arr) {
-    var notesArr = [], countArr = [], prev;
+    let notesArr = [];
+    let countArr = [];
+    let tempArr = [];
+    let prev;
 
     arr.sort();
     for ( var i = 0; i < arr.length; i++ ) {
         if ( arr[i] !== prev ) {
             notesArr.push(arr[i]);
             countArr.push(1);
+            tempArr.push('1:0:0');
         } else {
             countArr[countArr.length-1]++;
         }
@@ -610,6 +620,10 @@ function countNotes(arr) {
 
     Store.dashboard.noteCountsDataset.source.note = notesArr;
     Store.dashboard.noteCountsDataset.source.count = countArr;
+    Store.dashboard.noteCountsDataset.source.time = tempArr;
+    // Store.dashboard.noteCountsDataset.source.time = [Store.ticks];
+    // Store.dashboard.noteCountsDataset.source.midi = Store.ticks;
+    // Store.dashboard.noteCountsDataset.source.test = countArr;
     console.log(Store.dashboard.noteCountsDataset.source);
     // return result;
 }
@@ -759,20 +773,83 @@ function createCharts () {
         title: {
             // text: 'Song Stats'
         },
+        // color: ['#fff000'],
         tooltip: {},
         legend: {
             // data:['Note']
         },
-        xAxis: {
+        grid3D: {
+            viewControl: {
+                // autoRotate: true
+            },
+            light: {
+                main: {
+                    // shadow: true,
+                    shadow: true,
+                    quality: 'ultra',
+                    intensity: 1.5
+                }
+            }
+        },
+        // https://www.echartsjs.com/en/option-gl.html#grid3D
+        // https://echarts.apache.org/examples/en/editor.html?c=bar3d-punch-card&gl=1
+        // grid3D: {
+        //     boxWidth: 200,
+        //     boxDepth: 80,
+        //     viewControl: {
+        //         // projection: 'orthographic'
+        //     },
+        //     light: {
+        //         main: {
+        //             intensity: 1.2,
+        //             shadow: true
+        //         },
+        //         ambient: {
+        //             intensity: 0.3
+        //         }
+        //     }
+        // },
+        // visualMap: {
+        //     max: 20,
+        //     inRange: {
+        //         color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        //     }
+        // },
+        // https://www.echartsjs.com/en/option-gl.html#yAxis3D
+        xAxis3D: {
+        // xAxis: {
             type: 'category',
             // data: Store.dashboard.instrData,
+            // data: Store.dashboard.noteCountsDataset.source.note,
         },
-        yAxis: {
-            type: 'value',
+        yAxis3D: {
+        // yAxis: {
+            // show: false,
+            // axisLabel: {
+            //     show: false,
+            // },
+            // type: 'value',
+            type: 'category',
+            // data: Store.dashboard.noteCountsDataset.source.count,
+        },
+        zAxis3D: {
+            type: 'value'
         },
         series: [
             {
-                type: 'bar',
+                // type: 'bar',
+                type: 'bar3D',
+                // shading: 'lambert',
+                encode: {
+                    // x: 0,
+                    // y: 1,
+                    // z: 1,
+                    x: 'note',
+                    // y: 'test',
+                    y: 'time',
+                    z: 'count',
+                    // tooltip: [0, 1, 2, 3, 4]
+                },
                 // data: Store.dashboard.allPlayedNotes,
                 // dimensions: Store.dashboard.instrData,
             },
@@ -813,8 +890,8 @@ function createCharts () {
         // dataset: dataset,
         dataset: {
             source: Store.dashboard.noteCountsDataset.source,
+            dimensions: ['note', 'count', 'time'],
             // source: Store.dashboard.noteCounts,
-            // dimensions: ['note', 'count'],
         },
     };
 
@@ -882,9 +959,9 @@ function getChartTexture(chart) {
 
 initDashboardData();
 createCharts();
-setTimeout(() => {
-    addDashboard();
-}, 2000);
+// setTimeout(() => {
+//     addDashboard();
+// }, 2000);
 
 // const lastNoteLength = Store.dashboard.recentPlayedNotes.length;
 const lastNoteLength = Store.dashboard.allPlayedNotes.length;
@@ -895,6 +972,8 @@ setInterval(() => {
         updateDashboardData();
         Store.dashboard.lastNoteLength = Store.dashboard.recentPlayedNotes.length;
         console.log('Store.dashboard.lastNoteLength: ', Store.dashboard.lastNoteLength);
+
+        addDashboard();
     }
 
 }, 4000);
