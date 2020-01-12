@@ -578,33 +578,122 @@ function initDashboardData() {
     }
 } 
 
+function countNotes(arr) {
+    var notesArr = [], countArr = [], prev;
+
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+        if ( arr[i] !== prev ) {
+            notesArr.push(arr[i]);
+            countArr.push(1);
+        } else {
+            countArr[countArr.length-1]++;
+        }
+        prev = arr[i];
+    }
+
+    // const result = [notesArr, countArr];
+    // console.log({result}); 
+
+    Store.dashboard.noteCountsDataset.source.note = notesArr;
+    Store.dashboard.noteCountsDataset.source.count = countArr;
+    console.log(Store.dashboard.noteCountsDataset.source);
+    // return result;
+}
+
 function updateDashboardData() {
 
-    Store.dashboard.playedNotes.forEach((playedNote, playedNoteIndex) => {
-        console.log({playedNote});
+    console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
+    // Store.dashboard.recentPlayedNotes.forEach((playedNote, playedNoteIndex) => {
+    console.log(Store.dashboard.recentPlayedNotes);
 
-        Store.dashboard.noteCounts.forEach((noteCount, noteCountIndex) => {
-            if (playedNote !== noteCount.note) {
-                console.log('new playedNote: ', playedNote);
-                Store.dashboard.noteCounts.push(
-                    {
-                        note: playedNote,
-                        count: 1,
-                    }
-                )
-            } else if (playedNote === noteCount.note) {
-                Store.dashboard.noteCounts[noteCountIndex].count++;
-                console.log('increment noteCounts -> count: ', Store.dashboard.noteCounts[noteCountIndex].count);
-            }
-        });
+    // countNotes(Store.dashboard.recentPlayedNotes);
+    countNotes(Store.dashboard.allPlayedNotes);
 
-        // Store.dashboard.noteCounts.push(
-        //     {
-        //         note: playedNote,
-        //         count: 1,
-        //     }
-        // )
-    });
+    // Store.dashboard.recentPlayedNotes = [];
+
+    // var uniqueNotes = Store.dashboard.recentPlayedNotes.filter((v, i, a) => a.indexOf(v) === i);
+    // var uniqueNotes = Store.dashboard.allPlayedNotes.filter((v, i, a) => a.indexOf(v) === i);
+    // console.log({uniqueNotes});
+
+    // const newNotes = [];
+    // const newNote = '';
+    // // for (let i=0; i < Store.dashboard.noteCounts.length; i++) {
+    // for (let i=0; i < uniqueNotes.length; i++) {
+        
+
+    //     for (let j=0; j < Store.dashboard.noteCounts.length; j++) {
+    //         if (Store.dashboard.noteCounts[j].note === uniqueNotes[i]) {
+    //             newNote
+    //         }
+    //     }
+
+    //     console.log({newNotes});
+
+    // }
+
+    // for (let i=0; i < newNotes.length; i++) {
+    //     Store.dashboard.noteCounts.push(
+    //         {
+    //             note: newNotes[i],
+    //             count: 1,
+    //         }
+    //     );
+    // }
+
+    // for (let i=0; i < Store.dashboard.recentPlayedNotes.length; i++) {
+    // for (let i=0; i < uniqueNotes.length; i++) {
+
+    //     // TODO: why not reaching this line after forEach conversion?
+    //     console.log({i});
+    //     const playedNote = Store.dashboard.recentPlayedNotes[i];
+    //     console.log({playedNote});
+
+
+    //     // if (Store.dashboard.allPlayedNotes.includes(playedNote)) {
+
+    //     // } else {
+    //     //     console.log('new -> playedNote: ', playedNote);
+    //     //     Store.dashboard.noteCounts.push(
+    //     //         {
+    //     //             note: playedNote,
+    //     //             count: 1,
+    //     //         }
+    //     //     );
+    //     //     console.log('new -> Store.dashboard.noteCounts: ', Store.dashboard.noteCounts);
+    //     // }
+
+    //     //Store.dashboard.noteCounts.forEach((noteCount, noteCountIndex) => {
+    //     for (let j=0; j < Store.dashboard.noteCounts.length; j++) {
+    //         const noteCount = Store.dashboard.noteCounts[j];
+    //         console.log({noteCount});
+    //         if (playedNote === noteCount.note) {
+    //             // Store.dashboard.noteCounts[noteCountIndex].count++;
+    //             Store.dashboard.noteCounts[j].count++;
+    //             console.log('increment noteCounts -> count: ', Store.dashboard.noteCounts[j].count);
+    //             break;
+    //         } else if (playedNote !== noteCount.note) {
+    //             // console.log('new playedNote: ', playedNote);
+    //             // Store.dashboard.noteCounts.push(
+    //             //     {
+    //             //         note: playedNote,
+    //             //         count: 1,
+    //             //     }
+    //             // );
+
+    //             // break;
+    //             // // return;
+    //         } else {
+    //             // return;
+    //         }
+
+    //         Store.dashboard.recentPlayedNotes = [];
+    //     }
+    //     //});
+    //
+    //    console.log('UPDATED -> Store.dashboard.noteCounts: ', Store.dashboard.noteCounts);
+    //  }
+    // });
 
     createCharts();
 
@@ -671,10 +760,10 @@ function createCharts () {
         series: [
             {
                 type: 'bar',
-                // data: Store.dashboard.playedNotes,
+                // data: Store.dashboard.allPlayedNotes,
                 // dimensions: Store.dashboard.instrData,
             },
-            { type: 'bar' },
+            // { type: 'bar' },
             // {
             //     type: 'line', 
             //     smooth: true, 
@@ -710,8 +799,9 @@ function createCharts () {
         ],
         // dataset: dataset,
         dataset: {
-            source: Store.dashboard.noteCounts,
-            dimensions: ['note', 'count'],
+            source: Store.dashboard.noteCountsDataset.source,
+            // source: Store.dashboard.noteCounts,
+            // dimensions: ['note', 'count'],
         },
     };
 
@@ -783,16 +873,15 @@ setTimeout(() => {
     addDashboard();
 }, 2000);
 
-
+// const lastNoteLength = Store.dashboard.recentPlayedNotes.length;
+const lastNoteLength = Store.dashboard.allPlayedNotes.length;
 setInterval(() => {
-    updateDashboardData();
-//     // Store.dashboard.chart.update
 
-//     // myChart.setOption(option);
+    // if (Store.dashboard.recentPlayedNotes.length !== Store.dashboard.lastNoteLength) {
+    if (Store.dashboard.allPlayedNotes.length !== Store.dashboard.lastNoteLength) {
+        updateDashboardData();
+        Store.dashboard.lastNoteLength = Store.dashboard.recentPlayedNotes.length;
+        console.log('Store.dashboard.lastNoteLength: ', Store.dashboard.lastNoteLength);
+    }
 
-//     const lastNoteLength = Store.dashboard.playedNotes.length;
-//     if (Store.dashboard.playedNotes.length !== lastNoteLength) {
-//         createCharts();
-//     }
-
-}, 8000);
+}, 4000);

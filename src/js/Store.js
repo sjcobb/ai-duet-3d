@@ -37,12 +37,23 @@ export default {
     damping: 0.01, // effects bounciness, lag
     dashboard: {
         chart: {},
-        lastNote: 'C4',
-        playedNotes: ['C4', 'D4', 'C5'],
+        // lastNote: 'C4',
+        lastNote: '',
+        lastNoteLength: 0,
+        // playedNotes: ['C4', 'D4', 'C5'],
+        allPlayedNotes: [],
+        recentPlayedNotes: [],
         noteCounts: [
-            { note: 'C4', count: 2 },
-            { note: 'D4', count: 1 },
+            {},
+            // { note: 'C4', count: 2 },
+            // { note: 'D4', count: 1 },
         ],
+        noteCountsDataset: {
+            source: {
+                'note': [],
+                'count': [],
+            }
+        },
         instrData: [],
         // https://echarts.apache.org/en/option.html#dataset.source
         dataset: {
