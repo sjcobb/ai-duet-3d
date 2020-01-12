@@ -541,7 +541,7 @@ window.onload = () => {
                     // console.log({keyMapped});
                     physics.addBody(true, Store.dropPosX, keyMapped);
                     // Store.dropPosX -= 1.3; //TODO: how to manipulate Y drop position?
-                    console.log('keydown -> keyMapped, event: ', keyMapped, event);
+                    // console.log('keydown -> keyMapped, event: ', keyMapped, event);
                 } else {
                     console.log('keyMapped UNDEF -> else: ', event);
                 }
@@ -566,7 +566,51 @@ function activeSwitcher(obj) {
  * MUSIC VISUALIZATION DASHBOARD
  */
 
-function initCharts () {
+function initDashboardData() {
+    for (var key in Store.instr) {
+        if (Store.instr.hasOwnProperty(key)) {
+            const currentInstr = Store.instr[key];
+            // console.log({currentInstr});
+            if (currentInstr.note && currentInstr.octave) {
+                Store.dashboard.instrData.push(currentInstr.note + currentInstr.octave);
+            }
+        }
+    }
+} 
+
+function updateDashboardData() {
+
+    Store.dashboard.playedNotes.forEach((playedNote, playedNoteIndex) => {
+        console.log({playedNote});
+
+        Store.dashboard.noteCounts.forEach((noteCount, noteCountIndex) => {
+            if (playedNote !== noteCount.note) {
+                console.log('new playedNote: ', playedNote);
+                Store.dashboard.noteCounts.push(
+                    {
+                        note: playedNote,
+                        count: 1,
+                    }
+                )
+            } else if (playedNote === noteCount.note) {
+                Store.dashboard.noteCounts[noteCountIndex].count++;
+                console.log('increment noteCounts -> count: ', Store.dashboard.noteCounts[noteCountIndex].count);
+            }
+        });
+
+        // Store.dashboard.noteCounts.push(
+        //     {
+        //         note: playedNote,
+        //         count: 1,
+        //     }
+        // )
+    });
+
+    createCharts();
+
+}
+
+function createCharts () {
     // TODO: ECharts heatmap or 3d bar floor
     // https://communities.sas.com/t5/SAS-Communities-Library/Combining-the-Power-of-D3-with-Three-js-to-Create-a-3D/ta-p/569501
     // https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/16_Basic_3D_Choropleth.html
@@ -590,6 +634,23 @@ function initCharts () {
 
     const dataset = Store.dashboard.dataset;
 
+    // // // //
+    // for (var key in Store.instr) {
+    //     if (Store.instr.hasOwnProperty(key)) {
+    //         const currentInstr = Store.instr[key];
+    //         // console.log({currentInstr});
+    //         if (currentInstr.note && currentInstr.octave) {
+    //             Store.dashboard.instrData.push(currentInstr.note + currentInstr.octave);
+    //         }
+    //     }
+    // }
+
+    // [Store.instr].forEach((instr, index) => {
+    //     console.log({instr});
+    // });
+
+    console.log('Store.dashboard: ', Store.dashboard);
+
     // const myChart = echarts.init(document.getElementById('chart'));
     Store.dashboard.chart = echarts.init(document.getElementById('chart'));
     const option = {
@@ -602,22 +663,30 @@ function initCharts () {
         },
         xAxis: {
             type: 'category',
-            // data: ["shirt", "cardign", "chiffon shirt", "pants", "heels", "socks"],
+            // data: Store.dashboard.instrData,
         },
-        yAxis: {},
+        yAxis: {
+            type: 'value',
+        },
         series: [
             {
-                type: 'line', 
-                smooth: true, 
-                seriesLayoutBy: 'row',
-                //seriesLayoutBy: 'column',
+                type: 'bar',
+                // data: Store.dashboard.playedNotes,
+                // dimensions: Store.dashboard.instrData,
             },
-            {
-                type: 'line', 
-                smooth: true, 
-                seriesLayoutBy: 'row',
-                //seriesLayoutBy: 'column',
-            },
+            { type: 'bar' },
+            // {
+            //     type: 'line', 
+            //     smooth: true, 
+            //     seriesLayoutBy: 'row',
+            //     //seriesLayoutBy: 'column',
+            // },
+            // {
+            //     type: 'line', 
+            //     smooth: true, 
+            //     seriesLayoutBy: 'row',
+            //     //seriesLayoutBy: 'column',
+            // },
             // {
             //     name: 'Note',
             //     type: 'bar',
@@ -639,10 +708,16 @@ function initCharts () {
             //     }
             // }
         ],
-        dataset: dataset
+        // dataset: dataset,
+        dataset: {
+            source: Store.dashboard.noteCounts,
+            dimensions: ['note', 'count'],
+        },
     };
 
     // Store.dashboard.chart.resize(); // no effect
+
+    console.log({option});
     Store.dashboard.chart.setOption(option);
 }
 
@@ -702,7 +777,22 @@ function getChartTexture(chart) {
     return canvasTexture;
 }
 
-initCharts();
+initDashboardData();
+createCharts();
 setTimeout(() => {
     addDashboard();
 }, 2000);
+
+
+setInterval(() => {
+    updateDashboardData();
+//     // Store.dashboard.chart.update
+
+//     // myChart.setOption(option);
+
+//     const lastNoteLength = Store.dashboard.playedNotes.length;
+//     if (Store.dashboard.playedNotes.length !== lastNoteLength) {
+//         createCharts();
+//     }
+
+}, 8000);

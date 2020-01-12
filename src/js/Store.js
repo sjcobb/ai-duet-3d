@@ -38,9 +38,13 @@ export default {
     dashboard: {
         chart: {},
         lastNote: 'C4',
-        allNotes: ['C4', 'D4', 'C5'],
-        // allNotes: ['C4'],
+        playedNotes: ['C4', 'D4', 'C5'],
+        noteCounts: [
+            { note: 'C4', count: 2 },
+            { note: 'D4', count: 1 },
+        ],
         instrData: [],
+        // https://echarts.apache.org/en/option.html#dataset.source
         dataset: {
             source: [
                 ['Note', '0:0:0', '1:0:0', '2:0:0', '3:0:0'],

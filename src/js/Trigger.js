@@ -156,8 +156,8 @@ export default class Trigger {
             // console.log({combinedNote});
 
             Store.dashboard.lastNote = combinedNote;
-            Store.dashboard.allNotes.push(combinedNote);
-            console.log('triggerNote -> Store.dashboard.allNotes: ', Store.dashboard.allNotes);
+            Store.dashboard.playedNotes.push(combinedNote);
+            console.log('triggerNote -> Store.dashboard.playedNotes: ', Store.dashboard.playedNotes);
 
             triggerObj = obj.userData.opts;
 
