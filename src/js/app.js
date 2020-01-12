@@ -433,8 +433,11 @@ let animate = () => {
         Store.ticks += (delta * ticksMultiplier); // Too fast, balls dropped too far left
         
         if (Store.view.cameraPositionBehind === true) {
-            Store.camera.position.x = Store.view.posBehindX + (Store.ticks);
-            // console.log(Store.camera);
+
+            if (Store.view.cameraAutoStart === true) {
+                Store.camera.position.x = Store.view.posBehindX + (Store.ticks);
+            }
+
         } else {
             // Store.camera.position.x = (Store.ticks) - 30; // 0.3, 0.2
             Store.camera.position.x = (Store.ticks) - 30;
@@ -563,6 +566,10 @@ function activeSwitcher(obj) {
 // https://communities.sas.com/t5/SAS-Communities-Library/Combining-the-Power-of-D3-with-Three-js-to-Create-a-3D/ta-p/569501
 // https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/16_Basic_3D_Choropleth.html
 // https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/19_3D_Residual_Plot.html
+// https://echarts.apache.org/examples/en/editor.html?c=bar3d-music-visualization&gl=1
+// https://echarts.apache.org/examples/en/editor.html?c=image-surface-sushuang&gl=1
+// https://echarts.apache.org/examples/en/editor.html?c=custom-hexbin
+// Circle of Fifths heatmap: https://echarts.apache.org/examples/en/editor.html?c=custom-polar-heatmap
 
 // based on prepared DOM, initialize echarts instance
 var myChart = echarts.init(document.getElementById('chart'));
@@ -589,3 +596,89 @@ var option = {
 
 // use configuration item and data specified to show chart
 myChart.setOption(option);
+
+const chartGeometry = new THREE.SphereGeometry(1, 250, 250);
+const vizMesh = new THREE.Mesh(chartGeometry, new THREE.MeshBasicMaterial({ map: getTexture() }));
+vizMesh.scale.set(2, 2, 2);
+Store.scene.add(vizMesh);
+
+function getTexture() {
+    // Append canvas and save reference
+    // const canvas = d3
+    //     .select("body")
+    //     .append("canvas")
+    //     .attr("width", CANVAS_WIDTH)
+    //     .attr("height", CANVAS_HEIGHT);
+
+    // let canvas = document.getElementById('chart');
+    // const context = canvas.node().getContext("2d");
+    // console.log({canvas});
+    // console.log({context});
+
+    // // Create geo path generator
+    // const path = d3
+    //     .geoPath()
+    //     .projection(PROJECTION)
+    //     .context(context);
+
+    // // Draw background
+    // context.fillStyle = "#555";
+    // context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    // // Draw features from geojson
+    // context.strokeStyle = "#555";
+    // context.lineWidth = 0.25;
+
+    // WORLD_JSON.features.forEach(function(d) {
+    //     context.fillStyle = DATA[d.properties.iso_a3]
+    //     ? COLOR_SCALE(DATA[d.properties.iso_a3].measure)
+    //     : "#CCC";
+    //     context.beginPath();
+    //     path(d);
+    //     context.fill();
+    //     context.stroke();
+    // });
+
+    // Generate texture from canvas
+    // const texture = new THREE.Texture(canvas.node());
+    // const texture = new THREE.Texture(context.node());
+    // texture.needsUpdate = true;
+
+    // canvas.remove();
+
+    // // // //
+
+    const canvasDebug = document.querySelector('canvas');
+    console.log(canvasDebug);
+    // const canvasContext = canvasDebug.node().getContext("2d");
+    // console.log({canvasContext});
+
+    let chartId = document.getElementById('chart');
+
+    // https://echarts.apache.org/en/api.html#echartsInstance.getDataURL
+    var img = new Image();
+    img.src = myChart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+    });
+    // console.log(img);
+    
+    // https://stackoverflow.com/questions/37755406/load-textures-from-base64-in-three-js
+    const imgAsset = THREE.ImageUtils.loadTexture(img.src);
+    imgAsset.needsUpdate = true;
+    console.log({imgAsset});
+
+    // const texture = new THREE.Texture(imgAsset);
+    // console.log({texture});
+
+    // TODO: canvas texture research: 
+    // https://threejs.org/docs/#api/en/textures/CanvasTexture
+    // http://bl.ocks.org/MAKIO135/eab7b74e85ed2be48eeb
+    // https://dustinpfister.github.io/2018/04/17/threejs-canvas-texture/
+    // https://threejsfundamentals.org/threejs/lessons/threejs-canvas-textures.html
+    
+    const texture = new THREE.Texture(canvasDebug);
+    // const texture = new THREE.Texture(canvasDebug.node());
+    
+    return texture;
+}

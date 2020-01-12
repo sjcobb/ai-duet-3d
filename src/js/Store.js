@@ -82,6 +82,7 @@ export default {
         drumCircle: true,
         skybox: false,
         cameraPositionBehind: true,
+        cameraAutoStart: false,
         // posBehindX: -30,
         // posBehindY: 2,
         // posBehindZ: 3.8,
