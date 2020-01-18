@@ -50,10 +50,10 @@ export default {
         ],
         noteCountsDataset: {
             source: {
-                'note': ['C4'],
-                'count': [1],
+                'note': [],
+                'count': [],
                 // 'test': [1],
-                'time': [0],
+                'time': [],
             }
         },
         instrData: [],
@@ -144,7 +144,7 @@ export default {
         drumCircle: true,
         skybox: false,
         cameraPositionBehind: true,
-        cameraAutoStart: false,
+        cameraAutoStart: true,
         // posBehindX: -30,
         // posBehindY: 2,
         // posBehindZ: 3.8,

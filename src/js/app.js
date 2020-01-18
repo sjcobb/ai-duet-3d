@@ -567,7 +567,7 @@ window.onload = () => {
     // addBody(sphere = true, xPosition = 5.5, options = 'Z', timeout = 0);
     // physics.addBody();
 
-    // createCharts();
+    createCharts(false);
 
     // setTimeout(() => {
     //     addDashboard();
@@ -608,7 +608,8 @@ function countNotes(arr) {
         if ( arr[i] !== prev ) {
             notesArr.push(arr[i]);
             countArr.push(1);
-            tempArr.push('1:0:0');
+            // tempArr.push('1:0:0');
+            tempArr.push(i);
         } else {
             countArr[countArr.length-1]++;
         }
@@ -631,102 +632,15 @@ function countNotes(arr) {
 function updateDashboardData() {
 
     console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
-    // Store.dashboard.recentPlayedNotes.forEach((playedNote, playedNoteIndex) => {
-    console.log(Store.dashboard.recentPlayedNotes);
 
     // countNotes(Store.dashboard.recentPlayedNotes);
     countNotes(Store.dashboard.allPlayedNotes);
 
-    // Store.dashboard.recentPlayedNotes = [];
-
-    // var uniqueNotes = Store.dashboard.recentPlayedNotes.filter((v, i, a) => a.indexOf(v) === i);
-    // var uniqueNotes = Store.dashboard.allPlayedNotes.filter((v, i, a) => a.indexOf(v) === i);
-    // console.log({uniqueNotes});
-
-    // const newNotes = [];
-    // const newNote = '';
-    // // for (let i=0; i < Store.dashboard.noteCounts.length; i++) {
-    // for (let i=0; i < uniqueNotes.length; i++) {
-        
-
-    //     for (let j=0; j < Store.dashboard.noteCounts.length; j++) {
-    //         if (Store.dashboard.noteCounts[j].note === uniqueNotes[i]) {
-    //             newNote
-    //         }
-    //     }
-
-    //     console.log({newNotes});
-
-    // }
-
-    // for (let i=0; i < newNotes.length; i++) {
-    //     Store.dashboard.noteCounts.push(
-    //         {
-    //             note: newNotes[i],
-    //             count: 1,
-    //         }
-    //     );
-    // }
-
-    // for (let i=0; i < Store.dashboard.recentPlayedNotes.length; i++) {
-    // for (let i=0; i < uniqueNotes.length; i++) {
-
-    //     // TODO: why not reaching this line after forEach conversion?
-    //     console.log({i});
-    //     const playedNote = Store.dashboard.recentPlayedNotes[i];
-    //     console.log({playedNote});
-
-
-    //     // if (Store.dashboard.allPlayedNotes.includes(playedNote)) {
-
-    //     // } else {
-    //     //     console.log('new -> playedNote: ', playedNote);
-    //     //     Store.dashboard.noteCounts.push(
-    //     //         {
-    //     //             note: playedNote,
-    //     //             count: 1,
-    //     //         }
-    //     //     );
-    //     //     console.log('new -> Store.dashboard.noteCounts: ', Store.dashboard.noteCounts);
-    //     // }
-
-    //     //Store.dashboard.noteCounts.forEach((noteCount, noteCountIndex) => {
-    //     for (let j=0; j < Store.dashboard.noteCounts.length; j++) {
-    //         const noteCount = Store.dashboard.noteCounts[j];
-    //         console.log({noteCount});
-    //         if (playedNote === noteCount.note) {
-    //             // Store.dashboard.noteCounts[noteCountIndex].count++;
-    //             Store.dashboard.noteCounts[j].count++;
-    //             console.log('increment noteCounts -> count: ', Store.dashboard.noteCounts[j].count);
-    //             break;
-    //         } else if (playedNote !== noteCount.note) {
-    //             // console.log('new playedNote: ', playedNote);
-    //             // Store.dashboard.noteCounts.push(
-    //             //     {
-    //             //         note: playedNote,
-    //             //         count: 1,
-    //             //     }
-    //             // );
-
-    //             // break;
-    //             // // return;
-    //         } else {
-    //             // return;
-    //         }
-
-    //         Store.dashboard.recentPlayedNotes = [];
-    //     }
-    //     //});
-    //
-    //    console.log('UPDATED -> Store.dashboard.noteCounts: ', Store.dashboard.noteCounts);
-    //  }
-    // });
-
-    createCharts();
+    createCharts(true);
 
 }
 
-function createCharts () {
+function createCharts(showGrid = false) {
     // TODO: ECharts heatmap or 3d bar floor
     // https://communities.sas.com/t5/SAS-Communities-Library/Combining-the-Power-of-D3-with-Three-js-to-Create-a-3D/ta-p/569501
     // https://github.com/sassoftware/sas-visualanalytics-thirdpartyvisualizations/blob/master/samples/D3Thursday/16_Basic_3D_Choropleth.html
@@ -766,14 +680,24 @@ function createCharts () {
     // });
 
     console.log('Store.dashboard: ', Store.dashboard);
+    
+    // https://www.echartsjs.com/en/download-theme.html
+    // Store.dashboard.chart = echarts.init(document.getElementById('chart'));
+    Store.dashboard.chart = echarts.init(document.getElementById('chart'), 'shine');
+    // Store.dashboard.chart = echarts.init(document.getElementById('chart'), 'dark');
+    // Store.dashboard.chart = echarts.init(document.getElementById('chart'), 'vintage');
+    // Store.dashboard.chart = echarts.init(document.getElementById('chart'), 'macarons');
 
-    // const myChart = echarts.init(document.getElementById('chart'));
-    Store.dashboard.chart = echarts.init(document.getElementById('chart'));
     const option = {
         title: {
             // text: 'Song Stats'
         },
         // color: ['#fff000'],
+        color: [
+            '#64b5f6', // human blue
+            '#c12e34','#e6b600','#0098d9','#2b821d',
+            '#005eaa','#339ca8','#cda819','#32a487'
+        ],
         tooltip: {},
         legend: {
             // data:['Note']
@@ -793,22 +717,50 @@ function createCharts () {
         },
         // https://www.echartsjs.com/en/option-gl.html#grid3D
         // https://echarts.apache.org/examples/en/editor.html?c=bar3d-punch-card&gl=1
-        // grid3D: {
-        //     boxWidth: 200,
-        //     boxDepth: 80,
-        //     viewControl: {
-        //         // projection: 'orthographic'
-        //     },
-        //     light: {
-        //         main: {
-        //             intensity: 1.2,
-        //             shadow: true
-        //         },
-        //         ambient: {
-        //             intensity: 0.3
-        //         }
-        //     }
-        // },
+        grid3D: {
+            // show: showGrid,
+            top: 0,
+            // right: 50,
+            // bottom: 50,
+            // left: 50,
+            boxWidth: 100,
+            boxHidth: 100,
+            boxDepth: 100,
+            // width: 200,
+            // height: 200,
+            // https://www.echartsjs.com/en/option-gl.html#grid3D.viewControl
+            viewControl: {
+                // projection: 'perspective', // default
+                projection: 'orthographic',
+                // https://www.echartsjs.com/en/option-gl.html#grid3D.viewControl.autoRotate
+                autoRotate: true, // false = default
+                autoRotateSpeed: 5, // 10 = default
+                autoRotateDirection: 'cw', // default is 'cw' means clockwise from top to bottom, can also use 'ccw' means counterclockwise from top to bottom
+                // autoRotateAfterStill: 3,
+                // damping: 0.8,
+                // rotateSensitivity: 1,
+                // zoomSensitivity: 1,
+                // maxDistance: 400,
+            },
+            light: {
+                main: {
+                    // shadow: true,
+                    // intensity: 1.5,
+                    // quality: 'ultra',
+                },
+                // https://www.echartsjs.com/en/option-gl.html#grid3D.light.ambient
+                ambient: {
+                    // intensity: 0.8, // 0.2 = default
+                }
+            },
+            // https://www.echartsjs.com/en/option-gl.html#grid3D.environment
+            // environment: 'asset/starfield.jpg'
+            //https://www.echartsjs.com/en/option-gl.html#grid3D.postEffect.colorCorrection
+            // postEffect: {
+            //     enable: true,
+            //     colorCorrection {}
+            // }
+        },
         // visualMap: {
         //     max: 20,
         //     inRange: {
@@ -817,23 +769,50 @@ function createCharts () {
         // },
         // https://www.echartsjs.com/en/option-gl.html#yAxis3D
         xAxis3D: {
-        // xAxis: {
+            show: true,
             type: 'category',
+            name: 'Note',
+            nameGap: 25,
+            nameTextStyle: {
+                color: '#fff',
+            },
+            axisLabel: {
+                // margin = 8
+                textStyle: {
+                    color: '#fff',
+                },
+            },
             // data: Store.dashboard.instrData,
             // data: Store.dashboard.noteCountsDataset.source.note,
         },
         yAxis3D: {
-        // yAxis: {
-            // show: false,
-            // axisLabel: {
-            //     show: false,
-            // },
-            // type: 'value',
+            show: true,
             type: 'category',
+            // name: 'Player',
+            name: 'TBD',
+            nameGap: 25,
+            nameTextStyle: {
+                color: '#fff',
+            },
+            axisLabel: {
+                textStyle: {
+                    color: '#fff',
+                },
+            },
             // data: Store.dashboard.noteCountsDataset.source.count,
         },
         zAxis3D: {
-            type: 'value'
+            show: true,
+            type: 'value',
+            nameGap: 25,
+            nameTextStyle: {
+                color: '#fff',
+            },
+            axisLabel: {
+                textStyle: {
+                    color: '#fff',
+                },
+            },
         },
         series: [
             {
@@ -844,6 +823,7 @@ function createCharts () {
                     // x: 0,
                     // y: 1,
                     // z: 1,
+                    label: 'note',
                     x: 'note',
                     // y: 'test',
                     y: 'time',
@@ -958,10 +938,6 @@ function getChartTexture(chart) {
 }
 
 initDashboardData();
-createCharts();
-// setTimeout(() => {
-//     addDashboard();
-// }, 2000);
 
 // const lastNoteLength = Store.dashboard.recentPlayedNotes.length;
 const lastNoteLength = Store.dashboard.allPlayedNotes.length;

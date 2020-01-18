@@ -1,3 +1,6 @@
+html {
+    box-sizing: border-box;
+}
 body {
     margin: 0;
     text-align: center;
@@ -262,7 +265,15 @@ button#btn-drums-1 {
     /* margin: 0 auto; */
     /* background: #fff; */
     z-index: 10;
+    padding: 5px;
+    box-sizing: border-box;
 }
+
+.echarts-entry {
+    /* padding: 5px; */
+    /* margin: 5px; */
+}
+
 .echarts-entry canvas {
     display: inline-block;
     /* background: #fff; */
@@ -270,4 +281,6 @@ button#btn-drums-1 {
     /* background: rgba(204, 204, 204, 0.7); */
     width: 400px;
     height: 300px;
+    /* height: 350px; */
+    /* padding: 5px; */
 }

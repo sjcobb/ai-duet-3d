@@ -94,7 +94,7 @@ export default class Physics {
             options = defaultInstr.hiHatClosed;
         }
 
-        let objSize = options.size ? options.size : 'md';
+        let objSize = options.size !== undefined ? options.size : 'md';
         if (objSize === 'xl') {
             objSize = 2.0;
         } else {
@@ -259,7 +259,7 @@ export default class Physics {
 
     addVisual(body, name, castShadow = true, receiveShadow = true, options = 'Z') {
 
-        const objSize = options.size ? options.size : 'md';
+        // const objSize = options.size ? options.size : 'md';
         // console.log('(addVisual) -> options: ', options);
 
         body.name = name;

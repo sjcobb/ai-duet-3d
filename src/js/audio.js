@@ -90,35 +90,38 @@ fourthPosPart.loop = true;
 // fourthPosPart.start("0:0:0");
 
 
-/*
-var groovePart = new Tone.Part(function(time, instr) {
-    physics.addBody(true, time * Store.multiplierPosX, instr);
-}, [
-    ["0:0:0", Store.instr.hiHatClosed],
-    ["0:2:0", Store.instr.hiHatClosed],
-    ["0:3:0", Store.instr.hiHatClosed],
-    ["0:4:0", Store.instr.hiHatOpen],
+// var groovePart = new Tone.Part(function(time, instr) {
+//     physics.addBody(true, time * Store.multiplierPosX, instr);
+// }, [
+//     ["0:0:0", Store.instr.hiHatClosed],
+//     ["0:2:0", Store.instr.hiHatClosed],
+//     ["0:3:0", Store.instr.hiHatClosed],
+//     ["0:4:0", Store.instr.hiHatOpen],
 
-    ["0:8:0", Store.instr.snarePrimary],
+//     ["0:8:0", Store.instr.snarePrimary],
 
-    ["0:6:0", Store.instr.kickPrimary],
-]);
-groovePart.loop = 2;
-// groovePart.start("0:0:0");
+//     ["0:6:0", Store.instr.kickPrimary],
+// ]);
+// groovePart.loop = 2;
+// // groovePart.start("0:0:0");
 
 //-----KEYBOARED PARTS------//
 
 var introPianoPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, time * Store.multiplierPosX, instr);
 }, [
-    ["0:0:0", Store.instr.sphereChordC],
-    ["0:4:0", Store.instr.sphereChordF],
-    ["0:8:0", Store.instr.sphereChordG],
-    ["0:9:0", Store.instr.sphereChordG],
+    ["0:0:0", Store.instr.sphereChordC5],
+    ["0:4:0", Store.instr.sphereChordF5],
+    ["0:8:0", Store.instr.sphereChordA4],
+    ["0:9:0", Store.instr.sphereChordA4],
+    ["0:10:0", Store.instr.sphereChordG4],
 ]);
-introPianoPart.loop = 2;
+// introPianoPart.loop = 2;
+introPianoPart.loop = true;
+introPianoPart.start("0:0:0");
 // introPianoPart.start("6:0:0");
 
+/*
 const boleroFireChords = [
     ["0:0:0", Store.instr.sphereChordF],
     ["0:1:0", Store.instr.sphereChordD],
