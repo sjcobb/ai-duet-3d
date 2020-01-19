@@ -517,7 +517,7 @@ window.onload = () => {
 
         if (event.ctrlKey) {
             //console.log(`Combination of ctrlKey + ${keyName}`);
-        } else {
+        } else if (Store.currentNote.keydownPressed === false) {
 
             // console.log('key... ', instrument);
             let keyMapped = instrument.getKeyboardMapping(keyName);
@@ -557,15 +557,55 @@ window.onload = () => {
                 // } 
                 
                 if (keyName === keyMapped.keyInput) { //*** IMPORTANT ***
-                    // console.log({keyMapped});
-                    physics.addBody(true, Store.dropPosX, keyMapped);
-                    // Store.dropPosX -= 1.3; //TODO: how to manipulate Y drop position?
-                    // console.log('keydown -> keyMapped, event: ', keyMapped, event);
+                    // console.log('keydown -> keyMapped: ', keyMapped);
+                    // console.log('keydown -> event: ', event);
+                    // console.log('keydown -> event.timeStamp: ', event.timeStamp);
+
+                    Store.currentNote.keydownPressed = true;
+                    // console.log('keydown -> event.timeStamp: ', event.timeStamp);
+
+                    // physics.addBody(true, Store.dropPosX, keyMapped);
+                    
+                    console.log('Store.clockNote: ', Store.clockNote);
+                    Store.clockNote.start();
+
+                    Store.currentNote.keydownTimeStamp = event.timeStamp;
+
+                    // const maxNoteDuration = 500;
+                    const maxNoteDuration = 1500;
+                    keyMapped.duration = maxNoteDuration / 1000;
+
+                    setTimeout(function () {
+                        // console.log(Store.clockNote.getDelta());
+
+                        const timeStampDifference = Store.currentNote.keyupTimeStamp - Store.currentNote.keydownTimeStamp;
+                        console.log({timeStampDifference});
+                        console.log('pre keyMapped.duration: ', keyMapped.duration);
+
+                        if (timeStampDifference < maxNoteDuration) {
+                            keyMapped.duration = timeStampDifference / 1000;
+                        }
+                        console.log('post keyMapped.duration: ', keyMapped.duration);
+
+
+                        physics.addBody(true, Store.dropPosX, keyMapped);
+                    }, maxNoteDuration);
+
+
                 } else {
                     console.log('keyMapped UNDEF -> else: ', event);
                 }
             }
         }
+    }, false);
+
+    document.addEventListener('keyup', (event) => {
+        console.log('keyup -> event: ', event);
+        console.log('keyup -> event.timeStamp: ', event.timeStamp);
+
+        Store.currentNote.keydownPressed = false;
+
+        Store.currentNote.keyupTimeStamp = event.timeStamp;
     }, false);
 
     animate();
@@ -1085,7 +1125,7 @@ setInterval(() => {
     if (Store.dashboard.allPlayedNotes.length !== Store.dashboard.lastNoteLength) {
         updateDashboardData();
         Store.dashboard.lastNoteLength = Store.dashboard.recentPlayedNotes.length;
-        console.log('Store.dashboard.lastNoteLength: ', Store.dashboard.lastNoteLength);
+        // console.log('Store.dashboard.lastNoteLength: ', Store.dashboard.lastNoteLength);
 
         // addDashboard3D();
     }

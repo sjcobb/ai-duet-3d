@@ -175,9 +175,10 @@ function humanKeyUp(note, timestampLength) {
 
     const instrMapped = generateInstrMetadata(note);
 
+    // TODO: move duration and addBody call back to humanKeyDown
     const maxNoteLength = 500;
     timestampLength = timestampLength > maxNoteLength ? maxNoteLength : timestampLength;
-    instrMapped.length = timestampLength / 1000; // IMPORTANT - so length is in milliseconds 
+    instrMapped.duration = timestampLength / 1000; // IMPORTANT - so length is in milliseconds 
 
     if (Store.ai.enabled === true) {
 

@@ -387,7 +387,8 @@ export function getInstrumentMappingTemplate(movement = 'physics') {
             octave: 4,
             chord: ['C4', 'E4', 'G4'],
             type: 'chord',
-            length: '8n', // '4n', '2n'
+            // length: '8n', // '4n', '2n'
+            duration: '8n',
             originalPosition: { x: 0, y: 0, z: -2 }
         },
         sphereChordD4: {

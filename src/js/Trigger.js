@@ -239,8 +239,8 @@ export default class Trigger {
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
             // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
             // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
-            // console.log('triggerNote (chord) -> obj.userData.opts.length: ', obj.userData.opts.length);
-            const noteLength = obj.userData.opts.length ? obj.userData.opts.length : 0.15;
+            // console.log('triggerNote (chord) -> obj.userData.opts.duration: ', obj.userData.opts.duration);
+            const noteLength = obj.userData.opts.duration ? obj.userData.opts.duration : 0.15;
             Store.polySynth.triggerAttackRelease(combinedNote, noteLength);
         } else {
             bounceSynth.triggerAttackRelease(combinedNote, "8n");

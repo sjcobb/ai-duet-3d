@@ -30,10 +30,16 @@ export default {
     // cameraCircularAnimation: false, // true - drum spinner (v0.3), NOW view.drumCircle
     cameraLookUp: false,
     clock: new THREE.Clock(),
+    clockNote: new THREE.Clock(),
     configColorAnimate: true,
     controls: '',
     // controls: new FlyControls(camera),
     // currentNoteLength: 0, // not needed
+    currentNote: {
+        keydownTimeStamp: 0,
+        keydownPressed: false,
+        keyupTimeStamp: 0,
+    },
     damping: 0.01, // effects bounciness, lag
     dashboard: {
         chart: {},
