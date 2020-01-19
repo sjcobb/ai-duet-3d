@@ -409,6 +409,47 @@ if (Store.view.drumCircle === true) {
     Store.dropCoordCircleInterval = [Store.dropCoordCircle[0], Store.dropCoordCircle[dropInterval], Store.dropCoordCircle[dropInterval * 2], Store.dropCoordCircle[dropInterval * 3]]    
 }
 
+//-----STAR ANIMATION------//
+// https://codepen.io/sjcobb/pen/PKzOdQ?editors=1010
+
+let stars = [];
+function addSphere() {
+	for (var z = -1000; z < 1000; z += 20) {
+	// for (var z = 0; z < 1500; z += 20) {
+		// var geometry = new THREE.SphereGeometry(0.5, 32, 32);
+		var geometry = new THREE.SphereGeometry(0.25, 32, 32);
+		var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+		var sphere = new THREE.Mesh(geometry, material);
+		// sphere.position.x = Math.random() * 1000 - 500;
+		// sphere.position.y = Math.random() * 1000 - 500;
+        // sphere.position.z = z;
+        
+        sphere.position.x = z;
+		sphere.position.y = Math.random() * 1000 - 500;
+        sphere.position.z = Math.random() * 1000 - 500;
+        
+		// sphere.scale.x = sphere.scale.y = 2;
+        sphere.scale.z = sphere.scale.y = 2;
+        
+		Store.scene.add(sphere);
+		stars.push(sphere);
+	}
+}
+function animateStars() {
+	for (var i = 0; i < stars.length; i++) {
+		const star = stars[i];
+		// star.position.z += i / 10;
+        // if (star.position.z > 1000) star.position.z -= 2000;
+        
+        star.position.x += i / 10;
+        console.log(star.position.x);
+		if (star.position.x > 1000) star.position.x -= 2000;
+	}
+}
+addSphere();
+
+//-----AI UI------//
+
 let machineStateId = document.getElementById('machine-state');
 let machineDataId = document.getElementById('machine-data');
 
@@ -428,6 +469,8 @@ let animate = () => {
     // console.log('seconds: ', Tone.Transport.seconds);
     // console.log(Store.ticks);
     // console.log(Store.clock.elapsedTime);
+
+    animateStars();
 
     /*
     //circular rotation
@@ -452,7 +495,7 @@ let animate = () => {
 
         } else {
             // Store.camera.position.x = (Store.ticks) - 30; // 0.3, 0.2
-            Store.camera.position.x = (Store.ticks) - 30;
+            Store.camera.position.x = (Store.ticks) - 35;
         }
     }
 
@@ -684,9 +727,9 @@ function countNotes(arr) {
 }
 
 function updateDashboardData() {
+    // console.log('(updateDashboardData CALLED) -> Store: ', Store);
 
     // console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
-    console.log('(updateDashboardData CALLED) -> Store: ', Store);
 
     // const countedNotes = countNotes(Store.dashboard.allPlayedNotes);
     // const countedOctaves = countNotes(Store.dashboard.allPlayedOctaves);
@@ -834,7 +877,7 @@ function createCharts(showGrid = false) {
     //     console.log({instr});
     // });
 
-    console.log('Store.dashboard.noteCountsDataset.source: ', Store.dashboard.noteCountsDataset.source);
+    // console.log('Store.dashboard.noteCountsDataset.source: ', Store.dashboard.noteCountsDataset.source);
     
     // https://www.echartsjs.com/en/download-theme.html
     // Store.dashboard.chart = echarts.init(document.getElementById('chart'));
@@ -849,7 +892,8 @@ function createCharts(showGrid = false) {
         },
         // color: ['#fff000'],
         color: [
-            '#64b5f6', // human blue
+            '#FFFF00', // yellow
+            // '#64b5f6', // human blue
             '#c12e34','#e6b600','#0098d9','#2b821d',
             '#005eaa','#339ca8','#cda819','#32a487'
         ],
@@ -927,7 +971,7 @@ function createCharts(showGrid = false) {
             show: true,
             type: 'category',
             name: 'Note',
-            nameGap: 20,
+            nameGap: 25,
             nameTextStyle: {
                 color: '#fff',
             },
@@ -947,7 +991,7 @@ function createCharts(showGrid = false) {
             // name: 'Player',
             // name: 'TBD',
             name: 'Octave',
-            nameGap: 20,
+            nameGap: 25,
             nameTextStyle: {
                 color: '#fff',
             },
@@ -1003,7 +1047,8 @@ function createCharts(showGrid = false) {
                 },
                 itemStyle: {
                     // color: '#900',
-                    opacity: 0.92,
+                    // opacity: 0.92,
+                    opacity: 0.90,
                 }
                 // data: Store.dashboard.allPlayedNotes,
                 // dimensions: Store.dashboard.instrData,
@@ -1055,7 +1100,7 @@ function createCharts(showGrid = false) {
 
     // Store.dashboard.chart.resize(); // no effect
 
-    console.log({option});
+    // console.log({option});
     Store.dashboard.chart.setOption(option);
 }
 
@@ -1130,4 +1175,4 @@ setInterval(() => {
         // addDashboard3D();
     }
 
-}, 1000);
+}, 100);

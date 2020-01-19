@@ -76,7 +76,7 @@ drumId.onclick = () => {
 let controlsId = document.getElementById('controls-container');
 let settingsId = document.getElementById('settings-container');
 let toggleId = document.getElementById('settings-toggle-btn');
-
+let dashboardId = document.getElementById('dashboard-container');
 
 toggleId.onclick = (el) => {
     console.log('toggleId clicked -> el: ', el);
@@ -141,3 +141,18 @@ document.addEventListener("visibilitychange", function() {
 // setTimeout(function() {
 //     flameFirst.addFire();
 // }, 1000);
+
+setTimeout(function() {
+    console.log('(UI - ALTERNATE VIEW) -> Store: ', Store);
+
+    Store.dashboard.noteCountsObj = {};
+    dashboardId.classList.toggle('alternate');
+
+    Store.view.cameraPositionBehind = false;
+    Store.camera.position.set(0, 20, 30);
+    Store.camera.lookAt(new THREE.Vector3(0, 10, 10));
+
+    Tone.Transport.stop();
+    Tone.Transport.start();
+// }, 4000);  
+}, 35000);

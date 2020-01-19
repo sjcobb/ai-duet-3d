@@ -34,9 +34,7 @@ var allDrumsPart = new Tone.Part(function(time, instr) {
     // ["0:4:0", Store.instr.tomHigh],
 ]);
 allDrumsPart.loop = true;
-// allDrumsPart.start("0:0:0");
-allDrumsPart.start("1:0:0");
-// // allDrumsPart.start("2:0:0");
+// allDrumsPart.start("1:0:0");
 
 var introPart = new Tone.Part(function(time, instr) {
     // TODO: use Store.dropCoordCircle [0] and [719] for dropPosX and dropPosY (must be added as param to addBody) coordinates
@@ -60,7 +58,7 @@ var introPart = new Tone.Part(function(time, instr) {
 ]);
 introPart.loop = 6;
 introPart.loop = true;
-introPart.start("0:0:0");
+// introPart.start("0:0:0");
 
 var secPosPart = new Tone.Part(function(time, instr) {
     physics.addBody(true, Store.dropPosX, instr, 1);
@@ -118,8 +116,7 @@ var introPianoPart = new Tone.Part(function(time, instr) {
 ]);
 // introPianoPart.loop = 2;
 introPianoPart.loop = true;
-introPianoPart.start("0:0:0");
-// introPianoPart.start("6:0:0");
+// introPianoPart.start("0:0:0");
 
 /*
 const boleroFireChords = [

@@ -22,10 +22,10 @@ export default {
         enabled: false,
     },
     autoScroll: true, // true - v0.1, v0.2
-    autoStart: false,
+    autoStart: true, // TODO: rename
     autoStartTime: 4500,
-    // bpm: 120, // v0.4
-    bpm: 160,
+    bpm: 120, // v0.4
+    // bpm: 160,
     camera: new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000),
     // cameraCircularAnimation: false, // true - drum spinner (v0.3), NOW view.drumCircle
     cameraLookUp: false,
@@ -56,7 +56,7 @@ export default {
             // { note: 'D4', count: 1 },
         ],
         noteCountsObj: {
-
+            // TODO: final data structure chosen for bar3D, clean up others
         },
         noteCountsArr: [],
         noteCountsDataset: {

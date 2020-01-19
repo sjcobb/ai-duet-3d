@@ -74,8 +74,14 @@ export default class InstrumentMappings {
 }
 
 export function generateInstrMetadata(note) {
-    let tonalNote = Tonal.Note.fromMidi(note);
+    // console.log('(generateInstrMetadata) -> note: ', note);
+    
+    // let tonalNote = note.isInteger() ? Tonal.Note.fromMidi(note) : note;
+    let tonalNote = isNaN(note) ? note : Tonal.Note.fromMidi(note);
     // let tonalFreq = Tonal.Note.midiToFreq(note);
+    
+    // console.log('(generateInstrMetadata) -> tonalNote: ', tonalNote);
+
     // console.log({tonalNote});
     // console.log({tonalFreq});
     
@@ -92,7 +98,8 @@ export function generateInstrMetadata(note) {
     // console.log('(generateInstrMetadata) -> instrMapped: ', instrMapped);
     // TODO: best way to set color for machine, human, reg keyboard???
     if (instrMapped.color) {
-        instrMapped.color = '#64b5f6'; // med blue
+        // instrMapped.color = '#64b5f6'; // human blue
+        instrMapped.color = '#FFFF00'; // yellow
     }
     return instrMapped;
 }

@@ -111,7 +111,7 @@ export default class Physics {
         if (options.type === 'drum') {
             sphereRestitution = 0.3; //prev: 0.9, 0.1 = one bounce
         } else {
-            console.log('options.duration: ', options.duration);
+            // console.log('options.duration: ', options.duration);
             if (options.duration > 0) { // TODO: rename options.noteLength so not confusing with arr length
                 // sphereRestitution = options.length / 2;
                 sphereRestitution = options.duration * 0.65;
@@ -124,7 +124,7 @@ export default class Physics {
                     // sphereRestitution = 0.225;
                 }
             }
-            console.log({sphereRestitution});
+            // console.log({sphereRestitution});
         }
         const material = new CANNON.Material({ restitution: sphereRestitution, friction: 1 }); 
 
