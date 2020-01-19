@@ -156,7 +156,13 @@ export default class Trigger {
             // console.log({combinedNote});
 
             Store.dashboard.lastNote = combinedNote;
-            Store.dashboard.allPlayedNotes.push(combinedNote);
+
+            // Store.dashboard.allPlayedNotes.push(combinedNote);
+            Store.dashboard.allPlayedNotes.push(obj.userData.opts.note);
+            Store.dashboard.allPlayedOctaves.push(obj.userData.opts.octave);
+            // Store.dashboard.noteCountsDataset.source.note.push(obj.userData.opts.note);
+            // Store.dashboard.noteCountsDataset.source.octave.push(obj.userData.opts.octave);
+
             // console.log('triggerNote -> Store.dashboard.allPlayedNotes: ', Store.dashboard.allPlayedNotes);
 
             Store.dashboard.recentPlayedNotes.push(combinedNote);

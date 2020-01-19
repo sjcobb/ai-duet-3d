@@ -42,6 +42,7 @@ export default {
         lastNoteLength: 0,
         // playedNotes: ['C4', 'D4', 'C5'],
         allPlayedNotes: [],
+        allPlayedOctaves: [],
         recentPlayedNotes: [],
         noteCounts: [
             {},
@@ -51,10 +52,23 @@ export default {
         noteCountsDataset: {
             source: {
                 'note': [],
-                'count': [],
+                'noteCount': [],
+                'octave': [],
+                'octaveCount': [],
                 // 'test': [1],
                 'time': [],
             }
+        },
+        noteCountsDatasetRow: {
+            source: [
+                {note: 'C', octave: 4, count: 10},
+                {note: 'C', octave: 3, count: 4},
+                {note: 'D', octave: 2, count: 1},
+                {note: 'D', octave: 3, count: 2},
+                {note: 'D', octave: 4, count: 3},
+                {note: 'D', octave: 5, count: 4},
+                {note: 'E', octave: 2, count: 1},
+            ]
         },
         instrData: [],
         // https://echarts.apache.org/en/option.html#dataset.source

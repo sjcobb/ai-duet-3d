@@ -598,7 +598,7 @@ function initDashboardData() {
 } 
 
 function countNotes(arr) {
-    let notesArr = [];
+    let labelsArr = [];
     let countArr = [];
     let tempArr = [];
     let prev;
@@ -606,35 +606,57 @@ function countNotes(arr) {
     arr.sort();
     for ( var i = 0; i < arr.length; i++ ) {
         if ( arr[i] !== prev ) {
-            notesArr.push(arr[i]);
+            // labelsArr.push(arr[i].toString());
+            labelsArr.push(arr[i]);
             countArr.push(1);
             // tempArr.push('1:0:0');
-            tempArr.push(i);
+            // tempArr.push(i);
         } else {
             countArr[countArr.length-1]++;
         }
         prev = arr[i];
     }
 
-    // const result = [notesArr, countArr];
+    // const result = [labelsArr, countArr];
     // console.log({result}); 
 
-    Store.dashboard.noteCountsDataset.source.note = notesArr;
-    Store.dashboard.noteCountsDataset.source.count = countArr;
-    Store.dashboard.noteCountsDataset.source.time = tempArr;
+    // Store.dashboard.noteCountsDataset.source.note = labelsArr;
+    // Store.dashboard.noteCountsDataset.source.noteCount = countArr;
+
+    // Store.dashboard.noteCountsDataset.source.time = tempArr;
     // Store.dashboard.noteCountsDataset.source.time = [Store.ticks];
     // Store.dashboard.noteCountsDataset.source.midi = Store.ticks;
     // Store.dashboard.noteCountsDataset.source.test = countArr;
-    console.log(Store.dashboard.noteCountsDataset.source);
-    // return result;
+    // console.log(Store.dashboard.noteCountsDataset.source);
+
+    const result = {
+        label: labelsArr,
+        count: countArr,
+    };
+    // console.log({result});
+    return result;
 }
 
 function updateDashboardData() {
 
     console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
 
-    // countNotes(Store.dashboard.recentPlayedNotes);
-    countNotes(Store.dashboard.allPlayedNotes);
+    const countedNotes = countNotes(Store.dashboard.allPlayedNotes);
+    const countedOctaves = countNotes(Store.dashboard.allPlayedOctaves);
+
+    // console.log({countedNotes});
+    // console.log({countedOctaves});
+    Store.dashboard.noteCountsDataset.source.note = countedNotes.label;
+    Store.dashboard.noteCountsDataset.source.noteCount = countedNotes.count;
+
+    // Store.dashboard.noteCountsDataset.source.octave = countedOctaves.label.toString();
+    Store.dashboard.noteCountsDataset.source.octave = countedOctaves.label;
+    Store.dashboard.noteCountsDataset.source.octaveCount = countedOctaves.count;
+
+    // Store.dashboard.noteCountsDatasetRow.source = Store.dashboard.noteCountsDatasetRow.source.sort((a, b) => (a.octave > b.octave) ? 1 : -1)
+    // console.log(Store.dashboard.noteCountsDatasetRow.source);
+
+    // countNotes(Store.dashboard.allPlayedOctaves, Store.dashboard.noteCountsDataset.source.octave);
 
     createCharts(true);
 
@@ -679,7 +701,7 @@ function createCharts(showGrid = false) {
     //     console.log({instr});
     // });
 
-    console.log('Store.dashboard: ', Store.dashboard);
+    console.log('Store.dashboard.noteCountsDataset.source: ', Store.dashboard.noteCountsDataset.source);
     
     // https://www.echartsjs.com/en/download-theme.html
     // Store.dashboard.chart = echarts.init(document.getElementById('chart'));
@@ -789,7 +811,8 @@ function createCharts(showGrid = false) {
             show: true,
             type: 'category',
             // name: 'Player',
-            name: 'TBD',
+            // name: 'TBD',
+            name: 'Octave',
             nameGap: 25,
             nameTextStyle: {
                 color: '#fff',
@@ -799,7 +822,7 @@ function createCharts(showGrid = false) {
                     color: '#fff',
                 },
             },
-            // data: Store.dashboard.noteCountsDataset.source.count,
+            // data: Store.dashboard.noteCountsDataset.source.noteCount,
         },
         zAxis3D: {
             show: true,
@@ -825,8 +848,10 @@ function createCharts(showGrid = false) {
                     // z: 1,
                     label: 'note',
                     x: 'note',
-                    // y: 'test',
-                    y: 'time',
+                    y: 'octave',
+                    // y: 'time',
+                    // z: 'noteCount',
+                    // z: 'octaveCount',
                     z: 'count',
                     // tooltip: [0, 1, 2, 3, 4]
                 },
@@ -869,8 +894,10 @@ function createCharts(showGrid = false) {
         ],
         // dataset: dataset,
         dataset: {
-            source: Store.dashboard.noteCountsDataset.source,
-            dimensions: ['note', 'count', 'time'],
+            // source: Store.dashboard.noteCountsDataset.source,
+            source: Store.dashboard.noteCountsDatasetRow.source,
+            dimensions: ['note', 'octave', 'count'],
+            // imensions: ['note', 'noteCount', 'octave', 'octaveCount', 'time'],
             // source: Store.dashboard.noteCounts,
         },
     };

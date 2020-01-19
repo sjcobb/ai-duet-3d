@@ -30,6 +30,9 @@
 - [ ] record and playback audio, import and convert MIDI notes to Tone.js friendly JSON using https://github.com/Tonejs/Midi
 
 ## Backlog
+
+- Flow GL skybox background: https://echarts.apache.org/examples/en/editor.html?c=flowGL-noise&gl=1&theme=dark
+
 - [ ] Circular camera animation, movement between scenes (from drum stage back to piano stage)
 - [ ] frequency visualizer UI dashboard, see: https://threejs.org/examples/webaudio_visualizer.html
 - [ ]
