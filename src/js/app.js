@@ -648,17 +648,17 @@ function updateDashboardData() {
     // console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
     console.log('(updateDashboardData CALLED) -> Store: ', Store);
 
-    const countedNotes = countNotes(Store.dashboard.allPlayedNotes);
-    const countedOctaves = countNotes(Store.dashboard.allPlayedOctaves);
+    // const countedNotes = countNotes(Store.dashboard.allPlayedNotes);
+    // const countedOctaves = countNotes(Store.dashboard.allPlayedOctaves);
 
-    // console.log({countedNotes});
-    // console.log({countedOctaves});
-    Store.dashboard.noteCountsDataset.source.note = countedNotes.label;
-    Store.dashboard.noteCountsDataset.source.noteCount = countedNotes.count;
+    // // console.log({countedNotes});
+    // // console.log({countedOctaves});
+    // Store.dashboard.noteCountsDataset.source.note = countedNotes.label;
+    // Store.dashboard.noteCountsDataset.source.noteCount = countedNotes.count;
 
-    // Store.dashboard.noteCountsDataset.source.octave = countedOctaves.label.toString();
-    Store.dashboard.noteCountsDataset.source.octave = countedOctaves.label;
-    Store.dashboard.noteCountsDataset.source.octaveCount = countedOctaves.count;
+    // // Store.dashboard.noteCountsDataset.source.octave = countedOctaves.label.toString();
+    // Store.dashboard.noteCountsDataset.source.octave = countedOctaves.label;
+    // Store.dashboard.noteCountsDataset.source.octaveCount = countedOctaves.count;
 
     // Store.dashboard.noteCountsDatasetRow.source = Store.dashboard.noteCountsDatasetRow.source.sort((a, b) => (a.octave > b.octave) ? 1 : -1)
     // console.log(Store.dashboard.noteCountsDatasetRow.source);
@@ -892,6 +892,7 @@ function createCharts(showGrid = false) {
                 color: '#fff',
             },
             axisLabel: {
+                interval: 0,
                 // margin = 8
                 textStyle: {
                     color: '#fff',
@@ -911,6 +912,7 @@ function createCharts(showGrid = false) {
                 color: '#fff',
             },
             axisLabel: {
+                interval: 0,
                 textStyle: {
                     color: '#fff',
                 },

@@ -43,7 +43,8 @@ Store.polySynth = new Tone.PolySynth(6, Tone.Synth, {
     envelope: {
         // attack: 0.1,
         // decay: 0.2,
-        sustain: 1,
+        // sustain: 1,
+        sustain: 0.5,
         // release: 0.8,
     },
     // https://tonejs.github.io/docs/13.8.25/Filter#type
@@ -52,7 +53,7 @@ Store.polySynth = new Tone.PolySynth(6, Tone.Synth, {
 	},
 }).toMaster();
 
-Store.polySynth.volume.value = -6;
+Store.polySynth.volume.value = -8;
 // Store.polySynth.volume.value = -8; //prev
 // Store.polySynth.set("detune", +1200); // octave = 12 semitones of 100 cents each
 // Store.polySynth.set("detune", +1200);
@@ -157,28 +158,28 @@ export default class Trigger {
 
             Store.dashboard.lastNote = combinedNote;
 
-            // Store.dashboard.allPlayedNotes.push(combinedNote);
-            Store.dashboard.allPlayedNotes.push(obj.userData.opts.note);
-            Store.dashboard.allPlayedOctaves.push(obj.userData.opts.octave);
-            // Store.dashboard.noteCountsDataset.source.note.push(obj.userData.opts.note);
-            // Store.dashboard.noteCountsDataset.source.octave.push(obj.userData.opts.octave);
+            Store.dashboard.allPlayedNotes.push(combinedNote);
+            // Store.dashboard.allPlayedNotes.push(obj.userData.opts.note);
+            // Store.dashboard.allPlayedOctaves.push(obj.userData.opts.octave);
+            // // Store.dashboard.noteCountsDataset.source.note.push(obj.userData.opts.note);
+            // // Store.dashboard.noteCountsDataset.source.octave.push(obj.userData.opts.octave);
 
-            const noteDatum = {
+            // const noteDatum = {
 
-            };
-            Store.dashboard.noteCounts.push(
-                {
-                    note: obj.userData.opts.note,
-                    octave: obj.userData.opts.octave,
-                    count: 1
-                }
-            )
+            // };
+            // Store.dashboard.noteCounts.push(
+            //     {
+            //         note: obj.userData.opts.note,
+            //         octave: obj.userData.opts.octave,
+            //         count: 1
+            //     }
+            // )
 
-            if (Store.instr[obj.userData.opts.objName].count != null) {
-                Store.instr[obj.userData.opts.objName].count++;
-            } else {
-                Store.instr[obj.userData.opts.objName].count = 1;
-            }
+            // if (Store.instr[obj.userData.opts.objName].count != null) {
+            //     Store.instr[obj.userData.opts.objName].count++;
+            // } else {
+            //     Store.instr[obj.userData.opts.objName].count = 1;
+            // }
 
             if (Store.dashboard.noteCountsObj[combinedNote] != null) {
                 Store.dashboard.noteCountsObj[combinedNote].count++;

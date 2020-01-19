@@ -168,8 +168,9 @@ export default {
         // posBehindZ: 3.8,
         posBehindX: -60,
         posBehindY: 8,
-        posBehindZ: 0,
-        showStats: true,
+        // posBehindZ: 0,
+        posBehindZ: 1,
+        showStats: false,
     },
     world: new CANNON.World(),
 };
