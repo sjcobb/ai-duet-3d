@@ -49,6 +49,10 @@ export default {
             // { note: 'C4', count: 2 },
             // { note: 'D4', count: 1 },
         ],
+        noteCountsObj: {
+
+        },
+        noteCountsArr: [],
         noteCountsDataset: {
             source: {
                 'note': [],
@@ -165,6 +169,7 @@ export default {
         posBehindX: -60,
         posBehindY: 8,
         posBehindZ: 0,
+        showStats: true,
     },
     world: new CANNON.World(),
 };

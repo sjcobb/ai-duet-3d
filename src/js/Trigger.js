@@ -163,6 +163,41 @@ export default class Trigger {
             // Store.dashboard.noteCountsDataset.source.note.push(obj.userData.opts.note);
             // Store.dashboard.noteCountsDataset.source.octave.push(obj.userData.opts.octave);
 
+            const noteDatum = {
+
+            };
+            Store.dashboard.noteCounts.push(
+                {
+                    note: obj.userData.opts.note,
+                    octave: obj.userData.opts.octave,
+                    count: 1
+                }
+            )
+
+            if (Store.instr[obj.userData.opts.objName].count != null) {
+                Store.instr[obj.userData.opts.objName].count++;
+            } else {
+                Store.instr[obj.userData.opts.objName].count = 1;
+            }
+
+            if (Store.dashboard.noteCountsObj[combinedNote] != null) {
+                Store.dashboard.noteCountsObj[combinedNote].count++;
+            } else {
+                Store.dashboard.noteCountsObj[combinedNote] = {
+                    note: obj.userData.opts.note,
+                    octave: obj.userData.opts.octave,
+                    count: 1,
+                };
+                // Store.dashboard.noteCountsObj[combinedNote].count = 1;
+            }
+            // console.log(Object.entries(Store.dashboard.noteCountsObj));
+            // Store.dashboard.noteCountsArr = Object.entries(Store.dashboard.noteCountsObj);
+
+            Store.dashboard.noteCountsArr = [];
+            for(let key in Store.dashboard.noteCountsObj){
+                // console.log({key});
+                Store.dashboard.noteCountsArr.push(Store.dashboard.noteCountsObj[key]);
+            }
             // console.log('triggerNote -> Store.dashboard.allPlayedNotes: ', Store.dashboard.allPlayedNotes);
 
             Store.dashboard.recentPlayedNotes.push(combinedNote);

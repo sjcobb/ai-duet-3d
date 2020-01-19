@@ -30,9 +30,11 @@ import Stats from 'stats.js';
 // const helpers = new Helpers();
 // const pool = new Pool();
 
-var stats = new Stats();
-stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+if (Store.view.showStats === true) {
+    var stats = new Stats();
+    stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild( stats.dom );
+}
 
 //-----INITIAL GLOBAL VARIABLES------//
 // const globalClock = new THREE.Clock();
@@ -414,7 +416,9 @@ let machineDataId = document.getElementById('machine-data');
 let animate = () => {
 
     // requestAnimationFrame(animate);
-    stats.begin();
+    if (Store.view.showStats === true) {
+        stats.begin();
+    }
 
     var delta = Store.clock.getDelta();
     // console.log('delta: ', delta); //hundreths
@@ -492,7 +496,9 @@ let animate = () => {
         }
     }
 
-    stats.end();
+    if (Store.view.showStats === true) {
+        stats.end();
+    }
 
     requestAnimationFrame(animate);
 
@@ -570,7 +576,7 @@ window.onload = () => {
     createCharts(false);
 
     // setTimeout(() => {
-    //     addDashboard();
+    //     addDashboard3D();
     // }, 2000);
 
 };
@@ -639,7 +645,8 @@ function countNotes(arr) {
 
 function updateDashboardData() {
 
-    console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
+    // console.log('(updateDashboardData CALLED) -> Store.dashboard: ', Store.dashboard);
+    console.log('(updateDashboardData CALLED) -> Store: ', Store);
 
     const countedNotes = countNotes(Store.dashboard.allPlayedNotes);
     const countedOctaves = countNotes(Store.dashboard.allPlayedOctaves);
@@ -657,6 +664,92 @@ function updateDashboardData() {
     // console.log(Store.dashboard.noteCountsDatasetRow.source);
 
     // countNotes(Store.dashboard.allPlayedOctaves, Store.dashboard.noteCountsDataset.source.octave);
+
+    // Store.dashboard.recentPlayedNotes = [];
+
+    // var uniqueNotes = Store.dashboard.recentPlayedNotes.filter((v, i, a) => a.indexOf(v) === i);
+    // var uniqueNotes = Store.dashboard.allPlayedNotes.filter((v, i, a) => a.indexOf(v) === i);
+    // console.log({uniqueNotes});
+
+    // const newNotes = [];
+    // const newNote = '';
+    // // for (let i=0; i < Store.dashboard.noteCounts.length; i++) {
+    // for (let i=0; i < uniqueNotes.length; i++) {
+        
+
+    //     for (let j=0; j < Store.dashboard.noteCounts.length; j++) {
+    //         if (Store.dashboard.noteCounts[j].note === uniqueNotes[i]) {
+    //             newNote
+    //         }
+    //     }
+
+    //     console.log({newNotes});
+
+    // }
+
+    // for (let i=0; i < newNotes.length; i++) {
+    //     Store.dashboard.noteCounts.push(
+    //         {
+    //             note: newNotes[i],
+    //             count: 1,
+    //         }
+    //     );
+    // }
+
+    // for (let i=0; i < Store.dashboard.recentPlayedNotes.length; i++) {
+    // for (let i=0; i < uniqueNotes.length; i++) {
+
+    //     // TODO: why not reaching this line after forEach conversion?
+    //     console.log({i});
+    //     const playedNote = Store.dashboard.recentPlayedNotes[i];
+    //     console.log({playedNote});
+
+
+    //     // if (Store.dashboard.allPlayedNotes.includes(playedNote)) {
+
+    //     // } else {
+    //     //     console.log('new -> playedNote: ', playedNote);
+    //     //     Store.dashboard.noteCounts.push(
+    //     //         {
+    //     //             note: playedNote,
+    //     //             count: 1,
+    //     //         }
+    //     //     );
+    //     //     console.log('new -> Store.dashboard.noteCounts: ', Store.dashboard.noteCounts);
+    //     // }
+
+    //     //Store.dashboard.noteCounts.forEach((noteCount, noteCountIndex) => {
+    //     for (let j=0; j < Store.dashboard.noteCounts.length; j++) {
+    //         const noteCount = Store.dashboard.noteCounts[j];
+    //         console.log({noteCount});
+    //         if (playedNote === noteCount.note) {
+    //             // Store.dashboard.noteCounts[noteCountIndex].count++;
+    //             Store.dashboard.noteCounts[j].count++;
+    //             console.log('increment noteCounts -> count: ', Store.dashboard.noteCounts[j].count);
+    //             break;
+    //         } else if (playedNote !== noteCount.note) {
+    //             // console.log('new playedNote: ', playedNote);
+    //             // Store.dashboard.noteCounts.push(
+    //             //     {
+    //             //         note: playedNote,
+    //             //         count: 1,
+    //             //     }
+    //             // );
+
+    //             // break;
+    //             // // return;
+    //         } else {
+    //             // return;
+    //         }
+
+    //         Store.dashboard.recentPlayedNotes = [];
+    //     }
+    //     //});
+    //
+    //    console.log('UPDATED -> Store.dashboard.noteCounts: ', Store.dashboard.noteCounts);
+    //  }
+    // });
+
 
     createCharts(true);
 
@@ -724,36 +817,29 @@ function createCharts(showGrid = false) {
         legend: {
             // data:['Note']
         },
-        grid3D: {
-            viewControl: {
-                // autoRotate: true
-            },
-            light: {
-                main: {
-                    // shadow: true,
-                    shadow: true,
-                    quality: 'ultra',
-                    intensity: 1.5
-                }
-            }
-        },
         // https://www.echartsjs.com/en/option-gl.html#grid3D
         // https://echarts.apache.org/examples/en/editor.html?c=bar3d-punch-card&gl=1
         grid3D: {
             // show: showGrid,
+            show: true,
             top: 0,
-            // right: 50,
-            // bottom: 50,
-            // left: 50,
-            boxWidth: 100,
-            boxHidth: 100,
-            boxDepth: 100,
-            // width: 200,
-            // height: 200,
+            // right: 150,
+            // bottom: 150,
+            // left: 150,
+            // boxWidth: 90,
+            // boxHidth: 90,
+            // boxDepth: 90,
+            // boxWidth: 80,
+            // boxDepth: 80,
+            // width: '90%',
+            // height: '90%',
+            splitLine: {
+                show: false,
+            },
             // https://www.echartsjs.com/en/option-gl.html#grid3D.viewControl
             viewControl: {
                 // projection: 'perspective', // default
-                projection: 'orthographic',
+                // projection: 'orthographic',
                 // https://www.echartsjs.com/en/option-gl.html#grid3D.viewControl.autoRotate
                 autoRotate: true, // false = default
                 autoRotateSpeed: 5, // 10 = default
@@ -762,7 +848,14 @@ function createCharts(showGrid = false) {
                 // damping: 0.8,
                 // rotateSensitivity: 1,
                 // zoomSensitivity: 1,
+                // orthographicSize: 200,
+                // maxOrthographicSize: 200,
                 // maxDistance: 400,
+                // alpha: 90, // view from top
+                alpha: 15,
+                // beta: 20,
+                distance: 250,
+                // distance: 800,
             },
             light: {
                 main: {
@@ -790,11 +883,11 @@ function createCharts(showGrid = false) {
         //     }
         // },
         // https://www.echartsjs.com/en/option-gl.html#yAxis3D
-        xAxis3D: {
+        yAxis3D: {
             show: true,
             type: 'category',
             name: 'Note',
-            nameGap: 25,
+            nameGap: 20,
             nameTextStyle: {
                 color: '#fff',
             },
@@ -807,13 +900,13 @@ function createCharts(showGrid = false) {
             // data: Store.dashboard.instrData,
             // data: Store.dashboard.noteCountsDataset.source.note,
         },
-        yAxis3D: {
+        xAxis3D: {
             show: true,
             type: 'category',
             // name: 'Player',
             // name: 'TBD',
             name: 'Octave',
-            nameGap: 25,
+            nameGap: 20,
             nameTextStyle: {
                 color: '#fff',
             },
@@ -825,13 +918,24 @@ function createCharts(showGrid = false) {
             // data: Store.dashboard.noteCountsDataset.source.noteCount,
         },
         zAxis3D: {
-            show: true,
+            show: false,
             type: 'value',
-            nameGap: 25,
+            name: '',
+            nameGap: 20,
             nameTextStyle: {
                 color: '#fff',
             },
+            axisLine: {
+                // show: false,
+                lineStyle: {
+                    opacity: 0,
+                }
+            },
+            axisTick: {
+                show: false,
+            },
             axisLabel: {
+                show: false,
                 textStyle: {
                     color: '#fff',
                 },
@@ -847,14 +951,18 @@ function createCharts(showGrid = false) {
                     // y: 1,
                     // z: 1,
                     label: 'note',
-                    x: 'note',
-                    y: 'octave',
+                    y: 'note',
+                    x: 'octave',
                     // y: 'time',
                     // z: 'noteCount',
                     // z: 'octaveCount',
                     z: 'count',
                     // tooltip: [0, 1, 2, 3, 4]
                 },
+                itemStyle: {
+                    // color: '#900',
+                    opacity: 0.92,
+                }
                 // data: Store.dashboard.allPlayedNotes,
                 // dimensions: Store.dashboard.instrData,
             },
@@ -895,7 +1003,8 @@ function createCharts(showGrid = false) {
         // dataset: dataset,
         dataset: {
             // source: Store.dashboard.noteCountsDataset.source,
-            source: Store.dashboard.noteCountsDatasetRow.source,
+            // source: Store.dashboard.noteCountsDatasetRow.source,
+            source: Store.dashboard.noteCountsArr,
             dimensions: ['note', 'octave', 'count'],
             // imensions: ['note', 'noteCount', 'octave', 'octaveCount', 'time'],
             // source: Store.dashboard.noteCounts,
@@ -908,8 +1017,8 @@ function createCharts(showGrid = false) {
     Store.dashboard.chart.setOption(option);
 }
 
-// const addDashboard = (params={}) => {
-function addDashboard(params={}) {
+// const addDashboard3D = (params={}) => {
+function addDashboard3D(params={}) {
 
     // const chartId = document.getElementById('chart');
     // const chartId = echarts.init(document.getElementById('chart');
@@ -976,7 +1085,7 @@ setInterval(() => {
         Store.dashboard.lastNoteLength = Store.dashboard.recentPlayedNotes.length;
         console.log('Store.dashboard.lastNoteLength: ', Store.dashboard.lastNoteLength);
 
-        addDashboard();
+        // addDashboard3D();
     }
 
-}, 4000);
+}, 1000);
