@@ -90,12 +90,12 @@ toggleId.onclick = (el) => {
 //     addBody();
 // };
 
-// if (Store.autoStart === true || Store.uiHidden === true) {
+// if (Store.view.songAutoStart === true || Store.uiHidden === true) {
 if (Store.uiHidden === true) {
     controlsId.classList.toggle('hidden');
 }
 
-if (Store.autoStart === true) {
+if (Store.view.songAutoStart === true) {
     setTimeout(function() {
         Tone.Transport.start();
     }, Store.autoStartTime);
@@ -143,18 +143,20 @@ document.addEventListener("visibilitychange", function() {
 //     flameFirst.addFire();
 // }, 1000);
 
-setTimeout(function() {
-    console.log('(UI - ALTERNATE VIEW) -> Store: ', Store);
-
-    Store.dashboard.noteCountsObj = {};
-    dashboardId.classList.toggle('alternate');
-    imgId.classList.toggle('alternate');
-
-    Store.view.cameraPositionBehind = false;
-    Store.camera.position.set(0, 20, 30);
-    Store.camera.lookAt(new THREE.Vector3(0, 10, 10));
-
-    Tone.Transport.stop();
-    Tone.Transport.start();
-// }, 4000);  
-}, 35000);
+if (Store.view.songAutoStart == true) {
+    setTimeout(function() {
+        console.log('(UI - ALTERNATE VIEW) -> Store: ', Store);
+    
+        Store.dashboard.noteCountsObj = {};
+        dashboardId.classList.toggle('alternate');
+        imgId.classList.toggle('alternate');
+    
+        Store.view.cameraPositionBehind = false;
+        Store.camera.position.set(0, 20, 30);
+        Store.camera.lookAt(new THREE.Vector3(0, 10, 10));
+        
+        Tone.Transport.stop();
+        Tone.Transport.start();
+    // }, 4000);  
+    }, 35000);
+}

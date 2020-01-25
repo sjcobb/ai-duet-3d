@@ -396,7 +396,7 @@ function initRNN() {
         console.log('initRNN -> rnn: ', rnn);
         resolve('resolved');
 
-        // if (Store.autoStart === true && Tone.Transport.state !== 'started') {
+        // if (Store.view.songAutoStart === true && Tone.Transport.state !== 'started') {
             Tone.Transport.start();
         // }
     });

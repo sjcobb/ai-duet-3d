@@ -34,7 +34,7 @@ Tone.Transport.bpm.value = Store.bpm;
 
 // var polySynth = new Tone.PolySynth(6, Tone.Synth, {
 // Store.polySynth = new Tone.PolySynth(4, Tone.Synth, { // default
-Store.polySynth = new Tone.PolySynth(3, Tone.Synth, {
+Store.polySynth = new Tone.PolySynth(10, Tone.Synth, {
     // oscillator: {
     //     type: "triangle", // sine, square, sawtooth, triangle (default), custom
     //     // frequency: 440 ,
@@ -44,13 +44,17 @@ Store.polySynth = new Tone.PolySynth(3, Tone.Synth, {
     //    partialCount: 0
     // },
     // // https://tonejs.github.io/docs/13.8.25/Envelope
-    // envelope: {
-    //     // attack: 0.1,
-    //     // decay: 0.2,
-    //     // sustain: 1, // v0.5
-    //     sustain: 0.5, 
-    //     // release: 0.8,
-    // },
+    envelope: {
+        attack: 0.02,
+        decay: 0.1,
+        sustain: 0.3,
+        release: 1,
+        // attack: 0.1,
+        // decay: 0.2,
+        // sustain: 1, // v0.5
+        // sustain: 0.5, 
+        // release: 0.8,
+    },
     // // https://tonejs.github.io/docs/13.8.25/Filter#type
     // filter: {
 	// 	// type: "highpass", // lowpass, highpass, bandpass, lowshelf, highshelf, notch, allpass, peaking

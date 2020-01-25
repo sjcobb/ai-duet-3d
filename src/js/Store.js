@@ -22,7 +22,7 @@ export default {
         enabled: false,
     },
     autoScroll: true, // true - v0.1, v0.2
-    autoStart: true, // TODO: rename
+    // autoStart: false, // TODO: rename
     autoStartTime: 4500,
     bpm: 120, // v0.4
     // bpm: 160,
@@ -179,6 +179,7 @@ export default {
         posBehindY: 8,
         // posBehindZ: 0,
         posBehindZ: 1,
+        songAutoStart: false,
         showStats: false,
     },
     world: new CANNON.World(),
