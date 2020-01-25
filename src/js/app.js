@@ -80,8 +80,10 @@ if (Store.cameraLookUp === true) {
     Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 100, Store.view.posBehindZ));
 }
 
-if (Store.keysOnly === true) {
-    Store.camera.position.z -= 6; // PREV, middle of first keyboard staff
+if (Store.view.showStaff.treble === true && Store.view.showStaff.bass === true) {
+    // Store.camera.position.z -= 6; // middle of treble staff
+    // Store.view.posBehindX -= 10;
+    Store.camera.position.z = 0;
     Store.view.posBehindX -= 10;
 }
 
@@ -249,17 +251,19 @@ function addStaffLines(color = 0x000000, offset, posXstart, posXend, posY, posZ,
 }
 
 const staffLineLengthEnd = 8000;
-if (Store.keysOnly !== true) {
-    // addStaffLines(0x000000, Store.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
-} else if (Store.keysOnly === true) {
+const lineYHeight = -0.95;
+// if (Store.keysOnly !== true) {
+//     // addStaffLines(0x000000, Store.staffLineInitZ, -1000, staffLineLengthEnd, 0.08, 0, 2);
+// } 
 
-    const lineYHeight = -0.95;
-    addStaffLines(0xffffff, Store.staffLineSecondZ, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
+if (Store.view.showStaff.treble === true) {
+    addStaffLines(0xffffff, -10, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
+    addStaffLines(0xffffff, -20, -1000, staffLineLengthEnd, lineYHeight, 0, 2, true, true); // two dashed lines above treble clef
+}
 
-    // two dashed lines above treble clef
-    addStaffLines(0xffffff, Store.staffLineSecondZ - 10, -1000, staffLineLengthEnd, lineYHeight, 0, 2, true, true);
-} else {}
-
+if (Store.view.showStaff.bass === true) {
+    addStaffLines(0xffffff, 2, -1000, staffLineLengthEnd, lineYHeight, 0, 2);
+}
 
 function addThickStaffLines() {
     // TODO: fix and UNCOMMENT vendor/Three/lines files in index.html
@@ -328,17 +332,20 @@ let flameActive = false;
 
 
 //-----Lil A.I. Logo Image------//
-// var spriteTexture = Store.loader.load("assets/ai_robot_1.jpeg"); // http://localhost:8082/assets/ai_robot_1.jpeg
-// // var spriteTexture = Store.loader.load('/assets/ai_robot_1.jpg', onTextureLoaded);
-// var spriteMaterial = new THREE.SpriteMaterial({
-//     map: spriteTexture,
-//     color: 0xffffff
-// });
-// var robotSprite = new THREE.Sprite(spriteMaterial);
-// robotSprite.position.set(-10, 8, 0);
-// // robotSprite.scale.set(5, 10, 5);
-// robotSprite.scale.set(2, 2, 2);
-// Store.scene.add(robotSprite);
+if (Store.view.showLogoSprite === true) {
+    var spriteTexture = Store.loader.load("assets/ai_robot_1.jpeg"); // http://localhost:8082/assets/ai_robot_1.jpeg
+    // var spriteTexture = Store.loader.load('/assets/ai_robot_1.jpg', onTextureLoaded);
+    var spriteMaterial = new THREE.SpriteMaterial({
+        map: spriteTexture,
+        color: 0xffffff
+    });
+    var robotSprite = new THREE.Sprite(spriteMaterial);
+    robotSprite.position.set(0, 0, 0);
+    // obotSprite.position.set(-10, 8, 0);
+    // robotSprite.scale.set(5, 10, 5);
+    // robotSprite.scale.set(2, 2, 2);
+    Store.scene.add(robotSprite);
+}
 
 //-----PREV (Static Animation Methods)------//
 function getObjectState(object, objPositionUp, threshold) {

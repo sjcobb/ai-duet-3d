@@ -45,8 +45,14 @@ export default class Physics {
         // this.addSpinner();
     }
 
-    // initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, -5], sizeArr=[5000, 10, 5]) {
-    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, -5], sizeArr=[5000, 10, 5]) {
+    initGroundContactMaterial(restitutionValue = 0.3, posArr=[0, -6, 0], sizeArr=[5000, 10, 5]) {
+
+        if (Store.view.showStaff.treble === true && Store.view.showStaff.bass === true) {
+            posArr = [0, -6, -2];
+            sizeArr = [5000, 15, 5];
+        }
+
+        // FLOOR
         //TODO: add colored ground on contact here
         //http://schteppe.github.io/cannon.js/docs/classes/ContactMaterial.html
         // const groundShape = new CANNON.Plane(); // invisible plane across entire screen
@@ -178,8 +184,9 @@ export default class Physics {
 
             zPos -= 8; // TODO: is this still needed?
         } else {
-            zPos -= 3; //PREV
-            // zPos = 0;
+            // zPos -= 3; // v0.4, v0.5
+
+            zPos += 2;
         }
 
         if (Store.cameraCircularAnimation === true) {

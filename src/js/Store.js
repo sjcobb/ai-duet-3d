@@ -21,8 +21,7 @@ export default {
     ai: {
         enabled: false,
     },
-    autoScroll: true, // true - v0.1, v0.2
-    // autoStart: false, // TODO: rename
+    autoScroll: true,
     autoStartTime: 4500,
     bpm: 120, // v0.4
     // bpm: 160,
@@ -138,7 +137,7 @@ export default {
     inputMidi: false,
     instr: {},
     instrumentCounter: 0,
-    keysOnly: true,
+    // keysOnly: true,
     lastColor: '#000000',
     loader: new THREE.TextureLoader(),
     machineTrigger: false,
@@ -152,8 +151,8 @@ export default {
     renderer: new THREE.WebGLRenderer(),
     scene: new THREE.Scene(),
     spinnerBody: {},
-    staffLineInitZ: 8,
-    staffLineSecondZ: -8,
+    // staffLineInitZ: 8,    // remove
+    // staffLineSecondZ: -8, // remove
     // showStaticRows: false, // old static animation
     tempPos: 0,
     ticks: 0,
@@ -179,8 +178,13 @@ export default {
         posBehindY: 8,
         // posBehindZ: 0,
         posBehindZ: 1,
-        songAutoStart: false,
+        songAutoStart: true,
+        showLogoSprite: false,
         showStats: false,
+        showStaff: {
+            bass: true,
+            treble: true,
+        },
     },
     world: new CANNON.World(),
 };

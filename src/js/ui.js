@@ -152,11 +152,12 @@ if (Store.view.songAutoStart == true) {
         imgId.classList.toggle('alternate');
     
         Store.view.cameraPositionBehind = false;
-        Store.camera.position.set(0, 20, 30);
+        // Store.camera.position.set(0, 20, 30);
+        Store.camera.position.set(0, 22, 36);
         Store.camera.lookAt(new THREE.Vector3(0, 10, 10));
         
         Tone.Transport.stop();
         Tone.Transport.start();
-    // }, 4000);  
+    // }, 2000);  
     }, 35000);
 }

@@ -255,7 +255,8 @@ export default class Trigger {
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
             // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
             // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
-            console.log('triggerNote (chord) -> obj.userData.opts.duration: ', obj.userData.opts.duration);
+
+            // console.log('triggerNote (chord) -> obj.userData.opts.duration: ', obj.userData.opts.duration);
             const noteLength = obj.userData.opts.duration ? obj.userData.opts.duration : 0.15;
             Store.polySynth.triggerAttackRelease(combinedNote, noteLength);
         } else {
