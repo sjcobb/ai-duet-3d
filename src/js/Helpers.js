@@ -173,8 +173,9 @@ export default class Helpers {
             // // ctx.font = "bold " + (textH - 2) + "px Tahoma";
             
             // ctx.font = "bolder " + textH + "px Arial"; // ORIG
-            // ctx.font = "bold " + (textH - 6) + "px Geneva"; //PREV
-            ctx.font = "normal " + (textH) + "px Geneva"; //PREV
+            // ctx.font = "bold " + (textH - 6) + "px Geneva"; 
+            // ctx.font = "normal " + (textH) + "px Geneva"; 
+            ctx.font = "bold " + (textH) + "px Geneva"; 
             ctx.fillStyle = "#000000"; //PREV (text color)
             // ctx.fillStyle = "#ffffff"; // text color
             var textW = ctx.measureText(textData).width;
@@ -182,7 +183,8 @@ export default class Helpers {
             //TODO: adjust textOffset position here, make spheres bigger?
             let textOffsetX = 0.0;
             // let textOffsetY = 0.4; // v0.3, v0.4
-            let textOffsetY = -0.1;
+            // let textOffsetY = -0.1; // move text up on ball
+            let textOffsetY = -0.033;
 
             // if (textW > 100) {
             //     // console.log(textData); //TODO: make fillEllipse wider or font (textH) smaller when multiple characters

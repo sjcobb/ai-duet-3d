@@ -77,6 +77,7 @@ let controlsId = document.getElementById('controls-container');
 let settingsId = document.getElementById('settings-container');
 let toggleId = document.getElementById('settings-toggle-btn');
 let dashboardId = document.getElementById('dashboard-container');
+let imgId = document.getElementById('img-container');
 
 toggleId.onclick = (el) => {
     console.log('toggleId clicked -> el: ', el);
@@ -147,6 +148,7 @@ setTimeout(function() {
 
     Store.dashboard.noteCountsObj = {};
     dashboardId.classList.toggle('alternate');
+    imgId.classList.toggle('alternate');
 
     Store.view.cameraPositionBehind = false;
     Store.camera.position.set(0, 20, 30);

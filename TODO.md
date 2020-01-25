@@ -1,6 +1,9 @@
 ## Roadmap
 
 - use githack to create CodePen demo from bundle, ex: https://rawcdn.githack.com/sjcobb/ai-duet-3d/0.3/src/js/app.js
+- https://www.8notes.com/scores/22764.asp Sheet music
+- bah bah black sheep: https://musescore.com/user/19028991/scores/5511489
+- 
 
 ### 0.4
 - [x] map note length (triggerRelease) to bounce height, see addBody -> sphereRestitution or initContactMaterial restitutionValue param

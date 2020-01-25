@@ -1,4 +1,4 @@
-html {
+html * {
     box-sizing: border-box;
 }
 body {
@@ -160,7 +160,6 @@ button#btn-drums-1 {
     position: relative;
     margin: 0;
     padding: 15px 20px 10px 20px;
-    box-sizing: border-box;
     background: rgba(204, 204, 204, 0.3);
 }
 .legend ul {
@@ -269,7 +268,6 @@ button#btn-drums-1 {
     /* background: #fff; */
     z-index: 10;
     padding: 5px;
-    box-sizing: border-box;
     transition: right 2s;
     transition-timing-function: ease;
 }
@@ -293,3 +291,54 @@ button#btn-drums-1 {
 #dashboard-container.alternate {
     right: 800px;
 }
+
+.img-container {
+    overflow: hidden;
+    width: 500px;
+    height: 200px;
+    position: absolute;
+    /* top: 0; */
+    top: 20px;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    /* margin: 0 auto; */
+    /* background: #fff; */
+    z-index: 10;
+    /* padding: 5px; */
+    /* transition: right 2s; */
+    opacity: 1;
+    transition: opacity 2s;
+    transition-timing-function: ease;
+}
+
+.img-container img {
+    display: inline-block;
+    width: 560px;
+    /* height: 500px; */
+    position: relative;
+    top: -105px;
+    left: -32px;
+    /* transition: top 15s; */
+    /* transition-timing-function: ease; */
+    animation-name: music-scroll;
+    /* animation-duration: 30s; */
+    animation-duration: 20s;
+    animation-delay: 15s;
+    animation-fill-mode: forwards;
+}
+
+.img-container.alternate {
+    opacity: 0;
+}
+
+
+@keyframes music-scroll {
+    from {
+        /* top: 0; */
+        top: -105px;
+    }
+    to {
+        top: -280px;
+    }
+  }

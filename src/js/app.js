@@ -442,11 +442,11 @@ function animateStars() {
         // if (star.position.z > 1000) star.position.z -= 2000;
         
         star.position.x += i / 10;
-        console.log(star.position.x);
+        // console.log(star.position.x);
 		if (star.position.x > 1000) star.position.x -= 2000;
 	}
 }
-addSphere();
+// addSphere();
 
 //-----AI UI------//
 
@@ -470,7 +470,7 @@ let animate = () => {
     // console.log(Store.ticks);
     // console.log(Store.clock.elapsedTime);
 
-    animateStars();
+    // animateStars();
 
     /*
     //circular rotation
