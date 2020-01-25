@@ -156,10 +156,9 @@ export default class Helpers {
             // draw text data
             ctx.save();
             ctx.translate(w / 4, h / 2);
-            let textH = w / 4;
-            // console.log({textH}); //128
-            textH = 160;
-
+            
+            // let textH = w / 4; // 128
+            let textH = 180;
             if (textData.length > 2) {
                 textH = textH / 2.5;
             } else if (textData.length === 2) {
@@ -175,7 +174,8 @@ export default class Helpers {
             // ctx.font = "bolder " + textH + "px Arial"; // ORIG
             // ctx.font = "bold " + (textH - 6) + "px Geneva"; 
             // ctx.font = "normal " + (textH) + "px Geneva"; 
-            ctx.font = "bold " + (textH) + "px Geneva"; 
+            // ctx.font = "bold " + (textH) + "px Geneva"; 
+            ctx.font = "bold " + (textH) + "px Verdana"; 
             ctx.fillStyle = "#000000"; //PREV (text color)
             // ctx.fillStyle = "#ffffff"; // text color
             var textW = ctx.measureText(textData).width;

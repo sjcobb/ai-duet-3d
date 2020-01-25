@@ -663,11 +663,11 @@ window.onload = () => {
     // addBody(sphere = true, xPosition = 5.5, options = 'Z', timeout = 0);
     // physics.addBody();
 
-    createCharts(false);
-
-    // setTimeout(() => {
-    //     addDashboard3D();
-    // }, 2000);
+    
+    setTimeout(() => {
+        createCharts(false);
+        // addDashboard3D();
+    }, 3000);
 
 };
 
@@ -933,7 +933,8 @@ function createCharts(showGrid = false) {
                 // projection: 'orthographic',
                 // https://www.echartsjs.com/en/option-gl.html#grid3D.viewControl.autoRotate
                 autoRotate: true, // false = default
-                autoRotateSpeed: 5, // 10 = default
+                // autoRotateSpeed: 5,
+                autoRotateSpeed: 12, // 10 = default
                 autoRotateDirection: 'cw', // default is 'cw' means clockwise from top to bottom, can also use 'ccw' means counterclockwise from top to bottom
                 // autoRotateAfterStill: 3,
                 // damping: 0.8,
@@ -981,10 +982,12 @@ function createCharts(showGrid = false) {
             nameGap: 25,
             nameTextStyle: {
                 color: '#fff',
+                fontFamily: 'Verdana',
             },
             axisLabel: {
                 interval: 0,
                 // margin = 8
+                fontFamily: 'Verdana',
                 textStyle: {
                     color: '#fff',
                 },
@@ -1001,9 +1004,11 @@ function createCharts(showGrid = false) {
             nameGap: 25,
             nameTextStyle: {
                 color: '#fff',
+                fontFamily: 'Verdana',
             },
             axisLabel: {
                 interval: 0,
+                fontFamily: 'Verdana',
                 textStyle: {
                     color: '#fff',
                 },
@@ -1017,6 +1022,7 @@ function createCharts(showGrid = false) {
             nameGap: 20,
             nameTextStyle: {
                 color: '#fff',
+                fontFamily: 'Verdana',
             },
             axisLine: {
                 // show: false,
@@ -1029,6 +1035,7 @@ function createCharts(showGrid = false) {
             },
             axisLabel: {
                 show: false,
+                fontFamily: 'Verdana',
                 textStyle: {
                     color: '#fff',
                 },
@@ -1054,8 +1061,8 @@ function createCharts(showGrid = false) {
                 },
                 itemStyle: {
                     // color: '#900',
-                    // opacity: 0.92,
-                    opacity: 0.90,
+                    // opacity: 0.90,
+                    opacity: 0.87,
                 }
                 // data: Store.dashboard.allPlayedNotes,
                 // dimensions: Store.dashboard.instrData,

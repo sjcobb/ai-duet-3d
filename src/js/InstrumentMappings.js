@@ -101,6 +101,7 @@ export function generateInstrMetadata(note) {
         // instrMapped.color = '#64b5f6'; // human blue
         instrMapped.color = '#FFFF00'; // yellow
     }
+    
     return instrMapped;
 }
 

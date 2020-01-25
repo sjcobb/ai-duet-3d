@@ -121,7 +121,7 @@ export default class Physics {
             if (options.duration > 0) { // TODO: rename options.noteLength so not confusing with arr length
                 // sphereRestitution = options.length / 2;
                 // sphereRestitution = options.duration * 0.65; // PREV
-                sphereRestitution = options.duration * 0.50;
+                sphereRestitution = options.duration * 0.55;
                 // sphereRestitution = options.length * 1;
 
                 // TODO: clean up bounciness default and min / max height
