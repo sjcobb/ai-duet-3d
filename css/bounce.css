@@ -295,7 +295,7 @@ button#btn-drums-1 {
 .img-container {
     overflow: hidden;
     /* width: 500px; */
-    height: 95px;
+    height: 115px;
     position: absolute;
     /* top: 0; */
     top: 30px;
@@ -342,8 +342,8 @@ button#btn-drums-1 {
     } */
 
     0% { top: 0; }
-    35% { top: -110px; }
-    55% { top: -110px; }
-    100% { top: -220px; }
+    35% { top: -195px; }
+    45% { top: -195px; }
+    100% { top: -380px; }
 
   }

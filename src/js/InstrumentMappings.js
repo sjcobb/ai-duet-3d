@@ -99,7 +99,8 @@ export function generateInstrMetadata(note) {
     // TODO: best way to set color for machine, human, reg keyboard???
     if (instrMapped.color) {
         // instrMapped.color = '#64b5f6'; // human blue
-        instrMapped.color = '#FFFF00'; // yellow
+        // instrMapped.color = '#FFFF00'; // yellow
+        instrMapped.color = '#EE82EE'; // violet
     }
     
     return instrMapped;
