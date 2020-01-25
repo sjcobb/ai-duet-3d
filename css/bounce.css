@@ -294,11 +294,11 @@ button#btn-drums-1 {
 
 .img-container {
     overflow: hidden;
-    width: 500px;
-    height: 200px;
+    /* width: 500px; */
+    height: 95px;
     position: absolute;
     /* top: 0; */
-    top: 20px;
+    top: 100px;
     right: auto;
     bottom: auto;
     left: 0;
@@ -314,17 +314,16 @@ button#btn-drums-1 {
 
 .img-container img {
     display: inline-block;
-    width: 560px;
+    width: 450px;
     /* height: 500px; */
     position: relative;
-    top: -105px;
-    left: -32px;
+    top: 0;
     /* transition: top 15s; */
     /* transition-timing-function: ease; */
     animation-name: music-scroll;
     /* animation-duration: 30s; */
     animation-duration: 20s;
-    animation-delay: 15s;
+    animation-delay: 14s;
     animation-fill-mode: forwards;
 }
 
@@ -334,11 +333,16 @@ button#btn-drums-1 {
 
 
 @keyframes music-scroll {
-    from {
-        /* top: 0; */
-        top: -105px;
+    /* from {
+        top: 0;
     }
     to {
-        top: -280px;
-    }
+        top: -200px;
+    } */
+
+    0% { top: 0; }
+    35% { top: -100px; }
+    55% { top: -100px; }
+    100% { top: -200px; }
+
   }

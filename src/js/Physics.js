@@ -114,15 +114,16 @@ export default class Physics {
             // console.log('options.duration: ', options.duration);
             if (options.duration > 0) { // TODO: rename options.noteLength so not confusing with arr length
                 // sphereRestitution = options.length / 2;
-                sphereRestitution = options.duration * 0.65;
+                // sphereRestitution = options.duration * 0.65; // PREV
+                sphereRestitution = options.duration * 0.50;
                 // sphereRestitution = options.length * 1;
 
                 // TODO: clean up bounciness default and min / max height
                 // if (sphereRestitution < 0.225) {
-                if (sphereRestitution < 0.19) {
-                    sphereRestitution = 0.19;
-                    // sphereRestitution = 0.225;
-                }
+                // if (sphereRestitution < 0.19) {
+                //     sphereRestitution = 0.19;
+                //     // sphereRestitution = 0.225;
+                // }
             }
             // console.log({sphereRestitution});
         }

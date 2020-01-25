@@ -21,7 +21,8 @@ Tone.Transport.bpm.value = Store.bpm;
 // Tone.Transport.bpm.rampTo(120, 10);
 
 // https://tonejs.github.io/docs/r13/Transport#timesignature
-Tone.Transport.timeSignature = 12;
+// Tone.Transport.timeSignature = 12; // v0.4, v0.5
+
 // Tone.Transport.timeSignature = 4;     // DEFAULT
 
 // Tone.Transport.setLoopPoints(0, "13m"); //starts over at beginning
@@ -32,31 +33,32 @@ Tone.Transport.timeSignature = 12;
 // https://tonejs.github.io/docs/13.8.25/PolySynth
 
 // var polySynth = new Tone.PolySynth(6, Tone.Synth, {
-Store.polySynth = new Tone.PolySynth(6, Tone.Synth, {
-    oscillator: {
-        type: "triangle", // sine, square, sawtooth, triangle (default), custom
-        // frequency: 440 ,
-        // detune: 0 ,
-        // phase: 0 ,
-        // partials: [] ,
-       partialCount: 0
-    },
-    // https://tonejs.github.io/docs/13.8.25/Envelope
-    envelope: {
-        // attack: 0.1,
-        // decay: 0.2,
-        // sustain: 1,
-        sustain: 0.5,
-        // release: 0.8,
-    },
-    // https://tonejs.github.io/docs/13.8.25/Filter#type
-    filter: {
-		// type: "highpass", // lowpass, highpass, bandpass, lowshelf, highshelf, notch, allpass, peaking
-	},
+// Store.polySynth = new Tone.PolySynth(4, Tone.Synth, { // default
+Store.polySynth = new Tone.PolySynth(3, Tone.Synth, {
+    // oscillator: {
+    //     type: "triangle", // sine, square, sawtooth, triangle (default), custom
+    //     // frequency: 440 ,
+    //     // detune: 0 ,
+    //     // phase: 0 ,
+    //     // partials: [] ,
+    //    partialCount: 0
+    // },
+    // // https://tonejs.github.io/docs/13.8.25/Envelope
+    // envelope: {
+    //     // attack: 0.1,
+    //     // decay: 0.2,
+    //     // sustain: 1, // v0.5
+    //     sustain: 0.5, 
+    //     // release: 0.8,
+    // },
+    // // https://tonejs.github.io/docs/13.8.25/Filter#type
+    // filter: {
+	// 	// type: "highpass", // lowpass, highpass, bandpass, lowshelf, highshelf, notch, allpass, peaking
+	// },
 }).toMaster();
 
-Store.polySynth.volume.value = -8;
-// Store.polySynth.volume.value = -8; //prev
+// Store.polySynth.volume.value = -8; // v0.4, v0.5
+Store.polySynth.volume.value = -6;
 // Store.polySynth.set("detune", +1200); // octave = 12 semitones of 100 cents each
 // Store.polySynth.set("detune", +1200);
 
@@ -249,7 +251,7 @@ export default class Trigger {
         } else if (triggerObj.type === 'chord') { // TODO: rename, universal chord / note accessor
             // console.log('triggerNote (chord) -> combinedNote: ', combinedNote);
             // console.log('triggerNote (chord) -> triggerObj: ', triggerObj);
-            // console.log('triggerNote (chord) -> obj.userData.opts.duration: ', obj.userData.opts.duration);
+            console.log('triggerNote (chord) -> obj.userData.opts.duration: ', obj.userData.opts.duration);
             const noteLength = obj.userData.opts.duration ? obj.userData.opts.duration : 0.15;
             Store.polySynth.triggerAttackRelease(combinedNote, noteLength);
         } else {
@@ -1793,6 +1795,10 @@ const recordingPart = new Tone.Part(function(time, datum){
     // console.log(datum);
 
     const instrMapped = generateInstrMetadata(datum.name);
+
+    const maxDuration = 1.0;
+    // instrMapped.duration = datum.duration > maxDuration ? maxDuration: datum.duration;
+    instrMapped.duration = datum.duration / 2;
     // console.log({instrMapped});
 
     // // Store.polySynth.triggerAttackRelease(note.name, note.duration, time, note.velocity);
