@@ -180,8 +180,10 @@ export default class Helpers {
             // ctx.fillStyle = "#ffffff";
             var textW = ctx.measureText(textData).width;
             
-            //TODO: adjust textOffset position here, make spheres bigger?
-            let textOffsetX = 0.0;
+            //TODO: adjust textOffset position here
+            // let textOffsetX = 0.0;
+            let textOffsetX = -5;
+
             // let textOffsetY = 0.4; // v0.3, v0.4
             // let textOffsetY = -0.1; // move text up on ball
             let textOffsetY = -0.033;
@@ -193,7 +195,13 @@ export default class Helpers {
             //     textOffsetX = 30; 
             //     textOffsetY = 0.4;
             // }
-            ctx.fillText(textData, -textW / 2 + textOffsetX, textOffsetY * textH / 2);
+
+            const textPosX = -textW / 2 + textOffsetX;
+            const textPosY = textOffsetY * textH / 2;
+            // console.log({textPosX});
+            // console.log({textPosY});
+
+            ctx.fillText(textData, textPosX, textPosY);
             ctx.restore();
         }
     }

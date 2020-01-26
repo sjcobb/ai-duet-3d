@@ -121,7 +121,7 @@ export default class Physics {
             if (options.duration > 0) { // TODO: rename options.noteLength so not confusing with arr length
                 // sphereRestitution = options.length / 2;
                 // sphereRestitution = options.duration * 0.65; // PREV
-                sphereRestitution = options.duration * 0.55;
+                sphereRestitution = options.duration * 0.58;
                 // sphereRestitution = options.length * 1;
 
                 // TODO: clean up bounciness default and min / max height
@@ -364,8 +364,9 @@ export default class Physics {
                     sphereGeo.name = 'sphereGeo'; //*** important for rotation when Store.view.cameraPositionBehind true
 
                     mesh = new THREE.Mesh(sphereGeo, poolBallMaterial); //prev: material
-
-                    // mesh.scale.set( 5, 5, 5);
+                    
+                    // TODO: add configurable height / size
+                    mesh.scale.set(1.35, 1.35, 1.35);
                     break;
 
                 case CANNON.Shape.types.PARTICLE:
