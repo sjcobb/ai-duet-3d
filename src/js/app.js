@@ -73,7 +73,8 @@ Store.camera.lookAt(new THREE.Vector3(0, -2.5, 0)); // v0.5
 
 if (Store.view.cameraPositionBehind === true) {
     Store.camera.position.set(Store.view.posBehindX, Store.view.posBehindY, Store.view.posBehindZ);
-    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 1, Store.view.posBehindZ));
+    // Store.camera.lookAt(new THREE.Vector3(Store.dropPosX - 5, 1, Store.view.posBehindZ));
+    Store.camera.lookAt(new THREE.Vector3(Store.dropPosX, 1, Store.view.posBehindZ));
 }
 
 if (Store.cameraLookUp === true) {
