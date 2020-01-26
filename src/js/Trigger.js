@@ -1,3 +1,6 @@
+import _ from 'lodash';
+// import { sortBy } from 'lodash';
+
 import Tone from 'Tone';
 import { Transport, Player, Players, Part, Time, Volume } from 'Tone';
 
@@ -195,26 +198,100 @@ export default class Trigger {
                 Store.dashboard.noteCountsObj[combinedNote] = {
                     note: obj.userData.opts.note,
                     octave: obj.userData.opts.octave,
+                    // octave: obj.userData.opts.octave.toString(),
                     count: 1,
                 };
                 // Store.dashboard.noteCountsObj[combinedNote].count = 1;
             }
             // console.log(Object.entries(Store.dashboard.noteCountsObj));
             // Store.dashboard.noteCountsArr = Object.entries(Store.dashboard.noteCountsObj);
+            
+            // _.sortBy(Store.dashboard.noteCountsObj, ['octave', 'note']);
+            // _.sortBy(Store.dashboard.noteCountsObj, ['octave']);
 
-            Store.dashboard.noteCountsArr = [];
+            const defaultNotes = [
+                {note: 'C', octave: 3, count: 0},
+                {note: 'C', octave: 4, count: 0},
+                {note: 'C', octave: 5, count: 0},
+                // {note: 'G', octave: 3, count: 0},
+                // {note: 'B', octave: 3, count: 0},
+                // {note: 'B', octave: 4, count: 0},
+                // {note: 'B', octave: 5, count: 0},
+                {note: 'A', octave: 3, count: 0},
+                {note: 'A', octave: 4, count: 0},
+                {note: 'G', octave: 3, count: 0},
+                {note: 'G', octave: 4, count: 0},
+                // {note: 'A', octave: 5, count: 0},
+                // {note: 'A', octave: 5, count: 0},
+                // {note: 'C', octave: 3, count: 0},
+                // {note: 'C', octave: 4, count: 0},
+                // {note: 'C', octave: 5, count: 0},
+            ];
+            Store.dashboard.noteCountsArr = [...defaultNotes];
             for (let key in Store.dashboard.noteCountsObj){
                 // console.log({key});
                 Store.dashboard.noteCountsArr.push(Store.dashboard.noteCountsObj[key]);
+
+                // _.sortBy(Store.dashboard.noteCountsArr, ['note']);
             }
+
+            // const tempNoteCountsArr = _.cloneDeep(Store.dashboard.noteCountsArr);
+            // console.log('PRE Store.dashboard.noteCountsArr: ', Store.dashboard.noteCountsArr);
+
+            // Store.dashboard.noteCountsArr.sort(function(a, b) {
+            //     let octaveA = a.octave;
+            //     let octaveB = b.octave;
+            //     const octaveSort = (octaveA < octaveB) ? -1 : (octaveA > octaveB) ? 1 : 0;
+            //     return octaveSort;
+            // });
 
             // https://stackoverflow.com/a/8900824/7639084
             Store.dashboard.noteCountsArr.sort(function(a, b) {
-                // console.log(a, b);
-                var textA = a.note.toUpperCase();
-                var textB = b.note.toUpperCase();
-                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+                let textA = a.note.toUpperCase();
+                let textB = b.note.toUpperCase();
+                // const noteSort = (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+
+                const noteSort = (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
+                // const noteSort = (textA < textB) ? -1 : (textA > textB) ? 1 : 0; // orig
+                return noteSort;
             });
+            
+
+            // https://stackoverflow.com/a/30446887/7639084
+            // const fieldSorter = (fields) => (a, b) => fields.map(o => {
+            //     let dir = 1;
+            //     if (o[0] === '-') { dir = -1; o=o.substring(1); }
+            //     return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
+            // }).reduce((p, n) => p ? p : n, 0);
+            
+            // const sortedNotes = Store.dashboard.noteCountsArr.sort(fieldSorter(['octave', 'note']));
+            // console.log({sortedNotes});
+            // Store.dashboard.noteCountsArr = sortedNotes;
+
+            // _.sortBy(Store.dashboard.noteCountsArr, ['octave']);
+            // _.sortBy(Store.dashboard.noteCountsArr, ['octave', 'note']);
+            // _.sortBy(Store.dashboard.noteCountsArr, ['note']);
+            // _.sortBy(Store.dashboard.noteCountsArr, ['note', 'octave']);
+
+            // _.sortBy(tempNoteCountsArr, ['octave', 'note']);
+            // _.sortBy(tempNoteCountsArr, ['note', 'octave']);
+
+            // Store.dashboard.noteCountsArr = _.sortBy(Store.dashboard.noteCountsArr, ['octave', 'note']);
+            // Store.dashboard.noteCountsArr = tempNoteCountsArr;
+
+            // _.groupBy(Store.dashboard.noteCountsArr, 'note');
+            // _.keyBy(Store.dashboard.noteCountsArr, 'octave');
+
+            // _.groupBy(Store.dashboard.noteCountsArr, 'octave');
+            // _.keyBy(Store.dashboard.noteCountsArr, 'octave');
+
+            // _.groupByMulti(Store.dashboard.noteCountsArr, ['octave', 'note']);
+            // Store.dashboard.noteCountsArr = _.groupByMulti(Store.dashboard.noteCountsArr, ['note', 'octave']);
+
+            // https://codereview.stackexchange.com/a/121766
+
+            console.log('POST Store.dashboard.noteCountsArr: ', Store.dashboard.noteCountsArr);
+
             // console.log('triggerNote -> Store.dashboard.allPlayedNotes: ', Store.dashboard.allPlayedNotes);
 
             Store.dashboard.recentPlayedNotes.push(combinedNote);
@@ -276,6 +353,33 @@ export default class Trigger {
 
 }
 
+
+_.mixin({
+    /*
+        * @mixin
+        *
+        * Splits a collection into sets, grouped by the result of running each value
+        * through iteratee. If iteratee is a string instead of a function, groups by
+        * the property named by iteratee on each of the values.
+        *
+        * @param {array|object} list - The collection to iterate over.
+        * @param {(string|function)[]} values - The iteratees to transform keys.
+        * @param {object=} context - The values are bound to the context object.
+        * 
+        * @returns {Object} - Returns the composed aggregate object.
+        */
+    groupByMulti: function(list, values, context) {
+        if (!values.length) {
+            return list;
+        }
+        var byFirst = _.groupBy(list, values[0], context),
+            rest    = values.slice(1);
+        for (var prop in byFirst) {
+            byFirst[prop] = _.groupByMulti(byFirst[prop], rest, context);
+        }
+        return byFirst;
+    }
+});
 
 
 //-----RECORDING------//
@@ -1817,3 +1921,28 @@ const recordingPart = new Tone.Part(function(time, datum){
 
 // recordingPart.loop = true;
 recordingPart.start("0:0:0");
+
+// // // //
+
+
+const testSortArr = [
+    {note: "A", octave: 4, count: 3},
+    {note: "B", octave: 4, count: 1},
+    {note: "C", octave: 3, count: 10},
+    {note: "C", octave: 4, count: 4},
+    {note: "C", octave: 5, count: 1},
+    {note: "D", octave: 4, count: 5},
+    {note: "E", octave: 4, count: 6},
+    {note: "F", octave: 3, count: 4},
+    {note: "F", octave: 4, count: 6},
+    {note: "G", octave: 4, count: 10},
+    {note: "G", octave: 3, count: 3}
+];
+
+console.log('PRE testSortArr: ', testSortArr);
+
+_.sortBy(Store.dashboard.noteCountsObj, ['octave', 'note']);
+// _.sortBy(Store.dashboard.noteCountsObj, ['note', 'octave']);
+
+console.log('POST testSortArr: ');
+console.log(testSortArr);

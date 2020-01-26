@@ -53,7 +53,13 @@ export default {
             // TODO: final data structure chosen for bar3D, clean up others
         },
         noteCountsArr: [
+            // {note: 'C', octave: 3, count: 0},
+            // {note: 'C', octave: 4, count: 0},
+            // {note: 'C', octave: 5, count: 0},
+
             // {note: 'A', octave: 3, count: 0},
+            // {note: 'A', octave: 4, count: 0},
+            // {note: 'A', octave: 5, count: 0},
             // {note: 'B', octave: 3, count: 0},
             // {note: 'C', octave: 4, count: 0},
             // {note: 'D', octave: 4, count: 0},

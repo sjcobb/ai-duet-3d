@@ -1,3 +1,4 @@
+// import _ from 'lodash';
 import Tone from 'Tone';
 import Store from './Store.js';
 import InstrumentMappings from './InstrumentMappings.js';
@@ -1020,6 +1021,7 @@ function createCharts(showGrid = false) {
         zAxis3D: {
             show: false,
             type: 'value',
+            // min: 1,
             name: '',
             nameGap: 20,
             nameTextStyle: {

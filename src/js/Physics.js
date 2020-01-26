@@ -624,7 +624,7 @@ export default class Physics {
         let spinner = new THREE.Mesh(geometry, material);
         // console.log({spinner});
 
-        Store.meshes.push(spinner);
+        // Store.meshes.push(spinner);
         Store.bodies.push(Store.spinnerBody);
         Store.scene.add(spinner);
         Store.world.addBody(Store.spinnerBody);
@@ -658,10 +658,10 @@ export default class Physics {
         });
 
         // TODO: standard way to update bodies? Store.bodies and Store.meshes shouldn't only be for spinner
-        for (var i = 0; i !== Store.meshes.length; i++) {
-            Store.meshes[i].position.copy(Store.bodies[i].position);
-            Store.meshes[i].quaternion.copy(Store.bodies[i].quaternion);
-        }
+        // for (var i = 0; i !== Store.meshes.length; i++) {
+        //     Store.meshes[i].position.copy(Store.bodies[i].position);
+        //     Store.meshes[i].quaternion.copy(Store.bodies[i].quaternion);
+        // }
     }
 
 }
