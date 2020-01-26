@@ -668,7 +668,7 @@ window.onload = () => {
     setTimeout(() => {
         createCharts(false);
         // addDashboard3D();
-    }, 3000);
+    }, 13000);
 
 };
 
@@ -900,7 +900,9 @@ function createCharts(showGrid = false) {
         },
         // color: ['#fff000'],
         color: [
-            '#EE82EE',    // violet
+            '#FF4500',    // orange red
+            // '#FF0000', // red
+            // '#EE82EE', // violet
             // '#FFFF00', // yellow
             // '#64b5f6', // human blue
             '#c12e34','#e6b600','#0098d9','#2b821d',

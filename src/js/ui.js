@@ -160,5 +160,5 @@ if (Store.view.songAutoStart == true) {
         Tone.Transport.start();
     // }, 2000);  
     // }, 35000);
-    }, 26000);
+    }, 35000);
 }

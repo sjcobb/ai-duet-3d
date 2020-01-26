@@ -100,7 +100,9 @@ export function generateInstrMetadata(note) {
     if (instrMapped.color) {
         // instrMapped.color = '#64b5f6'; // human blue
         // instrMapped.color = '#FFFF00'; // yellow
-        instrMapped.color = '#EE82EE'; // violet
+        // instrMapped.color = '#EE82EE'; // violet
+        // instrMapped.color = '#FF0000'; // red
+        instrMapped.color = '#FF4500'; // orange red
     }
     
     return instrMapped;

@@ -1812,8 +1812,8 @@ const recordingPart = new Tone.Part(function(time, datum){
     physics.addBody(true, Store.dropPosX, instrMapped, 0);
 
 // }, recordingFirstNotes);      // twinkle twinkle little star
-}, recordingSecondNotes);  // bah bah black sheep
-// }, recordingThirdNotes);  // alphabet song
+// }, recordingSecondNotes);  // bah bah black sheep
+}, recordingThirdNotes);  // alphabet song
 
 // recordingPart.loop = true;
 recordingPart.start("0:0:0");
