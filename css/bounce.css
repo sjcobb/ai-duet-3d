@@ -342,8 +342,9 @@ button#btn-drums-1 {
     } */
 
     0% { top: 0; }
+    15% { top: -195px; }
     35% { top: -195px; }
-    45% { top: -195px; }
-    100% { top: -380px; }
+    48% { top: -390px; }
+    100% { top: -390px; }
 
   }
