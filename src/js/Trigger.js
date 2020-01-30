@@ -211,21 +211,7 @@ export default class Trigger {
 
             const defaultNotes = [
                 {note: 'C', octave: 3, count: 0},
-                {note: 'C', octave: 4, count: 0},
-                {note: 'C', octave: 5, count: 0},
-                // {note: 'G', octave: 3, count: 0},
-                // {note: 'B', octave: 3, count: 0},
-                // {note: 'B', octave: 4, count: 0},
-                // {note: 'B', octave: 5, count: 0},
-                {note: 'A', octave: 3, count: 0},
-                {note: 'A', octave: 4, count: 0},
                 {note: 'G', octave: 3, count: 0},
-                {note: 'G', octave: 4, count: 0},
-                // {note: 'A', octave: 5, count: 0},
-                // {note: 'A', octave: 5, count: 0},
-                // {note: 'C', octave: 3, count: 0},
-                // {note: 'C', octave: 4, count: 0},
-                // {note: 'C', octave: 5, count: 0},
             ];
             Store.dashboard.noteCountsArr = [...defaultNotes];
             for (let key in Store.dashboard.noteCountsObj){
@@ -290,7 +276,7 @@ export default class Trigger {
 
             // https://codereview.stackexchange.com/a/121766
 
-            console.log('POST Store.dashboard.noteCountsArr: ', Store.dashboard.noteCountsArr);
+            // console.log('POST Store.dashboard.noteCountsArr: ', Store.dashboard.noteCountsArr);
 
             // console.log('triggerNote -> Store.dashboard.allPlayedNotes: ', Store.dashboard.allPlayedNotes);
 
@@ -1925,24 +1911,24 @@ recordingPart.start("0:0:0");
 // // // //
 
 
-const testSortArr = [
-    {note: "A", octave: 4, count: 3},
-    {note: "B", octave: 4, count: 1},
-    {note: "C", octave: 3, count: 10},
-    {note: "C", octave: 4, count: 4},
-    {note: "C", octave: 5, count: 1},
-    {note: "D", octave: 4, count: 5},
-    {note: "E", octave: 4, count: 6},
-    {note: "F", octave: 3, count: 4},
-    {note: "F", octave: 4, count: 6},
-    {note: "G", octave: 4, count: 10},
-    {note: "G", octave: 3, count: 3}
-];
+// const testSortArr = [
+//     {note: "A", octave: 4, count: 3},
+//     {note: "B", octave: 4, count: 1},
+//     {note: "C", octave: 3, count: 10},
+//     {note: "C", octave: 4, count: 4},
+//     {note: "C", octave: 5, count: 1},
+//     {note: "D", octave: 4, count: 5},
+//     {note: "E", octave: 4, count: 6},
+//     {note: "F", octave: 3, count: 4},
+//     {note: "F", octave: 4, count: 6},
+//     {note: "G", octave: 4, count: 10},
+//     {note: "G", octave: 3, count: 3}
+// ];
 
-console.log('PRE testSortArr: ', testSortArr);
+// console.log('PRE testSortArr: ', testSortArr);
 
-_.sortBy(Store.dashboard.noteCountsObj, ['octave', 'note']);
-// _.sortBy(Store.dashboard.noteCountsObj, ['note', 'octave']);
+// _.sortBy(Store.dashboard.noteCountsObj, ['octave', 'note']);
+// // _.sortBy(Store.dashboard.noteCountsObj, ['note', 'octave']);
 
-console.log('POST testSortArr: ');
-console.log(testSortArr);
+// console.log('POST testSortArr: ');
+// console.log(testSortArr);
