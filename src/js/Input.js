@@ -32,9 +32,15 @@ WebMidi.enable(err => {
         return;
     } else {
         console.info("WebMidi enabled...");
+        console.log({WebMidi});
+        // console.log(WebMidi.inputs);
+        // console.log(WebMidi.outputs);
+
         enabledWebMidi = true;
 
-        var input = WebMidi.getInputByName("MPK mini play");
+        // let input = WebMidi.getInputByName("MPK mini play");
+
+        let input = WebMidi.inputs[0];
         // console.log({input});
         
         if (input !== false) {
