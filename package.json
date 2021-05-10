@@ -27,7 +27,7 @@
   "dependencies": {
     "@tonaljs/midi": "^3.3.1",
     "gulp": "^4.0.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "three": "^0.105.2",
     "tonal": "^2.2.2",
     "tone": "^13.4.9",
